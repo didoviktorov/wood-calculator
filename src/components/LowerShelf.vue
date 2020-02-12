@@ -38,16 +38,16 @@
         <v-divider />
         <v-row align="center" justify="center">
           <v-col cols="12" sm="8" md="4">
-            <v-form v-model="validWholeLenght">
+            <v-form v-model="validWholeLength">
               <v-text-field
                 v-model="shelfLenght"
-                :label="'Обща дължина на долната част в ' + calculationUnit"
-                :rules="wholeLenghtRules"
-                ref="wholeLenght"
+                :label="'Обща ширина на долната част в ' + calculationUnit"
+                :rules="wholeLengthRules"
+                ref="wholeLength"
                 required
               ></v-text-field>
               <v-btn
-                :disabled="!validWholeLenght"
+                :disabled="!validWholeLength"
                 color="success"
                 class="mr-4"
                 @click="changeTheWholeLenght"
@@ -57,6 +57,53 @@
             </v-form>
           </v-col>
         </v-row>
+        <v-row align="center" justify="center">
+          <v-col cols="12">
+            Статични размери брой {{ shelfObject.staticCabinets.length }}        
+          </v-col>
+        </v-row>
+         <v-row align="center" justify="center">
+          <v-col cols="12">
+             <v-btn @click="addStaticCabintes">
+              добави
+            </v-btn>
+            <v-btn
+              :disabled="shelfObject.staticCabinets.length == 0"
+              @click="removeStaticcabintes"
+            >
+              премахни
+            </v-btn>
+            <v-btn 
+              v-if="shelfObject.staticCabinets.length > 0"
+              :disabled="shelfObject.staticCabinets.length == 0"
+              @click="addStaticWidth"
+            >
+              въведи размер
+            </v-btn>
+          </v-col>
+         </v-row>
+         <v-row align="center" justify="center">
+           <v-col cols="12" sm="8" md="4">
+             <v-form v-if="shelfObject.staticCabinets.length > 0" v-model="validStaticLength" ref="staticForm">
+              <v-text-field
+                v-model="allStaticWidth"
+                :label="'Ширина на статичен шкаф ' + calculationUnit"
+                :rules="staticLengthRules"
+                ref="wholeLength"
+                required
+              ></v-text-field>
+              <v-btn
+                :disabled="!validStaticLength"
+                color="success"
+                class="mr-4"
+                @click="addStaticWidth"
+              >
+                Запиши
+              </v-btn>
+            </v-form>
+           </v-col>
+         </v-row>
+         
       </v-container>
     </v-content>
   </v-app>
@@ -66,8 +113,10 @@
 export default {
   name: "LowerShelf",
   data: () => ({
-    validWholeLenght: false,
-    shelfLenght: 0
+    validWholeLength: false,
+    validStaticLength: false,
+    shelfLenght: 0,
+    allStaticWidth: 0
   }),
   computed: {
     shelfObject() {
@@ -76,16 +125,25 @@ export default {
     calculationUnit() {
       return this.$store.state.calculationUnit;
     },
-    wholeLenghtRules() {
+    wholeLengthRules() {
       return [
-        v => !!v || "Общата дължина е задължителна",
-        v => !isNaN(v) || "Дължината трябва да бъде число",
+        v => !!v || "Общата ширина е задължителна",
+        v => !isNaN(v) || "Ширината трябва да бъде число",
         v =>
           Number.isInteger(Number(v)) ||
-          "Дължината трябва да бъде целочислено число"
+          "Ширината трябва да бъде целочислено число"
       ];
     },
-    wholeLenght() {
+    staticLengthRules() {
+      return [
+        v => !!v || "Общата ширина е задължителна",
+        v => !isNaN(v) || "Ширината трябва да бъде число",
+        v =>
+          Number.isInteger(Number(v)) ||
+          "Ширината трябва да бъде целочислено число"
+      ];
+    },
+    wholeLength() {
       return 0;
     }
   },
@@ -98,6 +156,18 @@ export default {
       if (formLenght != this.shelfObject.lenght) {
         this.$store.dispatch("chnageShelfLenght", formLenght);
       }
+    },
+    addStaticCabintes() {
+      let currentCabinet = {
+        length: 0
+      };
+      this.$store.dispatch("addStaticCabinet", currentCabinet);
+    },
+    removeStaticcabintes() {
+       this.$store.dispatch("removeStaticCabinet");
+    },
+    addStaticWidth() {
+      this.$store.dispatch("addStaticFieldsWidth", this.allStaticWidth);
     }
   }
 };
