@@ -13,9 +13,23 @@ export default new Vuex.Store({
       lenght: 0,
       depth: 0
     },
-    calculationUnit: "см"
+    calculationUnit: "мм"
   },
-  mutations: {},
-  actions: {},
+  mutations: {
+    CHANGE_METRIC_UNIT(state, unit) {
+      state.calculationUnit = unit;
+    },
+    CHANGE_SHELF_LENGHT(state, value) {
+      state.lowerShelf.lenght = value;
+    }
+  },
+  actions: {
+    chnageMetricUnit(store, unit) {
+      store.commit("CHANGE_METRIC_UNIT", unit);
+    },
+    chnageShelfLenght(store, value) {
+      store.commit("CHANGE_SHELF_LENGHT", value);
+    }
+  },
   modules: {}
 });
