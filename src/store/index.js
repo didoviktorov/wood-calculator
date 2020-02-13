@@ -11,7 +11,7 @@ export default new Vuex.Store({
       staticCabinets: [],
       outherSides: [],
       height: 0,
-      lenght: 0,
+      width: 0,
       depth: 0
     },
     calculationUnit: "мм"
@@ -20,27 +20,33 @@ export default new Vuex.Store({
     CHANGE_METRIC_UNIT(state, unit) {
       state.calculationUnit = unit;
     },
-    CHANGE_SHELF_LENGHT(state, value) {
-      state.lowerShelf.lenght = value;
+    CHANGE_SHELF_WIDTH(state, value) {
+      state.lowerShelf.width = value;
     },
     ADD_STATIC_CABINET(state, value) {
       state.lowerShelf.staticCabinets.push(value);
     },
     REMOVE_STATIC_CABINET(state) {
-      state.lowerShelf.staticCabinets.splice(state.lowerShelf.staticCabinets.length - 1);
+      state.lowerShelf.staticCabinets.splice(
+        state.lowerShelf.staticCabinets.length - 1
+      );
     },
     ADD_ALL_STATIC_FIELDS_WIDTH(state, value) {
-      state.lowerShelf.staticCabinets.forEach(element => {
-        element.lenght = value;
+      if (state.lowerShelf.staticCabinets.length > 0) {
+        state.lowerShelf.staticCabinets = [];
+      }
+      value.forEach(element => {
+        element.width = parseInt(element.width);
+        state.lowerShelf.staticCabinets.push(element);
       });
     }
   },
   actions: {
-    chnageMetricUnit(store, unit) {
+    cnangeMetricUnit(store, unit) {
       store.commit("CHANGE_METRIC_UNIT", unit);
     },
-    chnageShelfLenght(store, value) {
-      store.commit("CHANGE_SHELF_LENGHT", value);
+    changeShelfWidth(store, value) {
+      store.commit("CHANGE_SHELF_WIDTH", value);
     },
     addStaticCabinet(store, value) {
       store.commit("ADD_STATIC_CABINET", value);

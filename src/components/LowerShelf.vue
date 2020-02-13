@@ -38,16 +38,16 @@
         <v-divider />
         <v-row align="center" justify="center">
           <v-col cols="12" sm="8" md="4">
-            <v-form v-model="validWholeLength">
+            <v-form v-model="validWholeWidth">
               <v-text-field
-                v-model="shelfLenght"
+                v-model="shelfWidth"
                 :label="'Обща ширина на долната част в ' + calculationUnit"
-                :rules="wholeLengthRules"
+                :rules="wholeWidthRules"
                 ref="wholeLength"
                 required
               ></v-text-field>
               <v-btn
-                :disabled="!validWholeLength"
+                :disabled="!validWholeWidth"
                 color="success"
                 class="mr-4"
                 @click="changeTheWholeLenght"
@@ -59,41 +59,58 @@
         </v-row>
         <v-row align="center" justify="center">
           <v-col cols="12">
-            Статични размери брой {{ shelfObject.staticCabinets.length }}        
+            Статични размери брой {{ allStaticWidths.length }}
+          </v-col>
+          <v-col
+            cols="12"
+            v-if="allStaticWidths.length == maxNumberOfStaticCabinets"
+          >
+            <span class="error-holder">
+              Достигнат е максималния брой на шкафове
+              {{ maxNumberOfStaticCabinets }}
+            </span>
           </v-col>
         </v-row>
-         <v-row align="center" justify="center">
+        <v-row align="center" justify="center">
           <v-col cols="12">
-             <v-btn @click="addStaticCabintes">
+            <v-btn
+              :disabled="allStaticWidths.length == maxNumberOfStaticCabinets"
+              @click="addStaticCabintes"
+            >
               добави
             </v-btn>
             <v-btn
-              :disabled="shelfObject.staticCabinets.length == 0"
+              :disabled="allStaticWidths.length == 0"
               @click="removeStaticcabintes"
             >
               премахни
             </v-btn>
-            <v-btn 
-              v-if="shelfObject.staticCabinets.length > 0"
-              :disabled="shelfObject.staticCabinets.length == 0"
-              @click="addStaticWidth"
-            >
-              въведи размер
-            </v-btn>
           </v-col>
-         </v-row>
-         <v-row align="center" justify="center">
-           <v-col cols="12" sm="8" md="4">
-             <v-form v-if="shelfObject.staticCabinets.length > 0" v-model="validStaticLength" ref="staticForm">
-              <v-text-field
-                v-model="allStaticWidth"
-                :label="'Ширина на статичен шкаф ' + calculationUnit"
-                :rules="staticLengthRules"
-                ref="wholeLength"
-                required
-              ></v-text-field>
+        </v-row>
+        <v-row align="center" justify="center">
+          <v-col cols="12" sm="8" md="4">
+            <v-form
+              v-if="allStaticWidths.length > 0"
+              v-model="validStaticWidth"
+            >
+              <div>
+                <v-text-field
+                  v-for="(item, index) in allStaticWidths"
+                  :key="index"
+                  v-model="item.width"
+                  :label="
+                    'Ширина на статичен шкаф ' +
+                      (index + 1) +
+                      ' в ' +
+                      calculationUnit
+                  "
+                  :rules="staticWidthRules"
+                  ref="wholeLength"
+                  required
+                ></v-text-field>
+              </div>
               <v-btn
-                :disabled="!validStaticLength"
+                :disabled="!validStaticWidth"
                 color="success"
                 class="mr-4"
                 @click="addStaticWidth"
@@ -101,9 +118,8 @@
                 Запиши
               </v-btn>
             </v-form>
-           </v-col>
-         </v-row>
-         
+          </v-col>
+        </v-row>
       </v-container>
     </v-content>
   </v-app>
@@ -113,10 +129,11 @@
 export default {
   name: "LowerShelf",
   data: () => ({
-    validWholeLength: false,
-    validStaticLength: false,
-    shelfLenght: 0,
-    allStaticWidth: 0
+    validWholeWidth: false,
+    validStaticWidth: false,
+    shelfWidth: 0,
+    allStaticWidths: [],
+    maxNumberOfStaticCabinets: 5
   }),
   computed: {
     shelfObject() {
@@ -125,7 +142,7 @@ export default {
     calculationUnit() {
       return this.$store.state.calculationUnit;
     },
-    wholeLengthRules() {
+    wholeWidthRules() {
       return [
         v => !!v || "Общата ширина е задължителна",
         v => !isNaN(v) || "Ширината трябва да бъде число",
@@ -134,7 +151,7 @@ export default {
           "Ширината трябва да бъде целочислено число"
       ];
     },
-    staticLengthRules() {
+    staticWidthRules() {
       return [
         v => !!v || "Общата ширина е задължителна",
         v => !isNaN(v) || "Ширината трябва да бъде число",
@@ -143,31 +160,54 @@ export default {
           "Ширината трябва да бъде целочислено число"
       ];
     },
-    wholeLength() {
+    wholeWidth() {
       return 0;
     }
   },
   methods: {
     changeMetricUnit(unit) {
-      this.$store.dispatch("chnageMetricUnit", unit);
+      this.$store.dispatch("cnangeMetricUnit", unit);
     },
     changeTheWholeLenght() {
-      let formLenght = parseInt(this.shelfLenght, 10);
-      if (formLenght != this.shelfObject.lenght) {
-        this.$store.dispatch("chnageShelfLenght", formLenght);
+      let formLenght = parseInt(this.shelfWidth, 10);
+      if (formLenght != this.shelfObject.width) {
+        this.$store.dispatch("changeShelfWidth", formLenght);
       }
     },
     addStaticCabintes() {
-      let currentCabinet = {
-        length: 0
-      };
-      this.$store.dispatch("addStaticCabinet", currentCabinet);
+      if (this.allStaticWidths.length < this.maxNumberOfStaticCabinets) {
+        let currentCabinet = {
+          width: 0
+        };
+        this.allStaticWidths.push(currentCabinet);
+      }
     },
     removeStaticcabintes() {
-       this.$store.dispatch("removeStaticCabinet");
+      if (this.allStaticWidths.length > 0) {
+        if (
+          this.allStaticWidths.length ==
+          this.$store.state.lowerShelf.staticCabinets.length
+        ) {
+          this.$store.dispatch("removeStaticCabinet");
+        }
+        this.allStaticWidths.splice(this.allStaticWidths.length - 1);
+      }
     },
     addStaticWidth() {
-      this.$store.dispatch("addStaticFieldsWidth", this.allStaticWidth);
+      this.$store.dispatch("addStaticFieldsWidth", this.allStaticWidths);
+    }
+  },
+  mounted() {
+    for (let cabinet of this.$store.state.lowerShelf.staticCabinets) {
+      let currentCabinet = {
+        width: cabinet.width
+      };
+      this.allStaticWidths.push(currentCabinet);
+    }
+
+    if (this.$store.state.lowerShelf.width > 0) {
+      this.shelfWidth = this.$store.state.lowerShelf.width;
+      this.validWholeWidth = true;
     }
   }
 };
@@ -179,5 +219,8 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.error-holder {
+  color: red;
 }
 </style>
