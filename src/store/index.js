@@ -9,7 +9,7 @@ export default new Vuex.Store({
       title: "ДОЛНИ ШКАФОВЕ",
       cabinets: [],
       staticCabinets: [],
-      outherSides: [],
+      outerSides: [],
       height: 0,
       width: 0,
       depth: 0,
@@ -46,6 +46,17 @@ export default new Vuex.Store({
         element.width = parseInt(element.width);
         state.lowerShelf.staticCabinets.push(element);
       });
+    },
+    ADD_SHELF_OUTER_SIDE(state, side) {
+      let sideToAdd = {
+        width: side.width,
+        height: side.height,
+        depth: side.depth
+      };
+      state.lowerShelf.outerSides.push(sideToAdd);
+    },
+    REMOVE_SHELF_OUTER_SIDE(state, index) {
+      state.lowerShelf.outerSides.splice(index, 1);
     }
   },
   actions: {
@@ -69,6 +80,14 @@ export default new Vuex.Store({
     },
     addStaticFieldsWidth(store, value) {
       store.commit("ADD_ALL_STATIC_FIELDS_WIDTH", value);
+    },
+    addShelfOuterSide(store, side) {
+      store.commit("ADD_SHELF_OUTER_SIDE", side);
+    },
+    removeShelfOuterSide(store, index) {
+      if (index >= 0 && index < store.state.lowerShelf.outerSides.length) {
+        store.commit("REMOVE_SHELF_OUTER_SIDE", index);
+      }
     }
   },
   modules: {}
