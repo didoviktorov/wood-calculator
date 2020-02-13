@@ -1,11 +1,12 @@
 <template>
   <v-app>
     <v-content>
-      <v-container class="" fluid>
+      <v-container class="wrapper" fluid>
         <v-row align="center" justify="center">
           <v-col cols="12" sm="8" md="4">
             <div class="LowerShelf">
               <h1>{{ shelfObject.title }}</h1>
+              <!-- Metric unit region -->
               <v-row align="center" justify="center">
                 <v-col cols="12">
                   <h3>Мерна единица в {{ calculationUnit }}</h3>
@@ -36,27 +37,46 @@
           </v-col>
         </v-row>
         <v-divider />
-        <v-row align="center" justify="center">
-          <v-col cols="12" sm="8" md="4">
-            <v-form v-model="validWholeWidth">
+        <v-form v-model="validWholeShelf" class="shelf-form">
+          <v-row align="center" justify="center">
+            <!-- Whole width region -->
+            <v-col cols="12" sm="8" md="4">
               <v-text-field
                 v-model="shelfWidth"
                 :label="'Обща ширина на долната част в ' + calculationUnit"
-                :rules="wholeWidthRules"
-                ref="wholeLength"
+                :rules="numberRules"
                 required
               ></v-text-field>
-              <v-btn
-                :disabled="!validWholeWidth"
-                color="success"
-                class="mr-4"
-                @click="changeTheWholeLenght"
-              >
-                Запиши
-              </v-btn>
-            </v-form>
-          </v-col>
-        </v-row>
+            </v-col>
+            <!-- Whole height region -->
+            <v-col cols="12" sm="8" md="4">
+              <v-text-field
+                v-model="shelfHeight"
+                :label="'Обща височина на долната част в ' + calculationUnit"
+                :rules="numberRules"
+                required
+              ></v-text-field>
+            </v-col>
+            <!-- Whole depth region -->
+            <v-col cols="12" sm="8" md="4">
+              <v-text-field
+                v-model="shelfDepth"
+                :label="'Обща дълбочина на долната част в ' + calculationUnit"
+                :rules="numberRules"
+                required
+              ></v-text-field>
+            </v-col>
+            <v-btn
+              :disabled="!validWholeShelf"
+              color="success"
+              class="mr-4"
+              @click="changeTheWholeShelfProperties"
+            >
+              Запиши
+            </v-btn>
+          </v-row>
+        </v-form>
+        <!-- Static cabinets region -->
         <v-row align="center" justify="center">
           <v-col cols="12">
             Статични размери брой {{ allStaticWidths.length }}
@@ -75,12 +95,14 @@
           <v-col cols="12">
             <v-btn
               :disabled="allStaticWidths.length == maxNumberOfStaticCabinets"
+              class="left-button"
               @click="addStaticCabintes"
             >
               добави
             </v-btn>
             <v-btn
               :disabled="allStaticWidths.length == 0"
+              class="right-button"
               @click="removeStaticcabintes"
             >
               премахни
@@ -104,8 +126,7 @@
                       ' в ' +
                       calculationUnit
                   "
-                  :rules="staticWidthRules"
-                  ref="wholeLength"
+                  :rules="numberRules"
                   required
                 ></v-text-field>
               </div>
@@ -129,9 +150,11 @@
 export default {
   name: "LowerShelf",
   data: () => ({
-    validWholeWidth: false,
+    validWholeShelf: false,
     validStaticWidth: false,
     shelfWidth: 0,
+    shelfHeight: 0,
+    shelfDepth: 0,
     allStaticWidths: [],
     maxNumberOfStaticCabinets: 5
   }),
@@ -142,22 +165,13 @@ export default {
     calculationUnit() {
       return this.$store.state.calculationUnit;
     },
-    wholeWidthRules() {
+    numberRules() {
       return [
-        v => !!v || "Общата ширина е задължителна",
-        v => !isNaN(v) || "Ширината трябва да бъде число",
+        v => !!v || "Тази стойност е задължителна",
+        v => !isNaN(v) || "Стойността трябва да бъде число",
         v =>
           Number.isInteger(Number(v)) ||
-          "Ширината трябва да бъде целочислено число"
-      ];
-    },
-    staticWidthRules() {
-      return [
-        v => !!v || "Общата ширина е задължителна",
-        v => !isNaN(v) || "Ширината трябва да бъде число",
-        v =>
-          Number.isInteger(Number(v)) ||
-          "Ширината трябва да бъде целочислено число"
+          "Стойността трябва да бъде целочислено число"
       ];
     },
     wholeWidth() {
@@ -168,10 +182,20 @@ export default {
     changeMetricUnit(unit) {
       this.$store.dispatch("cnangeMetricUnit", unit);
     },
-    changeTheWholeLenght() {
-      let formLenght = parseInt(this.shelfWidth, 10);
-      if (formLenght != this.shelfObject.width) {
-        this.$store.dispatch("changeShelfWidth", formLenght);
+    changeTheWholeShelfProperties() {
+      let formWidth = parseInt(this.shelfWidth, 10);
+      if (formWidth != this.shelfObject.width) {
+        this.$store.dispatch("changeShelfWidth", formWidth);
+      }
+
+      let formHeight = parseInt(this.shelfHeight, 10);
+      if (formHeight != this.shelfObject.height) {
+        this.$store.dispatch("changeShelfHeight", formHeight);
+      }
+
+      let formDepth = parseInt(this.shelfDepth, 10);
+      if (formDepth != this.shelfObject.depth) {
+        this.$store.dispatch("changeShelfDepth", formDepth);
       }
     },
     addStaticCabintes() {
@@ -207,13 +231,19 @@ export default {
 
     if (this.$store.state.lowerShelf.width > 0) {
       this.shelfWidth = this.$store.state.lowerShelf.width;
-      this.validWholeWidth = true;
+    }
+
+    if (this.$store.state.lowerShelf.height > 0) {
+      this.shelfHeight = this.$store.state.lowerShelf.height;
+    }
+
+    if (this.$store.state.lowerShelf.depth > 0) {
+      this.shelfDepth = this.$store.state.lowerShelf.depth;
     }
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .flex-center {
   display: flex;
@@ -222,5 +252,14 @@ export default {
 }
 .error-holder {
   color: red;
+}
+.wrapper {
+  max-width: 80%;
+}
+.left-button {
+  margin-right: 1rem;
+}
+.right-button {
+  margin-left: 1rem;
 }
 </style>

@@ -12,7 +12,8 @@ export default new Vuex.Store({
       outherSides: [],
       height: 0,
       width: 0,
-      depth: 0
+      depth: 0,
+      pureWidth: 0
     },
     calculationUnit: "мм"
   },
@@ -22,6 +23,12 @@ export default new Vuex.Store({
     },
     CHANGE_SHELF_WIDTH(state, value) {
       state.lowerShelf.width = value;
+    },
+    CHANGE_SHELF_HEIGHT(state, value) {
+      state.lowerShelf.height = value;
+    },
+    CHANGE_SHELF_DEPTH(state, value) {
+      state.lowerShelf.depth = value;
     },
     ADD_STATIC_CABINET(state, value) {
       state.lowerShelf.staticCabinets.push(value);
@@ -47,6 +54,12 @@ export default new Vuex.Store({
     },
     changeShelfWidth(store, value) {
       store.commit("CHANGE_SHELF_WIDTH", value);
+    },
+    changeShelfHeight(store, value) {
+      store.commit("CHANGE_SHELF_HEIGHT", value);
+    },
+    changeShelfDepth(store, value) {
+      store.commit("CHANGE_SHELF_DEPTH", value);
     },
     addStaticCabinet(store, value) {
       store.commit("ADD_STATIC_CABINET", value);
