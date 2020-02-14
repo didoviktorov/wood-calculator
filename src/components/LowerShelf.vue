@@ -6,6 +6,7 @@
           <v-col cols="12" sm="8" md="4">
             <div class="LowerShelf">
               <h1>{{ shelfObject.title }}</h1>
+              <span>{{ getPureWidth }}</span>
               <!-- Metric unit region -->
               <v-row align="center" justify="center">
                 <v-col cols="12">
@@ -45,6 +46,8 @@
                 v-model="shelfWidth"
                 :label="'Обща ширина на долната част в ' + calculationUnit"
                 :rules="numberRules"
+                outlined
+                dense
                 required
               ></v-text-field>
             </v-col>
@@ -54,6 +57,8 @@
                 v-model="shelfHeight"
                 :label="'Обща височина на долната част в ' + calculationUnit"
                 :rules="numberRules"
+                outlined
+                dense
                 required
               ></v-text-field>
             </v-col>
@@ -63,6 +68,8 @@
                 v-model="shelfDepth"
                 :label="'Обща дълбочина на долната част в ' + calculationUnit"
                 :rules="numberRules"
+                outlined
+                dense
                 required
               ></v-text-field>
             </v-col>
@@ -70,7 +77,6 @@
               <v-btn
                 :disabled="!validWholeShelf"
                 color="success"
-                class="mr-4"
                 @click="changeTheWholeShelfProperties"
               >
                 запази
@@ -128,6 +134,8 @@
                       v-model="side.width"
                       :rules="numberRules"
                       label="Ширина"
+                      outlined
+                      dense
                       required
                     ></v-text-field>
                   </v-col>
@@ -137,6 +145,8 @@
                       v-model="side.height"
                       :rules="numberRules"
                       label="Височина"
+                      outlined
+                      dense
                       required
                     ></v-text-field>
                   </v-col>
@@ -146,6 +156,8 @@
                       v-model="side.depth"
                       :rules="numberRules"
                       label="Дълбочина"
+                      outlined
+                      dense
                       required
                     ></v-text-field>
                   </v-col>
@@ -220,6 +232,8 @@
                       ' в ' +
                       calculationUnit
                   "
+                  outlined
+                  dense
                   :rules="numberRules"
                   required
                 ></v-text-field>
@@ -259,6 +273,9 @@ export default {
     shelfObject() {
       return this.$store.state.lowerShelf;
     },
+    getPureWidth() {
+      return this.$store.getters.getLowerShelfPureWidth;
+    },
     calculationUnit() {
       return this.$store.state.calculationUnit;
     },
@@ -271,9 +288,6 @@ export default {
           Number.isInteger(Number(v)) ||
           "Стойността трябва да бъде целочислено число"
       ];
-    },
-    wholeWidth() {
-      return 0;
     },
     isAddingShelfOutherSidesActive() {
       return (
@@ -445,10 +459,12 @@ export default {
 }
 .left-button {
   margin-right: 1rem;
+  margin-left: 1rem;
   margin-top: 2rem;
 }
 .right-button {
   margin-left: 1rem;
+  margin-right: 1rem;
   margin-top: 2rem;
 }
 .sides-added {

@@ -13,6 +13,7 @@ export default new Vuex.Store({
       height: 0,
       width: 0,
       depth: 0,
+      feetHeightOfCabinet: 0,
       pureWidth: 0
     },
     calculationUnit: "мм"
@@ -94,6 +95,25 @@ export default new Vuex.Store({
       if (index >= 0 && index < store.state.lowerShelf.outerSides.length) {
         store.commit("REMOVE_SHELF_OUTER_SIDE", index);
       }
+    }
+  },
+  getters: {
+    getLowerShelfPureWidth: state => {
+      let pureWidth = state.lowerShelf.width;
+
+      for (let staticCabinet of state.lowerShelf.staticCabinets) {
+        pureWidth -= staticCabinet.width;
+      }
+
+      for (let cabinet of state.lowerShelf.cabinets) {
+        pureWidth -= cabinet.outerWidth;
+      }
+
+      for (let outerSide of state.lowerShelf.outerSides) {
+        pureWidth -= outerSide.width;
+      }
+
+      return pureWidth;
     }
   },
   modules: {}
