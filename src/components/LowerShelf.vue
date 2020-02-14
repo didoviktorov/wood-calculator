@@ -38,7 +38,10 @@
           </v-col>
         </v-row>
         <v-divider />
-        <v-form v-model="validWholeShelf" class="shelf-form">
+        <div class="header-section">
+          <h3>Стойности за целия долен шкаф</h3>
+        </div>
+        <v-form v-model="validWholeShelf">
           <v-row align="center" justify="center">
             <!-- Whole width region -->
             <v-col cols="12" sm="8" md="4">
@@ -85,7 +88,16 @@
           </v-row>
         </v-form>
         <!-- Shelf outer sides region -->
-        <div v-if="isVisibleShelfOuterSidesAddedMessage" class="sides-added">
+        <v-divider />
+        <div class="header-section">
+          <h3>Стойности за страници на долния шкаф</h3>
+        </div>
+        <div
+          v-if="
+            !showOuterShelfSidesForEdit && isVisibleShelfOuterSidesAddedMessage
+          "
+          class="sides-added"
+        >
           {{ getShelfOuterSidesAddedMessage() }}
         </div>
         <v-row
@@ -181,6 +193,10 @@
               </v-container>
             </v-form>
           </v-row>
+        </div>
+        <v-divider />
+        <div class="header-section">
+          <h3>Стойности за ниши за уреди</h3>
         </div>
         <!-- Static cabinets region -->
         <v-row align="center" justify="center">
@@ -282,8 +298,8 @@ export default {
     numberRules() {
       return [
         v => !!v || "Тази стойност е задължителна",
-        v => v > 0 || "Стойността трябва да по-голяма от 0",
         v => !isNaN(v) || "Стойността трябва да бъде число",
+        v => v > 0 || "Стойността трябва да по-голяма от 0",
         v =>
           Number.isInteger(Number(v)) ||
           "Стойността трябва да бъде целочислено число"
@@ -325,7 +341,7 @@ export default {
     },
     addShelfOuterSides() {
       let outerSideToAdd = {
-        width: this.staticOuterSideWidth,
+        width: parseInt(this.staticOuterSideWidth),
         height: this.shelfHeight,
         depth: this.shelfDepth,
         isValid: true
@@ -446,6 +462,9 @@ export default {
 </script>
 
 <style scoped>
+.shelf-form {
+  padding-top: 2rem;
+}
 .flex-center {
   display: flex;
   flex-direction: column;
@@ -474,5 +493,9 @@ export default {
 }
 .delete-outer-side {
   top: 1rem;
+}
+.header-section {
+  padding-top: 2rem;
+  padding-bottom: 1rem;
 }
 </style>
