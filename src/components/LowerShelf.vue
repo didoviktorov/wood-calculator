@@ -66,14 +66,16 @@
                 required
               ></v-text-field>
             </v-col>
-            <v-btn
-              :disabled="!validWholeShelf"
-              color="success"
-              class="mr-4"
-              @click="changeTheWholeShelfProperties"
-            >
-              запази
-            </v-btn>
+            <v-col cols="12" sm="8" md="4">
+              <v-btn
+                :disabled="!validWholeShelf"
+                color="success"
+                class="mr-4"
+                @click="changeTheWholeShelfProperties"
+              >
+                запази
+              </v-btn>
+            </v-col>
           </v-row>
         </v-form>
         <!-- Shelf outer sides region -->
@@ -87,7 +89,7 @@
         >
           <v-col cols="12">
             <v-btn
-              :disabled="shelfOuterSides.length == maxNumberOfShelfOuterSides"
+              :disabled="shelfOuterSides.length > 9"
               class="left-button"
               @click="addShelfOuterSides"
             >
@@ -250,9 +252,7 @@ export default {
     shelfOuterSides: [],
     allStaticWidths: [],
     maxNumberOfStaticCabinets: 5,
-    maxNumberOfShelfOuterSides: 2,
     staticOuterSideWidth: 18,
-    isVisibleShelfOuterSidesAddedMessage: false,
     showOuterShelfSidesForEdit: false
   }),
   computed: {
@@ -281,6 +281,12 @@ export default {
         this.$store.state.lowerShelf.height > 0 &&
         this.$store.state.lowerShelf.depth > 0
       );
+    },
+    isVisibleShelfOuterSidesAddedMessage() {
+      if (this.$store.state.lowerShelf.outerSides.length == 0) {
+        return this.shelfOuterSides.length > 0;
+      }
+      return false;
     }
   },
   methods: {
@@ -304,19 +310,14 @@ export default {
       }
     },
     addShelfOuterSides() {
-      for (let i = 0; i < this.maxNumberOfShelfOuterSides; i++) {
-        let currentSide = {
-          height: parseInt(this.shelfHeight),
-          width: this.staticOuterSideWidth,
-          depth: parseInt(this.shelfDepth),
-          isValid: true
-        };
-        this.shelfOuterSides.push(currentSide);
-      }
+      let outerSideToAdd = {
+        width: this.staticOuterSideWidth,
+        height: this.shelfHeight,
+        depth: this.shelfDepth,
+        isValid: true
+      };
 
-      if (this.shelfOuterSides.length > 0) {
-        this.isVisibleShelfOuterSidesAddedMessage = true;
-      }
+      this.shelfOuterSides.push(outerSideToAdd);
     },
     isAllShelfOuterSidesValid() {
       for (let side of this.shelfOuterSides) {
@@ -328,10 +329,9 @@ export default {
     },
     addShelfOuterSidesToStore() {
       if (this.isAllShelfOuterSidesValid()) {
+        this.$store.dispatch("clearShelfOuterSides");
         for (let side of this.shelfOuterSides) {
-          if (side.isValid) {
-            this.$store.dispatch("addShelfOuterSide", side);
-          }
+          this.$store.dispatch("addShelfOuterSide", side);
         }
       }
     },
@@ -340,10 +340,24 @@ export default {
         this.shelfOuterSides.splice(index, 1);
         this.$store.dispatch("removeShelfOuterSide", index);
       }
+
+      if (this.shelfOuterSides.length <= 0) {
+        this.showOuterShelfSidesForEdit = false;
+      }
     },
     getShelfOuterSidesAddedMessage() {
+      let letStartMessage =
+        this.shelfOuterSides.length == 1
+          ? "Ще бъдe добавена " +
+            this.$getnumberWord(this.shelfOuterSides.length - 1) +
+            " страница"
+          : "Ще бъдат добавени " +
+            this.$getnumberWord(this.shelfOuterSides.length - 1) +
+            " страници";
+
       let message =
-        "Ще бъдат добавени две страници с дебелина: " +
+        letStartMessage +
+        " с дебелина: " +
         this.staticOuterSideWidth +
         " " +
         this.calculationUnit +
@@ -438,8 +452,9 @@ export default {
   margin-top: 2rem;
 }
 .sides-added {
-  color: red;
+  color: #1976d2;
   text-align: center;
+  margin-top: 2rem;
 }
 .delete-outer-side {
   top: 1rem;

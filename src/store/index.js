@@ -49,14 +49,17 @@ export default new Vuex.Store({
     },
     ADD_SHELF_OUTER_SIDE(state, side) {
       let sideToAdd = {
-        width: side.width,
-        height: side.height,
-        depth: side.depth
+        width: parseInt(side.width),
+        height: parseInt(side.height),
+        depth: parseInt(side.depth)
       };
       state.lowerShelf.outerSides.push(sideToAdd);
     },
     REMOVE_SHELF_OUTER_SIDE(state, index) {
       state.lowerShelf.outerSides.splice(index, 1);
+    },
+    CLEAR_SHELF_OUTER_SIDES(state) {
+      state.lowerShelf.outerSides = [];
     }
   },
   actions: {
@@ -83,6 +86,9 @@ export default new Vuex.Store({
     },
     addShelfOuterSide(store, side) {
       store.commit("ADD_SHELF_OUTER_SIDE", side);
+    },
+    clearShelfOuterSides(store) {
+      store.commit("CLEAR_SHELF_OUTER_SIDES");
     },
     removeShelfOuterSide(store, index) {
       if (index >= 0 && index < store.state.lowerShelf.outerSides.length) {
