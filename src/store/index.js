@@ -16,11 +16,15 @@ export default new Vuex.Store({
       feetHeightOfCabinet: 0,
       pureWidth: 0
     },
-    calculationUnit: "мм"
+    calculationUnit: "мм",
+    staticOuterSideWidth: 18
   },
   mutations: {
     CHANGE_METRIC_UNIT(state, unit) {
       state.calculationUnit = unit;
+    },
+    CHANGE_STATIC_SIDE_WIDTH(state, newWidth) {
+      state.staticOuterSideWidth = newWidth;
     },
     CHANGE_SHELF_WIDTH(state, value) {
       state.lowerShelf.width = value;
@@ -66,6 +70,9 @@ export default new Vuex.Store({
   actions: {
     cnangeMetricUnit(store, unit) {
       store.commit("CHANGE_METRIC_UNIT", unit);
+    },
+    changeStaticsidewidth(store, newWidth) {
+      store.commit("CHANGE_STATIC_SIDE_WIDTH", newWidth);
     },
     changeShelfWidth(store, value) {
       store.commit("CHANGE_SHELF_WIDTH", value);

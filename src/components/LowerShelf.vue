@@ -3,7 +3,7 @@
     <v-content>
       <v-container class="wrapper" fluid>
         <v-row align="center" justify="center">
-          <v-col cols="12" sm="8" md="4">
+          <v-col cols="12">
             <div class="LowerShelf">
               <h1>{{ shelfObject.title }}</h1>
               <span>{{ getPureWidth }}</span>
@@ -37,6 +37,34 @@
             </div>
           </v-col>
         </v-row>
+        <v-divider />
+        <div class="header-section">
+          <h3>Промени стандартна дебелина на страници</h3>
+        </div>
+         <v-form v-model="validStaticSideWidth">
+          <v-row align="center" justify="center">
+            <!-- Whole width region -->
+            <v-col cols="12" sm="8" md="6" class="col-no-top-padding col-no-bottom-padding">
+              <v-text-field
+                v-model="staticSidewidth"
+                :label="'Стандартна дебелина на страници в ' + calculationUnit"
+                :rules="numberRules"
+                outlined
+                dense
+                required
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" class="col-no-padding">
+              <v-btn
+                :disabled="!validStaticSideWidth"
+                color="success"
+                @click="changeStaticSidewidth"
+              >
+                запази
+              </v-btn>
+            </v-col>
+          </v-row>
+         </v-form>
         <v-divider />
         <div class="header-section">
           <h3>Стойности за целия долен шкаф</h3>
@@ -276,18 +304,22 @@ export default {
   data: () => ({
     validWholeShelf: false,
     validStaticWidth: false,
+    validStaticSideWidth: false,
+    staticSidewidth: 0,
     shelfWidth: 0,
     shelfHeight: 0,
     shelfDepth: 0,
     shelfOuterSides: [],
     allStaticWidths: [],
     maxNumberOfStaticCabinets: 5,
-    staticOuterSideWidth: 18,
     showOuterShelfSidesForEdit: false
   }),
   computed: {
     shelfObject() {
       return this.$store.state.lowerShelf;
+    },
+    getStaticOuterSideWidth() {
+      return this.$store.state.staticOuterSideWidth;
     },
     getPureWidth() {
       return this.$store.getters.getLowerShelfPureWidth;
@@ -323,6 +355,10 @@ export default {
     changeMetricUnit(unit) {
       this.$store.dispatch("cnangeMetricUnit", unit);
     },
+    changeStaticSidewidth() {
+      let newWidth = parseInt(this.staticSidewidth);
+      this.$store.dispatch("changeStaticsidewidth", newWidth);
+    },
     changeTheWholeShelfProperties() {
       let formWidth = parseInt(this.shelfWidth, 10);
       if (formWidth != this.shelfObject.width) {
@@ -341,7 +377,7 @@ export default {
     },
     addShelfOuterSides() {
       let outerSideToAdd = {
-        width: parseInt(this.staticOuterSideWidth),
+        width: parseInt(this.getStaticOuterSideWidth),
         height: this.shelfHeight,
         depth: this.shelfDepth,
         isValid: true
@@ -388,7 +424,7 @@ export default {
       let message =
         letStartMessage +
         " с дебелина: " +
-        this.staticOuterSideWidth +
+        this.getStaticOuterSideWidth +
         " " +
         this.calculationUnit +
         " дълбочина: " +
@@ -457,6 +493,8 @@ export default {
       };
       this.shelfOuterSides.push(currentSide);
     }
+
+    this.staticSidewidth = this.$store.state.staticOuterSideWidth;
   }
 };
 </script>
@@ -497,5 +535,11 @@ export default {
 .header-section {
   padding-top: 2rem;
   padding-bottom: 1rem;
+}
+.col-no-top-padding {
+  padding-top: 0 !important;
+}
+.col-no-bottom-padding {
+  padding-bottom: 0 !important;
 }
 </style>
