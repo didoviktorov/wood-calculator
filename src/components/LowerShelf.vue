@@ -59,7 +59,7 @@
                 required
               ></v-text-field>
             </v-col>
-            <v-col cols="12" class="col-no-padding">
+            <v-col cols="12" class="col-no-top-padding">
               <v-btn
                 :disabled="!validStaticSideWidth"
                 color="success"
@@ -546,11 +546,5 @@ export default {
 .header-section {
   padding-top: 2rem;
   padding-bottom: 1rem;
-}
-.col-no-top-padding {
-  padding-top: 0 !important;
-}
-.col-no-bottom-padding {
-  padding-bottom: 0 !important;
 }
 </style>

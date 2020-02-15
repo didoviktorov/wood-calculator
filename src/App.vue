@@ -25,6 +25,8 @@ export default {
 </script>
 
 <style>
+@import './assets/site.css';
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

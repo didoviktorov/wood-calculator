@@ -2,8 +2,43 @@
   <v-app>
     <v-content>
       <v-container class="wrapper" fluid>
-        <v-row align="center" justify="center">
-          <h1>Hello lower inner cabinets</h1>
+        <v-row align="center" justify="center">         
+          <v-col cols="12">
+            <v-divider />
+            <h2>Долни вътрешни шкафове</h2>
+            <v-divider />
+          </v-col>
+          <v-col cols="12" class="col-no-top-padding">
+            <div>
+              <h3>Промени стандартна височина на крачета</h3>
+            </div>
+          </v-col>
+          <v-form v-model="validStandardFeetHeight">
+            <v-row align="center" justify="center">
+              <v-col
+                cols="12"
+                class="col-no-top-padding col-no-bottom-padding"
+              >
+                <v-text-field
+                  v-model="standardFeetHeight"
+                  :label="'Стандартна височина на крачета в ' + calculationUnit"
+                  :rules="this.$getnumberValidationRules('test')"
+                  outlined
+                  dense
+                  required
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" class="col-no-top-padding">
+                <v-btn
+                  :disabled="!validStandardFeetHeight"
+                  color="success"
+                  @click="changeFeetsHeight"
+                >
+                  запази
+                </v-btn>
+              </v-col>
+            </v-row>
+          </v-form>
         </v-row>
       </v-container>
     </v-content>
@@ -14,16 +49,22 @@
 export default {
   name: "LowerInnerCabinets",
   data: () => ({
-    validWholeShelf: false,
-
+    validStandardFeetHeight: false,
+    standardFeetHeight: 0
   }),
   computed: {
-    
+    calculationUnit(){
+      return this.$store.state.calculationUnit;
+    }
   },
   methods: {
-    
+    changeFeetsHeight() {
+      let newHeight = parseInt(this.standardFeetHeight);
+      console.log(newHeight);
+    }
   },
   mounted() {
+    this.standardFeetHeight = this.$store.state.standardFeetHeightOfCabinet;
   }
 };
 </script>
