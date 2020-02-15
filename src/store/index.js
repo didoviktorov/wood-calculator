@@ -17,7 +17,8 @@ export default new Vuex.Store({
       pureWidth: 0
     },
     calculationUnit: "мм",
-    staticOuterSideWidth: 18
+    staticOuterSideWidth: 18,
+    standartFeetOfCabinet: 100
   },
   mutations: {
     CHANGE_METRIC_UNIT(state, unit) {

@@ -41,10 +41,15 @@
         <div class="header-section">
           <h3>Промени стандартна дебелина на страници</h3>
         </div>
-         <v-form v-model="validStaticSideWidth">
+        <v-form v-model="validStaticSideWidth">
           <v-row align="center" justify="center">
             <!-- Whole width region -->
-            <v-col cols="12" sm="8" md="6" class="col-no-top-padding col-no-bottom-padding">
+            <v-col
+              cols="12"
+              sm="8"
+              md="6"
+              class="col-no-top-padding col-no-bottom-padding"
+            >
               <v-text-field
                 v-model="staticSidewidth"
                 :label="'Стандартна дебелина на страници в ' + calculationUnit"
@@ -64,7 +69,7 @@
               </v-btn>
             </v-col>
           </v-row>
-         </v-form>
+        </v-form>
         <v-divider />
         <div class="header-section">
           <h3>Стойности за целия долен шкаф</h3>
@@ -293,14 +298,20 @@
             </v-form>
           </v-col>
         </v-row>
+        <LowerInnerCabinets />
       </v-container>
     </v-content>
   </v-app>
 </template>
 
 <script>
+import LowerInnerCabinets from "@/components/LowerInnerCabinets.vue";
+
 export default {
   name: "LowerShelf",
+  components: {
+    LowerInnerCabinets
+  },
   data: () => ({
     validWholeShelf: false,
     validStaticWidth: false,
