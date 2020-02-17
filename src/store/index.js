@@ -66,6 +66,9 @@ export default new Vuex.Store({
     },
     CLEAR_SHELF_OUTER_SIDES(state) {
       state.lowerShelf.outerSides = [];
+    },
+    CHANGE_CABINETS_FEETS_HEIGHT(state, value) {
+      state.standardFeetHeightOfCabinet = value;
     }
   },
   actions: {
@@ -103,6 +106,9 @@ export default new Vuex.Store({
       if (index >= 0 && index < store.state.lowerShelf.outerSides.length) {
         store.commit("REMOVE_SHELF_OUTER_SIDE", index);
       }
+    },
+    changeInnerCabinetsFeetHeight(store, value) {
+      store.commit("CHANGE_CABINETS_FEETS_HEIGHT", value);
     }
   },
   getters: {

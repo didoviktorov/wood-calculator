@@ -57,7 +57,7 @@ export default {
   methods: {
     changeFeetsHeight() {
       let newHeight = parseInt(this.standardFeetHeight);
-      console.log(newHeight);
+      this.$store.dispatch("changeInnerCabinetsFeetHeight", newHeight);
     }
   },
   mounted() {

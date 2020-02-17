@@ -299,7 +299,7 @@
             </v-form>
           </v-col>
         </v-row>
-        <LowerInnerCabinets />
+        <LowerInnerCabinets v-if="showInnerCabinets" />
       </v-container>
     </v-content>
   </v-app>
@@ -332,6 +332,13 @@ export default {
     },
     getStaticOuterSideWidth() {
       return this.$store.state.staticOuterSideWidth;
+    },
+    showInnerCabinets() {
+      return (
+        this.$store.state.lowerShelf.width > 0 &&
+        this.$store.state.lowerShelf.height > 0 &&
+        this.$store.state.lowerShelf.depth > 0
+      );
     },
     getPureWidth() {
       return this.$store.getters.getLowerShelfPureWidth;
