@@ -2,7 +2,7 @@
   <v-app>
     <v-content>
       <v-container class="wrapper" fluid>
-        <v-row align="center" justify="center">         
+        <v-row align="center" justify="center">
           <v-col cols="12">
             <v-divider />
             <h2>Долни вътрешни шкафове</h2>
@@ -15,14 +15,11 @@
           </v-col>
           <v-form v-model="validStandardFeetHeight">
             <v-row align="center" justify="center">
-              <v-col
-                cols="12"
-                class="col-no-top-padding col-no-bottom-padding"
-              >
+              <v-col cols="12" class="col-no-top-padding col-no-bottom-padding">
                 <v-text-field
                   v-model="standardFeetHeight"
                   :label="'Стандартна височина на крачета в ' + calculationUnit"
-                  :rules="this.$getnumberValidationRules('test')"
+                  :rules="this.$getnumberValidationRules"
                   outlined
                   dense
                   required
@@ -53,7 +50,7 @@ export default {
     standardFeetHeight: 0
   }),
   computed: {
-    calculationUnit(){
+    calculationUnit() {
       return this.$store.state.calculationUnit;
     }
   },
