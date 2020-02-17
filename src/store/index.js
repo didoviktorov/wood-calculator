@@ -69,6 +69,14 @@ export default new Vuex.Store({
     },
     CHANGE_CABINETS_FEETS_HEIGHT(state, value) {
       state.standardFeetHeightOfCabinet = value;
+    },
+    ADD_LOWER_SHELF_CABINETS(state, params) {
+      state.lowerShelf.cabinets = [];
+      for (let cabinet of params.cabinets) {
+        let cabinetToAdd = params.copyCabinet(cabinet);
+        console.log(cabinetToAdd);
+        state.lowerShelf.cabinets.push(cabinetToAdd);
+      }
     }
   },
   actions: {
@@ -109,6 +117,9 @@ export default new Vuex.Store({
     },
     changeInnerCabinetsFeetHeight(store, value) {
       store.commit("CHANGE_CABINETS_FEETS_HEIGHT", value);
+    },
+    addLowerShelfCabinets(store, params) {
+      store.commit("ADD_LOWER_SHELF_CABINETS", params);
     }
   },
   getters: {

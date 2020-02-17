@@ -2,8 +2,8 @@
   <v-app>
     <v-content>
       <div id="nav">
-        <router-link to="/">Горни Шкафове</router-link> |
-        <router-link to="/upper">Долни Шкафове</router-link>
+        <router-link to="/">Долни Шкафове</router-link> |
+        <router-link to="/upper">Горни Шкафове</router-link>
       </div>
       <router-view />
     </v-content>
@@ -25,7 +25,7 @@ export default {
 </script>
 
 <style>
-@import './assets/site.css';
+@import "./assets/site.css";
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

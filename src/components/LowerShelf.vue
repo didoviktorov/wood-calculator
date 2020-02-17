@@ -74,7 +74,7 @@
         <div class="header-section">
           <h3>Стойности за целия долен шкаф</h3>
         </div>
-        <v-form v-model="validWholeShelf"  @submit.prevent>
+        <v-form v-model="validWholeShelf" @submit.prevent>
           <v-row align="center" justify="center">
             <!-- Whole width region -->
             <v-col cols="12" sm="8" md="4">
@@ -109,7 +109,7 @@
                 required
               ></v-text-field>
             </v-col>
-            <v-col cols="12" sm="8" md="4">
+            <v-col cols="12" sm="8" md="4" class="col-no-top-padding">
               <v-btn
                 :disabled="!validWholeShelf"
                 color="success"
