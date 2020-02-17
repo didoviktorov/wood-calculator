@@ -40,49 +40,56 @@
         <!-- inner cabinets region -->
         <v-row align="center" justify="center">
           <v-col cols="12" class="col-no-top-padding">
+            <v-divider />
             <div>
               <h3>Добави брой вътрешни шкафове</h3>
             </div>
           </v-col>
-          <v-form v-model="validNumberOfCabinets" @submit.prevent>
-            <v-row align="center" justify="center">
-              <v-col cols="12" class="col-no-top-padding col-no-bottom-padding">
-                <v-text-field
-                  v-model="numberOfCabinets"
-                  :label="'Брой вътрешни шкафове'"
-                  :rules="this.$getnumberValidationRules"
-                  outlined
-                  dense
-                  required
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12" sm="6" md="3" class="col-no-top-padding">
-                <v-btn :disabled="validateAddButton" @click="addInnerCabinets">
-                  добави
-                </v-btn>
-              </v-col>
-              <v-col cols="12" sm="6" md="3" class="col-no-top-padding">
-                <v-btn :disabled="!validateAddButton">
-                  прегледай
-                </v-btn>
-              </v-col>
-              <v-col cols="12" sm="6" md="3" class="col-no-top-padding">
-                <v-btn
-                  :disabled="!validateAddButton"
-                  @click="addInnerCabinetsToStore"
-                  color="success"
-                >
-                  запази
-                </v-btn>
-              </v-col>
-              <v-col cols="12" sm="6" md="3" class="col-no-top-padding">
-                <v-btn :disabled="!validateAddButton" color="error">
-                  изтрий всички
-                </v-btn>
-              </v-col>
-            </v-row>
-          </v-form>
         </v-row>
+        <v-form v-model="validNumberOfCabinets" @submit.prevent>
+          <v-row align="center" justify="center">
+            <v-col cols="12" class="col-no-top-padding col-no-bottom-padding">
+              <v-text-field
+                v-model="numberOfCabinets"
+                :label="'Брой вътрешни шкафове'"
+                :rules="this.$getnumberValidationRules"
+                outlined
+                dense
+                required
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <v-row align="center" justify="center">
+            <v-col cols="12" sm="6" md="3" class="col-no-top-padding">
+              <v-btn :disabled="validateAddButton" @click="addInnerCabinets">
+                добави
+              </v-btn>
+            </v-col>
+            <v-col cols="12" sm="6" md="3" class="col-no-top-padding">
+              <v-btn :disabled="!validateAddButton">
+                прегледай
+              </v-btn>
+            </v-col>
+            <v-col cols="12" sm="6" md="3" class="col-no-top-padding">
+              <v-btn
+                :disabled="!validateAddButton"
+                @click="addInnerCabinetsToStore"
+                color="success"
+              >
+                запази
+              </v-btn>
+            </v-col>
+            <v-col cols="12" sm="6" md="3" class="col-no-top-padding">
+              <v-btn
+                :disabled="!validateAddButton"
+                color="error"
+                @click="removeAllCabinets"
+              >
+                изтрий всички
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-form>
       </v-container>
     </v-content>
   </v-app>
@@ -184,6 +191,13 @@ export default {
         }
 
         this.cabinets.push(currentCabinetToAdd);
+      }
+    },
+    removeAllCabinets() {
+      if (this.cabinets.length > 0) {
+        this.cabinets = [];
+        this.numberOfCabinets = 0;
+        this.$store.dispatch("removeAllLowerInnerCabinets");
       }
     },
     addInnerCabinetsToStore() {

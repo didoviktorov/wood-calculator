@@ -74,9 +74,11 @@ export default new Vuex.Store({
       state.lowerShelf.cabinets = [];
       for (let cabinet of params.cabinets) {
         let cabinetToAdd = params.copyCabinet(cabinet);
-        console.log(cabinetToAdd);
         state.lowerShelf.cabinets.push(cabinetToAdd);
       }
+    },
+    REMOVE_ALL_LOWER_SHELF_CABINETS(state) {
+      state.lowerShelf.cabinets = [];
     }
   },
   actions: {
@@ -120,6 +122,9 @@ export default new Vuex.Store({
     },
     addLowerShelfCabinets(store, params) {
       store.commit("ADD_LOWER_SHELF_CABINETS", params);
+    },
+    removeAllLowerInnerCabinets(store) {
+      store.commit("REMOVE_ALL_LOWER_SHELF_CABINETS");
     }
   },
   getters: {
