@@ -41,7 +41,7 @@
         <div class="header-section">
           <h3>Промени стандартна дебелина на страници</h3>
         </div>
-        <v-form v-model="validStaticSideWidth">
+        <v-form v-model="validStaticSideWidth" @submit.prevent>
           <v-row align="center" justify="center">
             <!-- Whole width region -->
             <v-col
@@ -74,7 +74,7 @@
         <div class="header-section">
           <h3>Стойности за целия долен шкаф</h3>
         </div>
-        <v-form v-model="validWholeShelf">
+        <v-form v-model="validWholeShelf"  @submit.prevent>
           <v-row align="center" justify="center">
             <!-- Whole width region -->
             <v-col cols="12" sm="8" md="4">
@@ -171,7 +171,7 @@
             align="center"
             justify="center"
           >
-            <v-form v-model="side.isValid">
+            <v-form v-model="side.isValid" @submit.prevent>
               <v-container>
                 <v-row>
                   <v-col cols="12" md="3">
@@ -269,6 +269,7 @@
             <v-form
               v-if="allStaticWidths.length > 0"
               v-model="validStaticWidth"
+              @submit.prevent
             >
               <div>
                 <v-text-field

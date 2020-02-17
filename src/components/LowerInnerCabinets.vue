@@ -13,7 +13,7 @@
               <h3>Промени стандартна височина на крачета</h3>
             </div>
           </v-col>
-          <v-form v-model="validStandardFeetHeight">
+          <v-form v-model="validStandardFeetHeight" @submit.prevent>
             <v-row align="center" justify="center">
               <v-col cols="12" class="col-no-top-padding col-no-bottom-padding">
                 <v-text-field
