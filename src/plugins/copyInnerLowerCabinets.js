@@ -33,6 +33,9 @@ export default {
 
         cabinetToAdd.upperHolders.push(currentHolder);
       }
+      cabinetToAdd.isValid = cabinet.isValid;
+      cabinetToAdd.isEdited = cabinet.isEdited;
+
       return cabinetToAdd;
     }
 

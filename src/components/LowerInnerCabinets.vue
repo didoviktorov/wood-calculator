@@ -46,6 +46,12 @@
             </div>
           </v-col>
         </v-row>
+        <div
+          v-if="this.$store.state.lowerShelf.cabinets.length > 0"
+          class="cabinets-added"
+        >
+          Добавени са {{ this.$store.state.lowerShelf.cabinets.length }} шкафа
+        </div>
         <v-form v-model="validNumberOfCabinets" @submit.prevent>
           <v-row align="center" justify="center">
             <v-col cols="12" class="col-no-top-padding col-no-bottom-padding">
@@ -66,13 +72,16 @@
               </v-btn>
             </v-col>
             <v-col cols="12" sm="6" md="3" class="col-no-top-padding">
-              <v-btn :disabled="!validateAddButton">
-                прегледай
+              <v-btn
+                :disabled="cabinets.length == 0"
+                @click="openForEditHandler"
+              >
+                {{ openForEdit ? "скрий" : "прегледай" }}
               </v-btn>
             </v-col>
             <v-col cols="12" sm="6" md="3" class="col-no-top-padding">
               <v-btn
-                :disabled="!validateAddButton"
+                :disabled="cabinets.length == 0"
                 @click="addInnerCabinetsToStore"
                 color="success"
               >
@@ -81,7 +90,7 @@
             </v-col>
             <v-col cols="12" sm="6" md="3" class="col-no-top-padding">
               <v-btn
-                :disabled="!validateAddButton"
+                :disabled="cabinets.length == 0"
                 color="error"
                 @click="removeAllCabinets"
               >
@@ -90,6 +99,181 @@
             </v-col>
           </v-row>
         </v-form>
+        <div v-if="openForEdit">
+          <v-row
+            align="center"
+            justify="center"
+            v-for="(cabinet, index) in cabinets"
+            :key="index"
+          >
+            <v-form v-model="cabinet.isValid" @submit.prevent>
+              <v-divider />
+              <h4>Шкаф {{ index + 1 }}</h4>
+              <v-container>
+                <!-- cabinet dimensions -->
+                <v-row>
+                  <v-col cols="12" md="4">
+                    <v-text-field
+                      v-model="cabinet.outerWidth"
+                      :rules="numberRules"
+                      label="Ширина"
+                      outlined
+                      dense
+                      required
+                    ></v-text-field>
+                  </v-col>
+
+                  <v-col cols="12" md="4">
+                    <v-text-field
+                      v-model="cabinet.height"
+                      :rules="numberRules"
+                      label="Височина"
+                      outlined
+                      dense
+                      required
+                    ></v-text-field>
+                  </v-col>
+
+                  <v-col cols="12" md="4">
+                    <v-text-field
+                      v-model="cabinet.depth"
+                      :rules="numberRules"
+                      label="Дълбочина"
+                      outlined
+                      dense
+                      required
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+                <h5>Дъно шкаф {{ index + 1 }}</h5>
+                <!-- cabinet bottom dimensions -->
+                <v-row>
+                  <v-col cols="12" md="4">
+                    <v-text-field
+                      v-model="cabinet.bottom.width"
+                      :rules="numberRules"
+                      label="Ширина дъно"
+                      outlined
+                      dense
+                      required
+                    ></v-text-field>
+                  </v-col>
+
+                  <v-col cols="12" md="4">
+                    <v-text-field
+                      v-model="cabinet.bottom.height"
+                      :rules="numberRules"
+                      label="Височина дъно"
+                      outlined
+                      dense
+                      required
+                    ></v-text-field>
+                  </v-col>
+
+                  <v-col cols="12" md="4">
+                    <v-text-field
+                      v-model="cabinet.bottom.depth"
+                      :rules="numberRules"
+                      label="Дълбочина дъно"
+                      outlined
+                      dense
+                      required
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+                <!-- cabinet sides dimensions -->
+                <h5>Страници шкаф {{ index + 1 }}</h5>
+                <v-row
+                  v-for="(side, sideIndex) in cabinet.sides"
+                  :key="sideIndex + 's'"
+                >
+                  <v-col cols="12" md="4">
+                    <v-text-field
+                      v-model="side.width"
+                      :rules="numberRules"
+                      :label="'Ширина страница ' + (sideIndex + 1)"
+                      outlined
+                      dense
+                      required
+                    ></v-text-field>
+                  </v-col>
+
+                  <v-col cols="12" md="4">
+                    <v-text-field
+                      v-model="side.height"
+                      :rules="numberRules"
+                      :label="'Височина страница ' + (sideIndex + 1)"
+                      outlined
+                      dense
+                      required
+                    ></v-text-field>
+                  </v-col>
+
+                  <v-col cols="12" md="4">
+                    <v-text-field
+                      v-model="side.depth"
+                      :rules="numberRules"
+                      :label="'Дълбочина страница ' + (sideIndex + 1)"
+                      outlined
+                      dense
+                      required
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+                <!-- cabinet upper holders dimensions -->
+                <h5>Горни стабилизатори шкаф {{ index + 1 }}</h5>
+                <v-row
+                  v-for="(holder, holderIndex) in cabinet.upperHolders"
+                  :key="holderIndex + 'h'"
+                >
+                  <v-col cols="12" md="4">
+                    <v-text-field
+                      v-model="holder.width"
+                      :rules="numberRules"
+                      :label="'Ширина стабилизатор ' + (holderIndex + 1)"
+                      outlined
+                      dense
+                      required
+                    ></v-text-field>
+                  </v-col>
+
+                  <v-col cols="12" md="4">
+                    <v-text-field
+                      v-model="holder.height"
+                      :rules="numberRules"
+                      :label="'Височина стабилизатор ' + (holderIndex + 1)"
+                      outlined
+                      dense
+                      required
+                    ></v-text-field>
+                  </v-col>
+
+                  <v-col cols="12" md="4">
+                    <v-text-field
+                      v-model="holder.depth"
+                      :rules="numberRules"
+                      :label="'Дълбочина стабилизатор ' + (holderIndex + 1)"
+                      outlined
+                      dense
+                      required
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+              </v-container>
+              <v-row align="center" justify="center">
+                <v-col cols="12" class="col-no-top-padding">
+                  <v-btn
+                    :disabled="!cabinet.isValid"
+                    color="success"
+                    class="mr-4 right-button"
+                  >
+                    промени
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-form>
+          </v-row>
+        </div>
       </v-container>
     </v-content>
   </v-app>
@@ -103,7 +287,8 @@ export default {
     standardFeetHeight: 0,
     validNumberOfCabinets: false,
     numberOfCabinets: 0,
-    cabinets: []
+    cabinets: [],
+    openForEdit: false
   }),
   computed: {
     calculationUnit() {
@@ -114,6 +299,9 @@ export default {
         return true;
       }
       return !this.validNumberOfCabinets;
+    },
+    numberRules() {
+      return this.$getnumberValidationRules;
     }
   },
   methods: {
@@ -176,6 +364,9 @@ export default {
           ]
         };
 
+        currentCabinetToAdd.isValid = true;
+        currentCabinetToAdd.isEdited = false;
+
         /* corerct width differences */
         if (i == currentNumerOfCabinets - 1) {
           let widthDiff =
@@ -206,6 +397,9 @@ export default {
         copyCabinet: this.$getCabinetInstance
       };
       this.$store.dispatch("addLowerShelfCabinets", args);
+    },
+    openForEditHandler() {
+      this.openForEdit = !this.openForEdit;
     }
   },
   mounted() {
@@ -221,46 +415,8 @@ export default {
 </script>
 
 <style scoped>
-.shelf-form {
-  padding-top: 2rem;
-}
-.flex-center {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.error-holder {
-  color: red;
-}
-.wrapper {
-  max-width: 80%;
-}
-.left-button {
-  margin-right: 1rem;
-  margin-left: 1rem;
-  margin-top: 2rem;
-}
-.right-button {
-  margin-left: 1rem;
-  margin-right: 1rem;
-  margin-top: 2rem;
-}
-.sides-added {
-  color: #1976d2;
-  text-align: center;
-  margin-top: 2rem;
-}
-.delete-outer-side {
-  top: 1rem;
-}
-.header-section {
-  padding-top: 2rem;
+.cabinets-added {
   padding-bottom: 1rem;
-}
-.col-no-top-padding {
-  padding-top: 0 !important;
-}
-.col-no-bottom-padding {
-  padding-bottom: 0 !important;
+  color: #1976d2;
 }
 </style>
