@@ -81,7 +81,7 @@
             </v-col>
             <v-col cols="12" sm="6" md="3" class="col-no-top-padding">
               <v-btn
-                :disabled="cabinets.length == 0"
+                :disabled="!isAllCabinetsValid || cabinets.length == 0"
                 @click="addInnerCabinetsToStore"
                 color="success"
               >
@@ -259,15 +259,61 @@
                     ></v-text-field>
                   </v-col>
                 </v-row>
+                <!-- cabinet shelfs dimensions -->
+                <h5>Рафтове за шкаф {{ index + 1 }}</h5>
+                <v-row align="center" justify="center">
+                  <v-col cols="12">
+                    <v-btn
+                      :disabled="!cabinet.isValid"
+                      color="info"
+                      @click="addShelf(cabinet)"
+                    >
+                      добави рафт
+                    </v-btn>
+                  </v-col>
+                </v-row>
+                <v-row
+                  v-for="(shelf, shelfIndex) in cabinet.shelfs"
+                  :key="shelfIndex + 'q'"
+                >
+                  <v-col cols="12" md="4">
+                    <v-text-field
+                      v-model="shelf.width"
+                      :rules="numberRules"
+                      :label="'Ширина рафт ' + (shelfIndex + 1)"
+                      outlined
+                      dense
+                      required
+                    ></v-text-field>
+                  </v-col>
+
+                  <v-col cols="12" md="4">
+                    <v-text-field
+                      v-model="shelf.height"
+                      :rules="numberRules"
+                      :label="'Височина рафт ' + (shelfIndex + 1)"
+                      outlined
+                      dense
+                      required
+                    ></v-text-field>
+                  </v-col>
+
+                  <v-col cols="12" md="4">
+                    <v-text-field
+                      v-model="shelf.depth"
+                      :rules="numberRules"
+                      :label="'Дълбочина рафт ' + (shelfIndex + 1)"
+                      outlined
+                      dense
+                      required
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
               </v-container>
               <v-row align="center" justify="center">
                 <v-col cols="12" class="col-no-top-padding">
-                  <v-btn
-                    :disabled="!cabinet.isValid"
-                    color="success"
-                    class="mr-4 right-button"
-                  >
-                    промени
+                  <v-btn :disabled="!cabinet.isValid" color="success">
+                    запази шкаф
                   </v-btn>
                 </v-col>
               </v-row>
@@ -302,6 +348,14 @@ export default {
     },
     numberRules() {
       return this.$getnumberValidationRules;
+    },
+    isAllCabinetsValid() {
+      for (let cabinet of this.cabinets) {
+        if (!cabinet.isValid) {
+          return false;
+        }
+      }
+      return true;
     }
   },
   methods: {
@@ -331,6 +385,7 @@ export default {
       for (let i = 0; i < currentNumerOfCabinets; i++) {
         let currentCabinetToAdd = {
           outerWidth: cabinetWidth,
+          innerWidth: innerCabinetsWidth,
           height: heightOfCabinets,
           depth: this.$store.state.lowerShelf.depth,
           bottom: {
@@ -361,7 +416,8 @@ export default {
               height: this.$store.state.staticOuterSideWidth,
               depth: this.$store.state.standardFeetHeightOfCabinet
             }
-          ]
+          ],
+          shelfs: []
         };
 
         currentCabinetToAdd.isValid = true;
@@ -390,6 +446,14 @@ export default {
         this.numberOfCabinets = 0;
         this.$store.dispatch("removeAllLowerInnerCabinets");
       }
+    },
+    addShelf(cabinet) {
+      let shelfToAdd = {
+        width: parseInt(cabinet.innerWidth),
+        height: this.$store.state.staticOuterSideWidth,
+        depth: parseInt(cabinet.depth)
+      };
+      cabinet.shelfs.push(shelfToAdd);
     },
     addInnerCabinetsToStore() {
       let args = {

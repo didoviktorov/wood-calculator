@@ -3,6 +3,7 @@ export default {
     function getCabinet(cabinet) {
       let cabinetToAdd = {
         outerWidth: parseInt(cabinet.outerWidth),
+        innerWidth: parseInt(cabinet.innerWidth),
         height: parseInt(cabinet.height),
         depth: parseInt(cabinet.depth),
         bottom: {
@@ -11,7 +12,8 @@ export default {
           depth: parseInt(cabinet.bottom.depth)
         },
         sides: [],
-        upperHolders: []
+        upperHolders: [],
+        shelfs: []
       };
       /* add sides of cabinet */
       for (let side of cabinet.sides) {
@@ -32,6 +34,16 @@ export default {
         };
 
         cabinetToAdd.upperHolders.push(currentHolder);
+      }
+      /* add shelfs of cabinet */
+      for (let shelf of cabinet.shelfs) {
+        let currentShelf = {
+          width: parseInt(shelf.width),
+          height: parseInt(shelf.height),
+          depth: parseInt(shelf.depth)
+        };
+
+        cabinetToAdd.shelfs.push(currentShelf);
       }
       cabinetToAdd.isValid = cabinet.isValid;
       cabinetToAdd.isEdited = cabinet.isEdited;

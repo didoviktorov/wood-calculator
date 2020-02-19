@@ -249,7 +249,10 @@
         <v-row align="center" justify="center">
           <v-col cols="12">
             <v-btn
-              :disabled="allStaticWidths.length == maxNumberOfStaticCabinets"
+              :disabled="
+                !isAddingShelfOutherSidesActive ||
+                  allStaticWidths.length == maxNumberOfStaticCabinets
+              "
               class="left-button"
               @click="addStaticCabintes"
             >
