@@ -16,6 +16,10 @@ export default new Vuex.Store({
       feetHeightOfCabinet: 0,
       pureWidth: 0
     },
+    upperShlef: {
+      title: "ГОРНИ ШКАФОВЕ",
+      cabinets: []
+    },
     calculationUnit: "мм",
     staticOuterSideWidth: 18,
     standardFeetHeightOfCabinet: 100
@@ -154,6 +158,9 @@ export default new Vuex.Store({
       }
 
       return pureWidth;
+    },
+    getUpperShelfPureWidth: state => {
+      let pureWidth;
     }
   },
   modules: {}
