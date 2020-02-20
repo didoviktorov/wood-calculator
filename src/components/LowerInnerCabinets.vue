@@ -261,17 +261,6 @@
                 </v-row>
                 <!-- cabinet shelfs dimensions -->
                 <h5>Рафтове за шкаф {{ index + 1 }}</h5>
-                <v-row align="center" justify="center">
-                  <v-col cols="12">
-                    <v-btn
-                      :disabled="!cabinet.isValid"
-                      color="info"
-                      @click="addShelf(cabinet)"
-                    >
-                      добави рафт
-                    </v-btn>
-                  </v-col>
-                </v-row>
                 <v-row
                   v-for="(shelf, shelfIndex) in cabinet.shelfs"
                   :key="shelfIndex + 'q'"
@@ -311,8 +300,32 @@
                 </v-row>
               </v-container>
               <v-row align="center" justify="center">
+                <v-col cols="6">
+                  <v-btn
+                    :disabled="!cabinet.isValid"
+                    color="info"
+                    @click="addShelf(cabinet)"
+                  >
+                    добави рафт
+                  </v-btn>
+                </v-col>
+                <v-col cols="6">
+                  <v-btn
+                    :disabled="cabinet.shelfs.length == 0 || !cabinet.isValid"
+                    color="error"
+                    @click="removeShelf(cabinet)"
+                  >
+                    изтрий рафт
+                  </v-btn>
+                </v-col>
+              </v-row>
+              <v-row align="center" justify="center">
                 <v-col cols="12" class="col-no-top-padding">
-                  <v-btn :disabled="!cabinet.isValid" color="success">
+                  <v-btn
+                    :disabled="!cabinet.isValid"
+                    color="success"
+                    @click="editCabinet(index)"
+                  >
                     запази шкаф
                   </v-btn>
                 </v-col>
@@ -455,12 +468,28 @@ export default {
       };
       cabinet.shelfs.push(shelfToAdd);
     },
+    removeShelf(cabinet) {
+      if (cabinet.shelfs.length > 0) {
+        cabinet.shelfs.splice(cabinet.shelfs.lengt - 1, 1);
+      }
+    },
     addInnerCabinetsToStore() {
       let args = {
         cabinets: this.cabinets,
         copyCabinet: this.$getCabinetInstance
       };
       this.$store.dispatch("addLowerShelfCabinets", args);
+    },
+    editCabinet(index) {
+      let cabinetToEdit = this.$getCabinetInstance(this.cabinets[index]);
+      console.log(index);
+      console.log(cabinetToEdit);
+      cabinetToEdit.isEdited = true;
+      let params = {
+        editedCabinet: cabinetToEdit,
+        cabinetIndex: index
+      };
+      this.$store.dispatch("saveCabinetLowerShelfCabinets", params);
     },
     openForEditHandler() {
       this.openForEdit = !this.openForEdit;

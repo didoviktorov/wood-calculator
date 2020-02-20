@@ -79,6 +79,13 @@ export default new Vuex.Store({
     },
     REMOVE_ALL_LOWER_SHELF_CABINETS(state) {
       state.lowerShelf.cabinets = [];
+    },
+    SAVE_CABINET(state, params) {
+      state.lowerShelf.cabinets.splice(
+        params.cabinetIndex,
+        1,
+        params.editedCabinet
+      );
     }
   },
   actions: {
@@ -125,6 +132,9 @@ export default new Vuex.Store({
     },
     removeAllLowerInnerCabinets(store) {
       store.commit("REMOVE_ALL_LOWER_SHELF_CABINETS");
+    },
+    saveCabinetLowerShelfCabinets(store, params) {
+      store.commit("SAVE_CABINET", params);
     }
   },
   getters: {

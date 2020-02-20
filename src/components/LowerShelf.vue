@@ -151,7 +151,11 @@
               class="right-button left-button"
               @click="renderOuterShelfSides"
             >
-              редактирай страници
+              {{
+                showOuterShelfSidesForEdit
+                  ? "скрий страници"
+                  : "редактирай страници"
+              }}
             </v-btn>
             <v-btn
               v-if="shelfOuterSides.length > 0"
@@ -454,7 +458,7 @@ export default {
       return message;
     },
     renderOuterShelfSides() {
-      this.showOuterShelfSidesForEdit = true;
+      this.showOuterShelfSidesForEdit = !this.showOuterShelfSidesForEdit;
     },
     addStaticCabintes() {
       if (this.allStaticWidths.length < this.maxNumberOfStaticCabinets) {
