@@ -16,7 +16,7 @@ export default new Vuex.Store({
       feetHeightOfCabinet: 0,
       pureWidth: 0
     },
-    upperShlef: {
+    upperShelf: {
       title: "ГОРНИ ШКАФОВЕ",
       height: 0,
       width: 0,
@@ -93,6 +93,15 @@ export default new Vuex.Store({
         1,
         params.editedCabinet
       );
+    },
+    CHANGE_UPPER_SHELF_WIDTH(state, newWidth) {
+      state.upperShelf.width = newWidth;
+    },
+    CHANGE_UPPER_SHELF_HEIGHT(state, newHeight) {
+      state.upperShelf.height = newHeight;
+    },
+    CHANGE_UPPER_SHELF_DEPTH(state, newDepth) {
+      state.upperShelf.depth = newDepth;
     }
   },
   actions: {
@@ -142,6 +151,15 @@ export default new Vuex.Store({
     },
     saveCabinetLowerShelfCabinets(store, params) {
       store.commit("SAVE_CABINET", params);
+    },
+    changeUpperShelfWidth(store, newWidth) {
+      store.commit("CHANGE_UPPER_SHELF_WIDTH", newWidth);
+    },
+    changeUpperShelfHeight(store, newHeight) {
+      store.commit("CHANGE_UPPER_SHELF_HEIGHT", newHeight);
+    },
+    changeUpperShelfDepth(store, newDepth) {
+      store.commit("CHANGE_UPPER_SHELF_DEPTH", newDepth);
     }
   },
   getters: {
@@ -164,11 +182,11 @@ export default new Vuex.Store({
     },
     getUpperShelfPureWidth: state => {
       let currentWidth = 0;
-      for (let cabinet of state.upperShlef.cabinets) {
+      for (let cabinet of state.upperShelf.cabinets) {
         currentWidth += cabinet.width;
       }
 
-      return state.upperShlef.width - currentWidth;
+      return state.upperShelf.width - currentWidth;
     }
   },
   modules: {}

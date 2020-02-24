@@ -530,9 +530,6 @@ export default {
 .error-holder {
   color: red;
 }
-.wrapper {
-  max-width: 80%;
-}
 .left-button {
   margin-right: 1rem;
   margin-left: 1rem;
@@ -550,9 +547,5 @@ export default {
 }
 .delete-outer-side {
   top: 1rem;
-}
-.header-section {
-  padding-top: 2rem;
-  padding-bottom: 1rem;
 }
 </style>

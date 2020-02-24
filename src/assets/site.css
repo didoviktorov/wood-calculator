@@ -4,3 +4,10 @@
 .col-no-bottom-padding {
   padding-bottom: 0 !important;
 }
+.wrapper {
+  max-width: 80% !important;
+}
+.header-section {
+  padding-top: 2rem;
+  padding-bottom: 1rem;
+}
