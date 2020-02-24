@@ -18,6 +18,9 @@ export default new Vuex.Store({
     },
     upperShlef: {
       title: "ГОРНИ ШКАФОВЕ",
+      height: 0,
+      width: 0,
+      depth: 0,
       cabinets: []
     },
     calculationUnit: "мм",
@@ -160,7 +163,12 @@ export default new Vuex.Store({
       return pureWidth;
     },
     getUpperShelfPureWidth: state => {
-      let pureWidth;
+      let currentWidth = 0;
+      for (let cabinet of state.upperShlef.cabinets) {
+        currentWidth += cabinet.width;
+      }
+
+      return state.upperShlef.width - currentWidth;
     }
   },
   modules: {}

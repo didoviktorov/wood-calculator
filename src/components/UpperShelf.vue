@@ -15,7 +15,9 @@
 <script>
 export default {
   computed: {
-    shelfObject() {},
+    shelfObject() {
+      return this.$store.state.upperShlef;
+    },
     getPureWidth() {
       return this.$store.getters.getUpperShelfPureWidth;
     }
