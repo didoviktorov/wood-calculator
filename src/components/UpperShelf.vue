@@ -58,13 +58,19 @@
             </v-col>
           </v-row>
         </v-form>
+        <UpperCabinets v-if="showCabinetsCabinets" />
       </v-container>
     </v-content>
   </v-app>
 </template>
 
 <script>
+import UpperCabinets from "@/components/UpperCabinets.vue";
+
 export default {
+  components: {
+    UpperCabinets
+  },
   data: () => ({
     validWholeShelf: false,
     shelfWidth: 0,
@@ -83,6 +89,13 @@ export default {
     },
     numberRules() {
       return this.$getnumberValidationRules;
+    },
+    showCabinetsCabinets() {
+      return (
+        this.$store.state.upperShelf.width > 0 &&
+        this.$store.state.upperShelf.height > 0 &&
+        this.$store.state.upperShelf.depth > 0
+      );
     }
   },
   methods: {

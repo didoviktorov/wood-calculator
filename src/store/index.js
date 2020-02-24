@@ -102,6 +102,23 @@ export default new Vuex.Store({
     },
     CHANGE_UPPER_SHELF_DEPTH(state, newDepth) {
       state.upperShelf.depth = newDepth;
+    },
+    ADD_UPPER_SHELF_CABINETS(state, params) {
+      state.upperShelf.cabinets = [];
+      for (let cabinet of params.cabinets) {
+        let cabinetToAdd = params.copyCabinet(cabinet);
+        state.upperShelf.cabinets.push(cabinetToAdd);
+      }
+    },
+    REMOVE_ALL_UPPER_SHELF_CABINETS(state) {
+      state.upperShelf.cabinets = [];
+    },
+    SAVE_UPPER_CABINET(state, params) {
+      state.upperShelf.cabinets.splice(
+        params.cabinetIndex,
+        1,
+        params.editedCabinet
+      );
     }
   },
   actions: {
@@ -160,6 +177,15 @@ export default new Vuex.Store({
     },
     changeUpperShelfDepth(store, newDepth) {
       store.commit("CHANGE_UPPER_SHELF_DEPTH", newDepth);
+    },
+    addUpperShelfCabinets(store, params) {
+      store.commit("ADD_UPPER_SHELF_CABINETS", params);
+    },
+    removeAllUpperInnerCabinets(store) {
+      store.commit("REMOVE_ALL_UPPER_SHELF_CABINETS");
+    },
+    saveCabinetUpperShelfCabinets(store, params) {
+      store.commit("SAVE_UPPER_CABINET", params);
     }
   },
   getters: {
@@ -183,7 +209,7 @@ export default new Vuex.Store({
     getUpperShelfPureWidth: state => {
       let currentWidth = 0;
       for (let cabinet of state.upperShelf.cabinets) {
-        currentWidth += cabinet.width;
+        currentWidth += cabinet.outerWidth;
       }
 
       return state.upperShelf.width - currentWidth;

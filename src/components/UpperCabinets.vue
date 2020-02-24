@@ -1,63 +1,34 @@
 <template>
   <v-app>
     <v-content>
-      <v-container fluid>
-        <v-row align="center" justify="center">
+      <v-container>
+        <v-row>
           <v-col cols="12">
             <v-divider />
-            <h2>Долни вътрешни шкафове</h2>
+            <h2>Горни шкафове</h2>
             <v-divider />
           </v-col>
-          <v-col cols="12" class="col-no-top-padding">
-            <div>
-              <h3>Промени стандартна височина на крачета</h3>
-            </div>
-          </v-col>
-          <v-form v-model="validStandardFeetHeight" @submit.prevent>
-            <v-row align="center" justify="center">
-              <v-col cols="12" class="col-no-top-padding col-no-bottom-padding">
-                <v-text-field
-                  v-model="standardFeetHeight"
-                  :label="'Стандартна височина на крачета в ' + calculationUnit"
-                  :rules="this.$getnumberValidationRules"
-                  outlined
-                  dense
-                  required
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12" class="col-no-top-padding">
-                <v-btn
-                  :disabled="!validStandardFeetHeight"
-                  color="success"
-                  @click="changeFeetsHeight"
-                >
-                  запази
-                </v-btn>
-              </v-col>
-            </v-row>
-          </v-form>
         </v-row>
         <!-- inner cabinets region -->
         <v-row align="center" justify="center">
           <v-col cols="12" class="col-no-top-padding">
-            <v-divider />
             <div>
-              <h3>Добави брой вътрешни шкафове</h3>
+              <h3>Добави брой шкафове</h3>
             </div>
           </v-col>
         </v-row>
         <div
-          v-if="this.$store.state.lowerShelf.cabinets.length > 0"
+          v-if="this.$store.state.upperShelf.cabinets.length > 0"
           class="cabinets-added"
         >
-          Добавени са {{ this.$store.state.lowerShelf.cabinets.length }} шкафа
+          Добавени са {{ this.$store.state.upperShelf.cabinets.length }} шкафа
         </div>
         <v-form v-model="validNumberOfCabinets" @submit.prevent>
           <v-row align="center" justify="center">
             <v-col cols="12" class="col-no-top-padding col-no-bottom-padding">
               <v-text-field
                 v-model="numberOfCabinets"
-                :label="'Брой вътрешни шкафове'"
+                :label="'Брой шкафове'"
                 :rules="this.$getnumberValidationRules"
                 outlined
                 dense
@@ -67,7 +38,7 @@
           </v-row>
           <v-row align="center" justify="center">
             <v-col cols="12" sm="6" md="3" class="col-no-top-padding">
-              <v-btn :disabled="validateAddButton" @click="addInnerCabinets">
+              <v-btn :disabled="validateAddButton" @click="addCabinets">
                 добави
               </v-btn>
             </v-col>
@@ -82,7 +53,7 @@
             <v-col cols="12" sm="6" md="3" class="col-no-top-padding">
               <v-btn
                 :disabled="!isAllCabinetsValid || cabinets.length == 0"
-                @click="addInnerCabinetsToStore"
+                @click="addCabinetsToStore"
                 color="success"
               >
                 запази
@@ -181,6 +152,42 @@
                     ></v-text-field>
                   </v-col>
                 </v-row>
+                <h5>Горна страна шкаф {{ index + 1 }}</h5>
+                <!-- cabinet ceil dimensions -->
+                <v-row>
+                  <v-col cols="12" md="4">
+                    <v-text-field
+                      v-model="cabinet.ceil.width"
+                      :rules="numberRules"
+                      label="Ширина горна страна"
+                      outlined
+                      dense
+                      required
+                    ></v-text-field>
+                  </v-col>
+
+                  <v-col cols="12" md="4">
+                    <v-text-field
+                      v-model="cabinet.ceil.height"
+                      :rules="numberRules"
+                      label="Височина горна страна"
+                      outlined
+                      dense
+                      required
+                    ></v-text-field>
+                  </v-col>
+
+                  <v-col cols="12" md="4">
+                    <v-text-field
+                      v-model="cabinet.ceil.depth"
+                      :rules="numberRules"
+                      label="Дълбочина горна страна"
+                      outlined
+                      dense
+                      required
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
                 <!-- cabinet sides dimensions -->
                 <h5>Страници шкаф {{ index + 1 }}</h5>
                 <v-row
@@ -220,45 +227,7 @@
                     ></v-text-field>
                   </v-col>
                 </v-row>
-                <!-- cabinet upper holders dimensions -->
-                <h5>Горни стабилизатори шкаф {{ index + 1 }}</h5>
-                <v-row
-                  v-for="(holder, holderIndex) in cabinet.upperHolders"
-                  :key="holderIndex + 'h'"
-                >
-                  <v-col cols="12" md="4">
-                    <v-text-field
-                      v-model="holder.width"
-                      :rules="numberRules"
-                      :label="'Ширина стабилизатор ' + (holderIndex + 1)"
-                      outlined
-                      dense
-                      required
-                    ></v-text-field>
-                  </v-col>
 
-                  <v-col cols="12" md="4">
-                    <v-text-field
-                      v-model="holder.height"
-                      :rules="numberRules"
-                      :label="'Височина стабилизатор ' + (holderIndex + 1)"
-                      outlined
-                      dense
-                      required
-                    ></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="4">
-                    <v-text-field
-                      v-model="holder.depth"
-                      :rules="numberRules"
-                      :label="'Дълбочина стабилизатор ' + (holderIndex + 1)"
-                      outlined
-                      dense
-                      required
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
                 <!-- cabinet shelfs dimensions -->
                 <h5>Рафтове за шкаф {{ index + 1 }}</h5>
                 <v-row
@@ -340,10 +309,7 @@
 
 <script>
 export default {
-  name: "LowerInnerCabinets",
   data: () => ({
-    validStandardFeetHeight: false,
-    standardFeetHeight: 0,
     validNumberOfCabinets: false,
     numberOfCabinets: 0,
     cabinets: [],
@@ -372,93 +338,15 @@ export default {
     }
   },
   methods: {
-    changeFeetsHeight() {
-      let newHeight = parseInt(this.standardFeetHeight);
-      this.$store.dispatch("changeInnerCabinetsFeetHeight", newHeight);
+    openForEditHandler() {
+      this.openForEdit = !this.openForEdit;
     },
-    addInnerCabinets() {
-      this.cabinets = [];
-      let pureLowerShelfWidth = this.$store.getters.getLowerShelfPureWidth;
-      let currentNumerOfCabinets = parseInt(this.numberOfCabinets);
-
-      let cabinetWidth = Math.round(
-        pureLowerShelfWidth / currentNumerOfCabinets
-      );
-
-      let heightOfCabinets =
-        this.$store.state.lowerShelf.height -
-        this.$store.state.standardFeetHeightOfCabinet;
-
-      let cabinetsSidesHeight =
-        heightOfCabinets - this.$store.state.staticOuterSideWidth;
-
-      let innerCabinetsWidth =
-        cabinetWidth - 2 * this.$store.state.staticOuterSideWidth;
-
-      for (let i = 0; i < currentNumerOfCabinets; i++) {
-        let currentCabinetToAdd = {
-          outerWidth: cabinetWidth,
-          innerWidth: innerCabinetsWidth,
-          height: heightOfCabinets,
-          depth: this.$store.state.lowerShelf.depth,
-          bottom: {
-            width: cabinetWidth,
-            height: this.$store.state.staticOuterSideWidth,
-            depth: this.$store.state.lowerShelf.depth
-          },
-          sides: [
-            {
-              width: this.$store.state.staticOuterSideWidth,
-              height: cabinetsSidesHeight,
-              depth: this.$store.state.lowerShelf.depth
-            },
-            {
-              width: this.$store.state.staticOuterSideWidth,
-              height: cabinetsSidesHeight,
-              depth: this.$store.state.lowerShelf.depth
-            }
-          ],
-          upperHolders: [
-            {
-              width: innerCabinetsWidth,
-              height: this.$store.state.staticOuterSideWidth,
-              depth: this.$store.state.standardFeetHeightOfCabinet
-            },
-            {
-              width: innerCabinetsWidth,
-              height: this.$store.state.staticOuterSideWidth,
-              depth: this.$store.state.standardFeetHeightOfCabinet
-            }
-          ],
-          shelfs: []
-        };
-
-        currentCabinetToAdd.isValid = true;
-        currentCabinetToAdd.isEdited = false;
-
-        /* corerct width differences */
-        if (i == currentNumerOfCabinets - 1) {
-          let widthDiff =
-            pureLowerShelfWidth - cabinetWidth * currentNumerOfCabinets;
-
-          if (widthDiff != 0) {
-            currentCabinetToAdd.outerWidth += widthDiff;
-            currentCabinetToAdd.bottom.width += widthDiff;
-            for (let holder of currentCabinetToAdd.upperHolders) {
-              holder.width += widthDiff;
-            }
-          }
-        }
-
-        this.cabinets.push(currentCabinetToAdd);
-      }
-    },
-    removeAllCabinets() {
-      if (this.cabinets.length > 0) {
-        this.cabinets = [];
-        this.numberOfCabinets = 0;
-        this.$store.dispatch("removeAllLowerInnerCabinets");
-      }
+    addCabinetsToStore() {
+      let args = {
+        cabinets: this.cabinets,
+        copyCabinet: this.$getCabinetInstance
+      };
+      this.$store.dispatch("addUpperShelfCabinets", args);
     },
     addShelf(cabinet) {
       let shelfToAdd = {
@@ -473,31 +361,88 @@ export default {
         cabinet.shelfs.splice(cabinet.shelfs.lengt - 1, 1);
       }
     },
-    addInnerCabinetsToStore() {
-      let args = {
-        cabinets: this.cabinets,
-        copyCabinet: this.$getCabinetInstance
-      };
-      this.$store.dispatch("addLowerShelfCabinets", args);
-    },
     editCabinet(index) {
       let cabinetToEdit = this.$getCabinetInstance(this.cabinets[index]);
-
+      cabinetToEdit.isEdited = true;
       cabinetToEdit.isEdited = true;
       let params = {
         editedCabinet: cabinetToEdit,
         cabinetIndex: index
       };
-      this.$store.dispatch("saveCabinetLowerShelfCabinets", params);
+      this.$store.dispatch("saveCabinetUpperShelfCabinets", params);
     },
-    openForEditHandler() {
-      this.openForEdit = !this.openForEdit;
+    addCabinets() {
+      this.cabinets = [];
+      let pureShelfWidth = this.$store.getters.getUpperShelfPureWidth;
+      let currentNumerOfCabinets = parseInt(this.numberOfCabinets);
+
+      let cabinetWidth = Math.round(pureShelfWidth / currentNumerOfCabinets);
+
+      let heightOfCabinets = this.$store.state.upperShelf.height;
+
+      let cabinetsSidesHeight = heightOfCabinets;
+
+      let innerCabinetsWidth =
+        cabinetWidth - 2 * this.$store.state.staticOuterSideWidth;
+
+      for (let i = 0; i < currentNumerOfCabinets; i++) {
+        let currentCabinetToAdd = {
+          outerWidth: cabinetWidth,
+          innerWidth: innerCabinetsWidth,
+          height: heightOfCabinets,
+          depth: this.$store.state.upperShelf.depth,
+          bottom: {
+            width: innerCabinetsWidth,
+            height: this.$store.state.staticOuterSideWidth,
+            depth: this.$store.state.upperShelf.depth
+          },
+          ceil: {
+            width: innerCabinetsWidth,
+            height: this.$store.state.staticOuterSideWidth,
+            depth: this.$store.state.upperShelf.depth
+          },
+          sides: [
+            {
+              width: this.$store.state.staticOuterSideWidth,
+              height: cabinetsSidesHeight,
+              depth: this.$store.state.upperShelf.depth
+            },
+            {
+              width: this.$store.state.staticOuterSideWidth,
+              height: cabinetsSidesHeight,
+              depth: this.$store.state.upperShelf.depth
+            }
+          ],
+          shelfs: []
+        };
+
+        currentCabinetToAdd.isValid = true;
+        currentCabinetToAdd.isEdited = false;
+
+        /* corerct width differences */
+        if (i == currentNumerOfCabinets - 1) {
+          let widthDiff =
+            pureShelfWidth - cabinetWidth * currentNumerOfCabinets;
+
+          if (widthDiff != 0) {
+            currentCabinetToAdd.outerWidth += widthDiff;
+            currentCabinetToAdd.bottom.width += widthDiff;
+          }
+        }
+
+        this.cabinets.push(currentCabinetToAdd);
+      }
+    },
+    removeAllCabinets() {
+      if (this.cabinets.length > 0) {
+        this.cabinets = [];
+        this.numberOfCabinets = 0;
+        this.$store.dispatch("removeAllUpperInnerCabinets");
+      }
     }
   },
   mounted() {
-    this.standardFeetHeight = this.$store.state.standardFeetHeightOfCabinet;
-
-    for (let cabinet of this.$store.state.lowerShelf.cabinets) {
+    for (let cabinet of this.$store.state.upperShelf.cabinets) {
       this.cabinets.push(this.$getCabinetInstance(cabinet));
     }
 
