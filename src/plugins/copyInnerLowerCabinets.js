@@ -12,7 +12,8 @@ export default {
           depth: parseInt(cabinet.bottom.depth)
         },
         sides: [],
-        shelfs: []
+        shelfs: [],
+        doors: []
       };
       /* add sides of cabinet */
       for (let side of cabinet.sides) {
@@ -35,6 +36,18 @@ export default {
 
         cabinetToAdd.shelfs.push(currentShelf);
       }
+
+      /* add doors of cabinet */
+      for (let door of cabinet.doors) {
+        let currentDoor = {
+          width: parseInt(door.width),
+          height: parseInt(door.height),
+          depth: parseInt(door.depth)
+        };
+
+        cabinetToAdd.doors.push(currentDoor);
+      }
+
       cabinetToAdd.isValid = cabinet.isValid;
       cabinetToAdd.isEdited = cabinet.isEdited;
 

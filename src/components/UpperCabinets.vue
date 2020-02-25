@@ -413,7 +413,8 @@ export default {
               depth: this.$store.state.upperShelf.depth
             }
           ],
-          shelfs: []
+          shelfs: [],
+          doors: []
         };
 
         currentCabinetToAdd.isValid = true;

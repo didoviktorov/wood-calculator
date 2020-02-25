@@ -430,7 +430,8 @@ export default {
               depth: this.$store.state.standardFeetHeightOfCabinet
             }
           ],
-          shelfs: []
+          shelfs: [],
+          doors: []
         };
 
         currentCabinetToAdd.isValid = true;
