@@ -11,6 +11,10 @@ export default {
           height: parseInt(cabinet.bottom.height),
           depth: parseInt(cabinet.bottom.depth)
         },
+        back: {
+          width: parseInt(cabinet.back.width),
+          height: parseInt(cabinet.back.height)
+        },
         sides: [],
         shelfs: [],
         doors: []

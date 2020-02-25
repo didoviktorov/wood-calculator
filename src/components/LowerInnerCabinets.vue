@@ -457,6 +457,7 @@ export default {
       let innerCabinetsWidth =
         cabinetWidth - 2 * this.$store.state.staticOuterSideWidth;
 
+      const backDiff = 5;
       for (let i = 0; i < currentNumerOfCabinets; i++) {
         let currentCabinetToAdd = {
           outerWidth: cabinetWidth,
@@ -467,6 +468,10 @@ export default {
             width: cabinetWidth,
             height: this.$store.state.staticOuterSideWidth,
             depth: this.$store.state.lowerShelf.depth
+          },
+          back: {
+            width: cabinetWidth - backDiff,
+            height: heightOfCabinets - backDiff
           },
           sides: [
             {
