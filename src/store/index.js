@@ -89,6 +89,7 @@ export default new Vuex.Store({
       state.lowerShelf.cabinets = [];
     },
     SAVE_CABINET(state, params) {
+      console.log(params.editedCabinet);
       state.lowerShelf.cabinets.splice(
         params.cabinetIndex,
         1,

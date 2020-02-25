@@ -319,6 +319,68 @@
                   </v-btn>
                 </v-col>
               </v-row>
+              <!-- cabinet doors dimensions -->
+              <h5>Врати за шкаф {{ index + 1 }}</h5>
+              <v-row
+                v-for="(door, doorIndex) in cabinet.doors"
+                :key="doorIndex + 'd'"
+              >
+                <v-col cols="12" md="4">
+                  <v-text-field
+                    v-model="door.width"
+                    :rules="numberRules"
+                    :label="'Ширина врата ' + (doorIndex + 1)"
+                    outlined
+                    dense
+                    required
+                  ></v-text-field>
+                </v-col>
+
+                <v-col cols="12" md="4">
+                  <v-text-field
+                    v-model="door.height"
+                    :rules="numberRules"
+                    :label="'Височина врата ' + (doorIndex + 1)"
+                    outlined
+                    dense
+                    required
+                  ></v-text-field>
+                </v-col>
+
+                <v-col cols="12" md="4">
+                  <v-text-field
+                    v-model="door.depth"
+                    :rules="numberRules"
+                    :label="'Дълбочина врата ' + (doorIndex + 1)"
+                    outlined
+                    dense
+                    required
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+              <v-row align="center" justify="center">
+                <v-col cols="6">
+                  <v-btn
+                    :disabled="
+                      !cabinet.isValid ||
+                        cabinet.doors.length == $store.state.maxNumberOfDoors
+                    "
+                    color="info"
+                    @click="addDoor(cabinet)"
+                  >
+                    добави врата
+                  </v-btn>
+                </v-col>
+                <v-col cols="6">
+                  <v-btn
+                    :disabled="cabinet.doors.length == 0 || !cabinet.isValid"
+                    color="error"
+                    @click="removeDoor(cabinet)"
+                  >
+                    изтрий врата
+                  </v-btn>
+                </v-col>
+              </v-row>
               <v-row align="center" justify="center">
                 <v-col cols="12" class="col-no-top-padding">
                   <v-btn
@@ -471,7 +533,38 @@ export default {
     },
     removeShelf(cabinet) {
       if (cabinet.shelfs.length > 0) {
-        cabinet.shelfs.splice(cabinet.shelfs.lengt - 1, 1);
+        cabinet.shelfs.splice(cabinet.shelfs.length - 1, 1);
+      }
+    },
+    addDoor(cabinet) {
+      let numberOfDoors = cabinet.doors.length + 1;
+      let availableWidth = Math.round(
+        parseInt(cabinet.outerWidth) / numberOfDoors
+      );
+
+      const diff = 7;
+      for (let door of cabinet.doors) {
+        door.width = availableWidth - diff;
+      }
+
+      let doorToAdd = {
+        width: availableWidth - diff,
+        height: cabinet.height - diff,
+        depth: this.$store.state.staticOuterSideWidth
+      };
+
+      cabinet.doors.push(doorToAdd);
+    },
+    removeDoor(cabinet) {
+      cabinet.doors.splice(cabinet.doors.length - 1, 1);
+      if (cabinet.doors.length > 0) {
+        const diff = 7;
+        let availableWidth = Math.round(
+          parseInt(cabinet.outerWidth) / cabinet.doors.length
+        );
+        for (let door of cabinet.doors) {
+          door.width = availableWidth - diff;
+        }
       }
     },
     addInnerCabinetsToStore() {
