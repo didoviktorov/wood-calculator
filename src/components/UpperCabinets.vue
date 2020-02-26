@@ -301,7 +301,6 @@
                     outlined
                     dense
                     required
-                    disabled
                   ></v-text-field>
                 </v-col>
 
@@ -313,7 +312,6 @@
                     outlined
                     dense
                     required
-                    disabled
                   ></v-text-field>
                 </v-col>
 
@@ -325,7 +323,6 @@
                     outlined
                     dense
                     required
-                    disabled
                   ></v-text-field>
                 </v-col>
               </v-row>

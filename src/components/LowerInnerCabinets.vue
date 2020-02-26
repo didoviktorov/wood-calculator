@@ -333,7 +333,6 @@
                     outlined
                     dense
                     required
-                    disabled
                   ></v-text-field>
                 </v-col>
 
@@ -345,7 +344,6 @@
                     outlined
                     dense
                     required
-                    disabled
                   ></v-text-field>
                 </v-col>
 
@@ -357,7 +355,6 @@
                     outlined
                     dense
                     required
-                    disabled
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -583,6 +580,13 @@ export default {
       this.$store.dispatch("addLowerShelfCabinets", args);
     },
     editCabinet(index) {
+      let lowerShelfSidesWidth = 0;
+      for (let side of this.$store.state.lowerShelf.outerSides) {
+        lowerShelfSidesWidth += side.width;
+      }
+      
+      let shelfWidthToEdit = this.$store.state.lowerShelf.width - lowerShelfSidesWidth;
+      this.$editCabinets(this.cabinets, index, shelfWidthToEdit, true);
       let cabinetToEdit = this.$getCabinetInstance(this.cabinets[index]);
 
       cabinetToEdit.isEdited = true;
