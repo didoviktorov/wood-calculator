@@ -6,6 +6,7 @@ export default {
         innerWidth: parseInt(cabinet.innerWidth),
         height: parseInt(cabinet.height),
         depth: parseInt(cabinet.depth),
+        showCabinetElements: cabinet.showCabinetElements,
         bottom: {
           width: parseInt(cabinet.bottom.width),
           height: parseInt(cabinet.bottom.height),

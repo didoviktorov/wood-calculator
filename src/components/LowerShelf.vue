@@ -6,7 +6,6 @@
           <v-col cols="12">
             <div class="LowerShelf">
               <h1>{{ shelfObject.title }}</h1>
-              <span>{{ getPureWidth }}</span>
               <!-- Metric unit region -->
               <v-row align="center" justify="center">
                 <v-col cols="12">
@@ -346,9 +345,6 @@ export default {
         this.$store.state.lowerShelf.height > 0 &&
         this.$store.state.lowerShelf.depth > 0
       );
-    },
-    getPureWidth() {
-      return this.$store.getters.getLowerShelfPureWidth;
     },
     calculationUnit() {
       return this.$store.state.calculationUnit;
