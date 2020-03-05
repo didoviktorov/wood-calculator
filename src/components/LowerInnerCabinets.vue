@@ -160,6 +160,7 @@
                       outlined
                       dense
                       required
+                      @change="changeDepthCabinet(cabinet, index)"
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -418,7 +419,12 @@
                   </v-row>
                 </div>
                 <v-row align="center" justify="center">
-                  <v-col cols="12" md="3" justify-content>
+                  <v-col
+                    cols="12"
+                    md="3"
+                    justify-content
+                    class="col-no-padding"
+                  >
                     <div>
                       <v-btn
                         color="info"
@@ -591,6 +597,52 @@ export default {
             width: this.$store.state.staticOuterSideWidth,
             height: newHeight - this.$store.state.staticOuterSideWidth,
             depth: this.$store.state.lowerShelf.depth
+          };
+
+          cabinetToChange.sides.push(newSide);
+        }
+
+        this.cabinets.splice(index, 1, cabinetToChange);
+      }
+    },
+    changeDepthCabinet(cabinet, index) {
+      if (cabinet.isValid) {
+        let newDepth = parseInt(cabinet.depth);
+
+        let cabinetToChange = {
+          outerWidth: cabinet.outerWidth,
+          innerWidth: cabinet.innerWidth,
+          height: cabinet.height,
+          isValid: cabinet.isValid,
+          isEdited: cabinet.isEdited,
+          depth: newDepth,
+          showCabinetElements: cabinet.showCabinetElements,
+          bottom: {
+            width: cabinet.outerWidth,
+            height: cabinet.bottom.height,
+            depth: newDepth
+          },
+          back: {
+            width: cabinet.back.width,
+            height: cabinet.back.height
+          },
+          sides: [],
+          upperHolders: cabinet.upperHolders,
+          shelfs: [],
+          doors: cabinet.doors
+        };
+
+        if (cabinet.shelfs.length > 0) {
+          for (let i = 0; i < cabinet.shelfs.length; i++) {
+            this.addShelf(cabinetToChange);
+          }
+        }
+
+        for (let i = 0; i < cabinet.sides.length; i++) {
+          let newSide = {
+            width: this.$store.state.staticOuterSideWidth,
+            height: cabinet.sides[i].height,
+            depth: newDepth
           };
 
           cabinetToChange.sides.push(newSide);

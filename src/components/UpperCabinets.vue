@@ -91,6 +91,7 @@
                       outlined
                       dense
                       required
+                      @change="changeWidthCabinet(cabinet, index)"
                     ></v-text-field>
                   </v-col>
 
@@ -102,6 +103,7 @@
                       outlined
                       dense
                       required
+                      @change="changeHeightCabinet(cabinet, index)"
                     ></v-text-field>
                   </v-col>
 
@@ -113,253 +115,286 @@
                       outlined
                       dense
                       required
+                      @change="changeDepthCabinet(cabinet, index)"
                     ></v-text-field>
                   </v-col>
                 </v-row>
-                <h5>Дъно шкаф {{ index + 1 }}</h5>
-                <!-- cabinet bottom dimensions -->
-                <v-row>
-                  <v-col cols="12" md="4">
-                    <v-text-field
-                      v-model="cabinet.bottom.width"
-                      :rules="numberRules"
-                      label="Ширина дъно"
-                      outlined
-                      dense
-                      required
-                    ></v-text-field>
-                  </v-col>
+                <div v-if="cabinet.showCabinetElements">
+                  <h5>Дъно шкаф {{ index + 1 }}</h5>
+                  <!-- cabinet bottom dimensions -->
+                  <v-row>
+                    <v-col cols="12" md="4">
+                      <v-text-field
+                        v-model="cabinet.bottom.width"
+                        :rules="numberRules"
+                        label="Ширина дъно"
+                        outlined
+                        dense
+                        required
+                      ></v-text-field>
+                    </v-col>
 
-                  <v-col cols="12" md="4">
-                    <v-text-field
-                      v-model="cabinet.bottom.height"
-                      :rules="numberRules"
-                      label="Височина дъно"
-                      outlined
-                      dense
-                      required
-                    ></v-text-field>
-                  </v-col>
+                    <v-col cols="12" md="4">
+                      <v-text-field
+                        v-model="cabinet.bottom.height"
+                        :rules="numberRules"
+                        label="Височина дъно"
+                        outlined
+                        dense
+                        required
+                      ></v-text-field>
+                    </v-col>
 
-                  <v-col cols="12" md="4">
-                    <v-text-field
-                      v-model="cabinet.bottom.depth"
-                      :rules="numberRules"
-                      label="Дълбочина дъно"
-                      outlined
-                      dense
-                      required
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-                <h5>Горна страна шкаф {{ index + 1 }}</h5>
-                <!-- cabinet ceil dimensions -->
-                <v-row>
-                  <v-col cols="12" md="4">
-                    <v-text-field
-                      v-model="cabinet.ceil.width"
-                      :rules="numberRules"
-                      label="Ширина горна страна"
-                      outlined
-                      dense
-                      required
-                    ></v-text-field>
-                  </v-col>
+                    <v-col cols="12" md="4">
+                      <v-text-field
+                        v-model="cabinet.bottom.depth"
+                        :rules="numberRules"
+                        label="Дълбочина дъно"
+                        outlined
+                        dense
+                        required
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                  <h5>Горна страна шкаф {{ index + 1 }}</h5>
+                  <!-- cabinet ceil dimensions -->
+                  <v-row>
+                    <v-col cols="12" md="4">
+                      <v-text-field
+                        v-model="cabinet.ceil.width"
+                        :rules="numberRules"
+                        label="Ширина горна страна"
+                        outlined
+                        dense
+                        required
+                      ></v-text-field>
+                    </v-col>
 
-                  <v-col cols="12" md="4">
-                    <v-text-field
-                      v-model="cabinet.ceil.height"
-                      :rules="numberRules"
-                      label="Височина горна страна"
-                      outlined
-                      dense
-                      required
-                    ></v-text-field>
-                  </v-col>
+                    <v-col cols="12" md="4">
+                      <v-text-field
+                        v-model="cabinet.ceil.height"
+                        :rules="numberRules"
+                        label="Височина горна страна"
+                        outlined
+                        dense
+                        required
+                      ></v-text-field>
+                    </v-col>
 
-                  <v-col cols="12" md="4">
-                    <v-text-field
-                      v-model="cabinet.ceil.depth"
-                      :rules="numberRules"
-                      label="Дълбочина горна страна"
-                      outlined
-                      dense
-                      required
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-                <!-- cabinet sides dimensions -->
-                <h5>Страници шкаф {{ index + 1 }}</h5>
-                <v-row
-                  v-for="(side, sideIndex) in cabinet.sides"
-                  :key="sideIndex + 's'"
-                >
-                  <v-col cols="12" md="4">
-                    <v-text-field
-                      v-model="side.width"
-                      :rules="numberRules"
-                      :label="'Ширина страница ' + (sideIndex + 1)"
-                      outlined
-                      dense
-                      required
-                    ></v-text-field>
-                  </v-col>
+                    <v-col cols="12" md="4">
+                      <v-text-field
+                        v-model="cabinet.ceil.depth"
+                        :rules="numberRules"
+                        label="Дълбочина горна страна"
+                        outlined
+                        dense
+                        required
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                  <!-- cabinet sides dimensions -->
+                  <h5>Страници шкаф {{ index + 1 }}</h5>
+                  <v-row
+                    v-for="(side, sideIndex) in cabinet.sides"
+                    :key="sideIndex + 's'"
+                  >
+                    <v-col cols="12" md="4">
+                      <v-text-field
+                        v-model="side.width"
+                        :rules="numberRules"
+                        :label="'Ширина страница ' + (sideIndex + 1)"
+                        outlined
+                        dense
+                        required
+                      ></v-text-field>
+                    </v-col>
 
-                  <v-col cols="12" md="4">
-                    <v-text-field
-                      v-model="side.height"
-                      :rules="numberRules"
-                      :label="'Височина страница ' + (sideIndex + 1)"
-                      outlined
-                      dense
-                      required
-                    ></v-text-field>
-                  </v-col>
+                    <v-col cols="12" md="4">
+                      <v-text-field
+                        v-model="side.height"
+                        :rules="numberRules"
+                        :label="'Височина страница ' + (sideIndex + 1)"
+                        outlined
+                        dense
+                        required
+                      ></v-text-field>
+                    </v-col>
 
-                  <v-col cols="12" md="4">
-                    <v-text-field
-                      v-model="side.depth"
-                      :rules="numberRules"
-                      :label="'Дълбочина страница ' + (sideIndex + 1)"
-                      outlined
-                      dense
-                      required
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
+                    <v-col cols="12" md="4">
+                      <v-text-field
+                        v-model="side.depth"
+                        :rules="numberRules"
+                        :label="'Дълбочина страница ' + (sideIndex + 1)"
+                        outlined
+                        dense
+                        required
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
 
-                <!-- cabinet shelfs dimensions -->
-                <h5>Рафтове за шкаф {{ index + 1 }}</h5>
-                <v-row
-                  v-for="(shelf, shelfIndex) in cabinet.shelfs"
-                  :key="shelfIndex + 'q'"
-                >
-                  <v-col cols="12" md="4">
-                    <v-text-field
-                      v-model="shelf.width"
-                      :rules="numberRules"
-                      :label="'Ширина рафт ' + (shelfIndex + 1)"
-                      outlined
-                      dense
-                      required
-                    ></v-text-field>
-                  </v-col>
+                  <!-- cabinet shelfs dimensions -->
+                  <h5>Рафтове за шкаф {{ index + 1 }}</h5>
+                  <v-row
+                    v-for="(shelf, shelfIndex) in cabinet.shelfs"
+                    :key="shelfIndex + 'q'"
+                  >
+                    <v-col cols="12" md="4">
+                      <v-text-field
+                        v-model="shelf.width"
+                        :rules="numberRules"
+                        :label="'Ширина рафт ' + (shelfIndex + 1)"
+                        outlined
+                        dense
+                        required
+                      ></v-text-field>
+                    </v-col>
 
-                  <v-col cols="12" md="4">
-                    <v-text-field
-                      v-model="shelf.height"
-                      :rules="numberRules"
-                      :label="'Височина рафт ' + (shelfIndex + 1)"
-                      outlined
-                      dense
-                      required
-                    ></v-text-field>
-                  </v-col>
+                    <v-col cols="12" md="4">
+                      <v-text-field
+                        v-model="shelf.height"
+                        :rules="numberRules"
+                        :label="'Височина рафт ' + (shelfIndex + 1)"
+                        outlined
+                        dense
+                        required
+                      ></v-text-field>
+                    </v-col>
 
-                  <v-col cols="12" md="4">
-                    <v-text-field
-                      v-model="shelf.depth"
-                      :rules="numberRules"
-                      :label="'Дълбочина рафт ' + (shelfIndex + 1)"
-                      outlined
-                      dense
-                      required
-                    ></v-text-field>
+                    <v-col cols="12" md="4">
+                      <v-text-field
+                        v-model="shelf.depth"
+                        :rules="numberRules"
+                        :label="'Дълбочина рафт ' + (shelfIndex + 1)"
+                        outlined
+                        dense
+                        required
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                  <v-row align="center" justify="center">
+                    <v-col cols="6">
+                      <v-btn
+                        :disabled="!cabinet.isValid"
+                        color="info"
+                        @click="addShelf(cabinet)"
+                      >
+                        добави рафт
+                      </v-btn>
+                    </v-col>
+                    <v-col cols="6">
+                      <v-btn
+                        :disabled="
+                          cabinet.shelfs.length == 0 || !cabinet.isValid
+                        "
+                        color="error"
+                        @click="removeShelf(cabinet)"
+                      >
+                        изтрий рафт
+                      </v-btn>
+                    </v-col> </v-row
+                  ><!-- cabinet doors dimensions -->
+                  <h5>Врати за шкаф {{ index + 1 }}</h5>
+                  <v-row
+                    v-for="(door, doorIndex) in cabinet.doors"
+                    :key="doorIndex + 'd'"
+                  >
+                    <v-col cols="12" md="4">
+                      <v-text-field
+                        v-model="door.width"
+                        :rules="numberRules"
+                        :label="'Ширина врата ' + (doorIndex + 1)"
+                        outlined
+                        dense
+                        required
+                      ></v-text-field>
+                    </v-col>
+
+                    <v-col cols="12" md="4">
+                      <v-text-field
+                        v-model="door.height"
+                        :rules="numberRules"
+                        :label="'Височина врата ' + (doorIndex + 1)"
+                        outlined
+                        dense
+                        required
+                      ></v-text-field>
+                    </v-col>
+
+                    <v-col cols="12" md="4">
+                      <v-text-field
+                        v-model="door.depth"
+                        :rules="numberRules"
+                        :label="'Дълбочина врата ' + (doorIndex + 1)"
+                        outlined
+                        dense
+                        required
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                  <v-row align="center" justify="center">
+                    <v-col cols="6">
+                      <v-btn
+                        :disabled="
+                          !cabinet.isValid ||
+                            cabinet.doors.length ==
+                              $store.state.maxNumberOfDoors
+                        "
+                        color="info"
+                        @click="addDoor(cabinet)"
+                      >
+                        добави врата
+                      </v-btn>
+                    </v-col>
+                    <v-col cols="6">
+                      <v-btn
+                        :disabled="
+                          cabinet.doors.length == 0 || !cabinet.isValid
+                        "
+                        color="error"
+                        @click="removeDoor(cabinet)"
+                      >
+                        изтрий врата
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                  <v-row align="center" justify="center">
+                    <v-col cols="12" class="col-no-top-padding">
+                      <v-btn
+                        :disabled="!cabinet.isValid"
+                        color="success"
+                        @click="editCabinet(index)"
+                      >
+                        запази шкаф
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                </div>
+                <v-row align="center" justify="center">
+                  <v-col
+                    cols="12"
+                    md="3"
+                    justify-content
+                    class="col-no-padding"
+                  >
+                    <div>
+                      <v-btn
+                        color="info"
+                        class="mx-2 delete-outer-side"
+                        fab
+                        dark
+                        small
+                        @click="showHideCabinetElements(index)"
+                      >
+                        <v-icon>{{
+                          cabinet.showCabinetElements
+                            ? "mdi-menu-up"
+                            : "mdi-menu-down"
+                        }}</v-icon>
+                      </v-btn>
+                    </div>
                   </v-col>
                 </v-row>
               </v-container>
-              <v-row align="center" justify="center">
-                <v-col cols="6">
-                  <v-btn
-                    :disabled="!cabinet.isValid"
-                    color="info"
-                    @click="addShelf(cabinet)"
-                  >
-                    добави рафт
-                  </v-btn>
-                </v-col>
-                <v-col cols="6">
-                  <v-btn
-                    :disabled="cabinet.shelfs.length == 0 || !cabinet.isValid"
-                    color="error"
-                    @click="removeShelf(cabinet)"
-                  >
-                    изтрий рафт
-                  </v-btn>
-                </v-col> </v-row
-              ><!-- cabinet doors dimensions -->
-              <h5>Врати за шкаф {{ index + 1 }}</h5>
-              <v-row
-                v-for="(door, doorIndex) in cabinet.doors"
-                :key="doorIndex + 'd'"
-              >
-                <v-col cols="12" md="4">
-                  <v-text-field
-                    v-model="door.width"
-                    :rules="numberRules"
-                    :label="'Ширина врата ' + (doorIndex + 1)"
-                    outlined
-                    dense
-                    required
-                  ></v-text-field>
-                </v-col>
-
-                <v-col cols="12" md="4">
-                  <v-text-field
-                    v-model="door.height"
-                    :rules="numberRules"
-                    :label="'Височина врата ' + (doorIndex + 1)"
-                    outlined
-                    dense
-                    required
-                  ></v-text-field>
-                </v-col>
-
-                <v-col cols="12" md="4">
-                  <v-text-field
-                    v-model="door.depth"
-                    :rules="numberRules"
-                    :label="'Дълбочина врата ' + (doorIndex + 1)"
-                    outlined
-                    dense
-                    required
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-              <v-row align="center" justify="center">
-                <v-col cols="6">
-                  <v-btn
-                    :disabled="
-                      !cabinet.isValid ||
-                        cabinet.doors.length == $store.state.maxNumberOfDoors
-                    "
-                    color="info"
-                    @click="addDoor(cabinet)"
-                  >
-                    добави врата
-                  </v-btn>
-                </v-col>
-                <v-col cols="6">
-                  <v-btn
-                    :disabled="cabinet.doors.length == 0 || !cabinet.isValid"
-                    color="error"
-                    @click="removeDoor(cabinet)"
-                  >
-                    изтрий врата
-                  </v-btn>
-                </v-col>
-              </v-row>
-              <v-row align="center" justify="center">
-                <v-col cols="12" class="col-no-top-padding">
-                  <v-btn
-                    :disabled="!cabinet.isValid"
-                    color="success"
-                    @click="editCabinet(index)"
-                  >
-                    запази шкаф
-                  </v-btn>
-                </v-col>
-              </v-row>
             </v-form>
           </v-row>
         </div>
@@ -399,8 +434,155 @@ export default {
     }
   },
   methods: {
+    showHideCabinetElements(index) {
+      this.cabinets[index].showCabinetElements = !this.cabinets[index]
+        .showCabinetElements;
+    },
     openForEditHandler() {
       this.openForEdit = !this.openForEdit;
+    },
+    changeWidthCabinet(cabinet, index) {
+      if (cabinet.isValid) {
+        let newWidth = parseInt(cabinet.outerWidth);
+        let newInnerWidth =
+          newWidth - 2 * this.$store.state.staticOuterSideWidth;
+        let cabinetToChange = {
+          outerWidth: newWidth,
+          innerWidth: newInnerWidth,
+          height: cabinet.height,
+          isValid: cabinet.isValid,
+          isEdited: cabinet.isEdited,
+          depth: cabinet.depth,
+          showCabinetElements: cabinet.showCabinetElements,
+          bottom: {
+            width: newWidth,
+            height: cabinet.bottom.height,
+            depth: cabinet.bottom.depth
+          },
+          back: {
+            width: newWidth - this.$store.state.cabinetBackDiff,
+            height: cabinet.back.height
+          },
+          sides: cabinet.sides,
+          ceil: {
+            width: newWidth,
+            height: this.$store.state.staticOuterSideWidth,
+            depth: this.$store.state.upperShelf.depth
+          },
+          shelfs: [],
+          doors: []
+        };
+
+        if (cabinet.doors.length > 0) {
+          for (let i = 0; i < cabinet.doors.length; i++) {
+            this.addDoor(cabinetToChange);
+          }
+        }
+
+        if (cabinet.shelfs.length > 0) {
+          for (let i = 0; i < cabinet.shelfs.length; i++) {
+            this.addShelf(cabinetToChange);
+          }
+        }
+
+        this.cabinets.splice(index, 1, cabinetToChange);
+      }
+    },
+    changeHeightCabinet(cabinet, index) {
+      if (cabinet.isValid) {
+        let newHeight = parseInt(cabinet.height);
+
+        let cabinetToChange = {
+          outerWidth: cabinet.outerWidth,
+          innerWidth: cabinet.innerWidth,
+          height: newHeight,
+          isValid: cabinet.isValid,
+          isEdited: cabinet.isEdited,
+          depth: cabinet.depth,
+          showCabinetElements: cabinet.showCabinetElements,
+          bottom: {
+            width: cabinet.outerWidth,
+            height: cabinet.bottom.height,
+            depth: cabinet.bottom.depth
+          },
+          ceil: cabinet.ceil,
+          back: {
+            width: cabinet.back.width,
+            height: newHeight - this.$store.state.cabinetBackDiff
+          },
+          sides: [],
+          shelfs: cabinet.shelfs,
+          doors: []
+        };
+
+        if (cabinet.doors.length > 0) {
+          for (let i = 0; i < cabinet.doors.length; i++) {
+            this.addDoor(cabinetToChange);
+          }
+        }
+
+        for (let i = 0; i < cabinet.sides.length; i++) {
+          let newSide = {
+            width: this.$store.state.staticOuterSideWidth,
+            height: newHeight,
+            depth: this.$store.state.upperShelf.depth
+          };
+
+          cabinetToChange.sides.push(newSide);
+        }
+
+        this.cabinets.splice(index, 1, cabinetToChange);
+      }
+    },
+    changeDepthCabinet(cabinet, index) {
+      if (cabinet.isValid) {
+        let newDepth = parseInt(cabinet.depth);
+
+        let cabinetToChange = {
+          outerWidth: cabinet.outerWidth,
+          innerWidth: cabinet.innerWidth,
+          height: cabinet.height,
+          isValid: cabinet.isValid,
+          isEdited: cabinet.isEdited,
+          depth: newDepth,
+          showCabinetElements: cabinet.showCabinetElements,
+          bottom: {
+            width: cabinet.outerWidth,
+            height: cabinet.bottom.height,
+            depth: newDepth
+          },
+          back: {
+            width: cabinet.back.width,
+            height: cabinet.back.height
+          },
+          sides: [],
+          ceil: {
+            width: cabinet.ceil.width,
+            height: this.$store.state.staticOuterSideWidth,
+            depth: newDepth
+          },
+          shelfs: [],
+          doors: cabinet.doors
+        };
+
+        if (cabinet.shelfs.length > 0) {
+          for (let i = 0; i < cabinet.shelfs.length; i++) {
+            this.addShelf(cabinetToChange);
+          }
+        }
+
+        for (let i = 0; i < cabinet.sides.length; i++) {
+          let newSide = {
+            width: this.$store.state.staticOuterSideWidth,
+            height: cabinet.sides[i].height,
+            depth: newDepth
+          };
+
+          cabinetToChange.sides.push(newSide);
+        }
+
+        this.cabinets.splice(index, 1, cabinetToChange);
+      }
     },
     addCabinetsToStore() {
       let args = {
@@ -434,36 +616,32 @@ export default {
     },
     addCabinets() {
       this.cabinets = [];
-      let pureShelfWidth = this.$store.getters.getUpperShelfPureWidth;
-      let currentNumerOfCabinets = parseInt(this.numberOfCabinets);
 
-      let cabinetWidth = Math.round(pureShelfWidth / currentNumerOfCabinets);
+      let currentNumerOfCabinets = parseInt(this.numberOfCabinets);
 
       let heightOfCabinets = this.$store.state.upperShelf.height;
 
       let cabinetsSidesHeight = heightOfCabinets;
 
-      let innerCabinetsWidth =
-        cabinetWidth - 2 * this.$store.state.staticOuterSideWidth;
-
-      const backDiff = 5;
+      const backDiff = this.$store.state.cabinetBackDiff;
       for (let i = 0; i < currentNumerOfCabinets; i++) {
         let currentCabinetToAdd = {
-          outerWidth: cabinetWidth,
-          innerWidth: innerCabinetsWidth,
+          outerWidth: 0,
+          innerWidth: 0,
           height: heightOfCabinets,
           depth: this.$store.state.upperShelf.depth,
+          showCabinetElements: false,
           bottom: {
-            width: innerCabinetsWidth,
+            width: 0,
             height: this.$store.state.staticOuterSideWidth,
             depth: this.$store.state.upperShelf.depth
           },
           back: {
-            width: cabinetWidth - backDiff,
+            width: 0,
             height: heightOfCabinets - backDiff
           },
           ceil: {
-            width: innerCabinetsWidth,
+            width: 0,
             height: this.$store.state.staticOuterSideWidth,
             depth: this.$store.state.upperShelf.depth
           },
@@ -485,17 +663,6 @@ export default {
 
         currentCabinetToAdd.isValid = true;
         currentCabinetToAdd.isEdited = false;
-
-        /* corerct width differences */
-        if (i == currentNumerOfCabinets - 1) {
-          let widthDiff =
-            pureShelfWidth - cabinetWidth * currentNumerOfCabinets;
-
-          if (widthDiff != 0) {
-            currentCabinetToAdd.outerWidth += widthDiff;
-            currentCabinetToAdd.bottom.width += widthDiff;
-          }
-        }
 
         this.cabinets.push(currentCabinetToAdd);
       }

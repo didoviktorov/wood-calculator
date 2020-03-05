@@ -15,3 +15,6 @@
   padding-bottom: 1rem;
   color: #1976d2;
 }
+.col-no-padding {
+  padding: 0 !important;
+}

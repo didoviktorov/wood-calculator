@@ -5,7 +5,6 @@
         <v-row align="center" justify="center">
           <v-col cols="12">
             <h1>{{ shelfObject.title }}</h1>
-            <span>{{ getPureWidth }}</span>
           </v-col>
         </v-row>
         <v-divider />
@@ -80,9 +79,6 @@ export default {
   computed: {
     shelfObject() {
       return this.$store.state.upperShelf;
-    },
-    getPureWidth() {
-      return this.$store.getters.getUpperShelfPureWidth;
     },
     calculationUnit() {
       return this.$store.state.calculationUnit;
