@@ -2,6 +2,22 @@
   <v-app>
     <v-content>
       <v-container>
+        <div
+          id="pure-width-left"
+          :class="{
+            positive: getPureWidthLeft >= 0,
+            negative: getPureWidthLeft < 0
+          }"
+        >
+          <span>
+            {{
+              "оставащи " +
+                getPureWidthLeft +
+                " " +
+                this.$store.state.calculationUnit
+            }}
+          </span>
+        </div>
         <v-row>
           <v-col cols="12">
             <v-divider />
@@ -412,6 +428,21 @@ export default {
     openForEdit: false
   }),
   computed: {
+    getPureWidthLeft() {
+      let remainingWidth = this.$store.getters.getUpperShelfPureWidth;
+      for (let cabinetIndex in this.cabinets) {
+        if (this.cabinets[cabinetIndex].isValid) {
+          if (this.$store.state.upperShelf.cabinets[cabinetIndex]) {
+            remainingWidth += this.$store.state.upperShelf.cabinets[
+              cabinetIndex
+            ].outerWidth;
+          }
+          remainingWidth -= parseInt(this.cabinets[cabinetIndex].outerWidth);
+        }
+      }
+
+      return remainingWidth;
+    },
     calculationUnit() {
       return this.$store.state.calculationUnit;
     },

@@ -18,3 +18,25 @@
 .col-no-padding {
   padding: 0 !important;
 }
+#pure-width-left {
+  top: 5%;
+  position: sticky;
+  max-width: 30%;
+  left: 100%;
+  z-index: 1;
+  border: 0.2rem solid rgba(0, 0, 0, 0.12);
+  border-radius: 1rem;
+  color: white;
+  padding: 0.2rem;
+  word-break: break-all;
+}
+
+.negative {
+  /* color: red; */
+  background-color: #ff5252;
+}
+
+.positive {
+  /* color: black; */
+  background-color: #4caf50;
+}

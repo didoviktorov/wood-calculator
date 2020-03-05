@@ -801,25 +801,4 @@ export default {
 };
 </script>
 
-<style scoped>
-#pure-width-left {
-  top: 5%;
-  position: sticky;
-  max-width: 30%;
-  left: 100%;
-  z-index: 1;
-  border: 0.2rem solid rgba(0, 0, 0, 0.12);
-  border-radius: 1rem;
-  color: white;
-}
-
-.negative {
-  /* color: red; */
-  background-color: #ff5252;
-}
-
-.positive {
-  /* color: black; */
-  background-color: #4caf50;
-}
-</style>
+<style scoped></style>
