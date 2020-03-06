@@ -208,6 +208,31 @@
                       ></v-text-field>
                     </v-col>
                   </v-row>
+                  <h5>Гръб горен шкаф {{ index + 1 }}</h5>
+                  <!-- cabinet back dimensions -->
+                  <v-row>
+                    <v-col cols="12" md="6">
+                      <v-text-field
+                        v-model="cabinet.back.width"
+                        :rules="numberRules"
+                        label="Ширина гръб"
+                        outlined
+                        dense
+                        required
+                      ></v-text-field>
+                    </v-col>
+
+                    <v-col cols="12" md="6">
+                      <v-text-field
+                        v-model="cabinet.back.height"
+                        :rules="numberRules"
+                        label="Височина гръб"
+                        outlined
+                        dense
+                        required
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
                   <!-- cabinet sides dimensions -->
                   <h5>Страници шкаф {{ index + 1 }}</h5>
                   <v-row

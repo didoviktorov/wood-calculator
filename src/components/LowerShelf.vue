@@ -2,6 +2,7 @@
   <v-app>
     <v-content>
       <v-container class="wrapper" fluid>
+        <SaveProject />
         <v-row align="center" justify="center">
           <v-col cols="12">
             <div class="LowerShelf">
@@ -313,11 +314,13 @@
 
 <script>
 import LowerInnerCabinets from "@/components/LowerInnerCabinets.vue";
+import SaveProject from "@/components/SaveProject.vue";
 
 export default {
   name: "LowerShelf",
   components: {
-    LowerInnerCabinets
+    LowerInnerCabinets,
+    SaveProject
   },
   data: () => ({
     validWholeShelf: false,
