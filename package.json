@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "core-js": "^3.6.4",
+    "docx": "^5.0.2",
+    "file-saver": "^2.0.2",
     "vue": "^2.6.11",
     "vue-router": "^3.1.5",
     "vuetify": "^2.1.0",

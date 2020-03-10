@@ -1,38 +1,35 @@
 <template>
   <div class="my-2">
-    <v-btn color="primary" @click="generateData">запази проект</v-btn>
+    <v-btn color="primary" @click="generateData">генерирай проект</v-btn>
   </div>
 </template>
 
 <script>
+import { Document, Paragraph, Packer, HeadingLevel } from "docx";
+import { saveAs } from "file-saver";
+
 export default {
   name: "SaveProject",
   components: {},
   data: () => ({}),
   computed: {},
   methods: {
-    saveCurrentProject() {
-      let filePath = "././assets/projects.json";
-      let data = JSON.stringify(this.$store.state);
-      let blob = new Blob([data], { type: "text/plain;charset=utf-8;" });
+    downloadFile(text) {
+      console.log();
+      let doc = new Document();
+      doc.addSection({
+        children: [
+          new Paragraph({
+            text: "Данни за шкафове",
+            heading: HeadingLevel.HEADING_1
+          }),
+          new Paragraph(text)
+        ]
+      });
 
-      if (navigator.msSaveBlob) {
-        // IE 10+
-        navigator.msSaveBlob(blob, filePath);
-      } else {
-        let link = document.createElement("a");
-        if (link.download !== undefined) {
-          // feature detection
-          // Browsers that support HTML5 download attribute
-          let url = URL.createObjectURL(blob);
-          link.setAttribute("href", url);
-          link.setAttribute("download", filePath);
-          link.style.visibility = "hidden";
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-        }
-      }
+      Packer.toBlob(doc).then(blob => {
+        saveAs(blob, "detailed_report.docx");
+      });
     },
     generateData() {
       let lowerShelf = this.$store.state.lowerShelf;
@@ -43,6 +40,26 @@ export default {
           "Брой долни шкафове " + lowerShelf.cabinets.length + "\r\n";
       }
 
+      let outerSidesDictionary = {};
+      for (let outerSide of lowerShelf.outerSides) {
+        let currentDimension = outerSide.depth + "/" + outerSide.height;
+        if (!outerSidesDictionary[currentDimension]) {
+          outerSidesDictionary[currentDimension] = 0;
+        }
+
+        outerSidesDictionary[currentDimension] += 1;
+      }
+
+      let indentation = "  ";
+      for (let prop in outerSidesDictionary) {
+        strResult +=
+          indentation +
+          outerSidesDictionary[prop] +
+          " X " +
+          prop +
+          " външни страници\r\n";
+      }
+
       let sidesDictionary = {};
       let bottomsDictionary = {};
       let shelfsDictionary = {};
@@ -50,6 +67,16 @@ export default {
       let doorsDictionary = {};
       let backsDictionary = {};
       for (let cabinet of lowerShelf.cabinets) {
+        /* outer sides */
+        for (let side of cabinet.sides) {
+          let currentDimension = side.depth + "/" + side.height;
+          if (!sidesDictionary[currentDimension]) {
+            sidesDictionary[currentDimension] = 0;
+          }
+
+          sidesDictionary[currentDimension] += 1;
+        }
+
         /* sides */
         for (let side of cabinet.sides) {
           let currentDimension = side.depth + "/" + side.height;
@@ -109,7 +136,6 @@ export default {
         backsDictionary[currentBackDimension] += 1;
       }
 
-      let indentation = "  ";
       for (let prop in sidesDictionary) {
         strResult +=
           indentation + sidesDictionary[prop] + " X " + prop + " страници\r\n";
@@ -251,6 +277,9 @@ export default {
           indentation + backsDictionary[prop] + " X " + prop + " гръб\r\n";
       }
 
+      if (strResult.length > 0) {
+        this.downloadFile(strResult);
+      }
       console.log(strResult);
     }
   }
