@@ -2,7 +2,6 @@
   <v-app>
     <v-content>
       <v-container class="wrapper" fluid>
-        <SaveProject />
         <v-row align="center" justify="center">
           <v-col cols="12">
             <h1>{{ shelfObject.title }}</h1>
@@ -66,12 +65,10 @@
 
 <script>
 import UpperCabinets from "@/components/UpperCabinets.vue";
-import SaveProject from "@/components/SaveProject.vue";
 
 export default {
   components: {
-    UpperCabinets,
-    SaveProject
+    UpperCabinets
   },
   data: () => ({
     validWholeShelf: false,

@@ -5,6 +5,7 @@
         <router-link to="/">Долни Шкафове</router-link> |
         <router-link to="/upper">Горни Шкафове</router-link>
       </div>
+      <SaveProject />
       <router-view />
     </v-content>
   </v-app>
@@ -12,11 +13,12 @@
 
 <script>
 // import Home from "./views/Home";
+import SaveProject from "./components/SaveProject";
 
 export default {
   name: "App",
 
-  components: {},
+  components: { SaveProject },
 
   data: () => ({
     //
