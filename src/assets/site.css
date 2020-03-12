@@ -5,7 +5,13 @@
   padding-bottom: 0 !important;
 }
 .wrapper {
-  max-width: 80% !important;
+  max-width: 95% !important;
+}
+.v-radio {
+  margin-right: 0.2rem !important;
+}
+.v-input--selection-controls__input {
+  margin-right: 0.3rem !important;
 }
 .header-section {
   padding-top: 2rem;

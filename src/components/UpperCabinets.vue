@@ -49,6 +49,7 @@
                 outlined
                 dense
                 required
+                type="number"
               ></v-text-field>
             </v-col>
           </v-row>
@@ -107,6 +108,7 @@
                       outlined
                       dense
                       required
+                      type="number"
                       @change="changeWidthCabinet(cabinet, index)"
                     ></v-text-field>
                   </v-col>
@@ -119,6 +121,7 @@
                       outlined
                       dense
                       required
+                      type="number"
                       @change="changeHeightCabinet(cabinet, index)"
                     ></v-text-field>
                   </v-col>
@@ -131,6 +134,7 @@
                       outlined
                       dense
                       required
+                      type="number"
                       @change="changeDepthCabinet(cabinet, index)"
                     ></v-text-field>
                   </v-col>
@@ -147,6 +151,7 @@
                         outlined
                         dense
                         required
+                        type="number"
                       ></v-text-field>
                     </v-col>
 
@@ -158,6 +163,7 @@
                         outlined
                         dense
                         required
+                        type="number"
                       ></v-text-field>
                     </v-col>
 
@@ -169,6 +175,7 @@
                         outlined
                         dense
                         required
+                        type="number"
                       ></v-text-field>
                     </v-col>
                   </v-row>
@@ -183,6 +190,7 @@
                         outlined
                         dense
                         required
+                        type="number"
                       ></v-text-field>
                     </v-col>
 
@@ -194,6 +202,7 @@
                         outlined
                         dense
                         required
+                        type="number"
                       ></v-text-field>
                     </v-col>
 
@@ -205,6 +214,7 @@
                         outlined
                         dense
                         required
+                        type="number"
                       ></v-text-field>
                     </v-col>
                   </v-row>
@@ -219,6 +229,7 @@
                         outlined
                         dense
                         required
+                        type="number"
                       ></v-text-field>
                     </v-col>
 
@@ -230,6 +241,7 @@
                         outlined
                         dense
                         required
+                        type="number"
                       ></v-text-field>
                     </v-col>
                   </v-row>
@@ -247,6 +259,7 @@
                         outlined
                         dense
                         required
+                        type="number"
                       ></v-text-field>
                     </v-col>
 
@@ -258,6 +271,7 @@
                         outlined
                         dense
                         required
+                        type="number"
                       ></v-text-field>
                     </v-col>
 
@@ -269,6 +283,7 @@
                         outlined
                         dense
                         required
+                        type="number"
                       ></v-text-field>
                     </v-col>
                   </v-row>
@@ -287,6 +302,7 @@
                         outlined
                         dense
                         required
+                        type="number"
                       ></v-text-field>
                     </v-col>
 
@@ -298,6 +314,7 @@
                         outlined
                         dense
                         required
+                        type="number"
                       ></v-text-field>
                     </v-col>
 
@@ -309,6 +326,7 @@
                         outlined
                         dense
                         required
+                        type="number"
                       ></v-text-field>
                     </v-col>
                   </v-row>
@@ -347,6 +365,7 @@
                         outlined
                         dense
                         required
+                        type="number"
                       ></v-text-field>
                     </v-col>
 
@@ -358,6 +377,7 @@
                         outlined
                         dense
                         required
+                        type="number"
                       ></v-text-field>
                     </v-col>
 
@@ -369,6 +389,7 @@
                         outlined
                         dense
                         required
+                        type="number"
                       ></v-text-field>
                     </v-col>
                   </v-row>

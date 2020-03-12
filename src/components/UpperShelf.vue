@@ -22,6 +22,7 @@
                 outlined
                 dense
                 required
+                type="number"
               ></v-text-field>
             </v-col>
             <!-- Whole height region -->
@@ -33,6 +34,7 @@
                 outlined
                 dense
                 required
+                type="number"
               ></v-text-field>
             </v-col>
             <!-- Whole depth region -->
@@ -44,6 +46,7 @@
                 outlined
                 dense
                 required
+                type="number"
               ></v-text-field>
             </v-col>
             <v-col cols="12" sm="8" md="4" class="col-no-top-padding">
