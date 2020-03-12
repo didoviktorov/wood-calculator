@@ -99,7 +99,11 @@
             </v-col>
             <v-col cols="12" sm="6" md="3" class="col-no-top-padding">
               <v-btn
-                :disabled="!isAllCabinetsValid || cabinets.length == 0"
+                :disabled="
+                  !isAllCabinetsValid ||
+                    cabinets.length == 0 ||
+                    !validateCabinets
+                "
                 @click="addInnerCabinetsToStore"
                 color="success"
               >
@@ -545,6 +549,9 @@ export default {
         }
       }
       return true;
+    },
+    validateCabinets() {
+      return this.$validateCabinets(this.cabinets);
     }
   },
   methods: {

@@ -145,16 +145,6 @@ export default {
       let doorsDictionary = {};
       let backsDictionary = {};
       for (let cabinet of lowerShelf.cabinets) {
-        /* outer sides */
-        for (let side of cabinet.sides) {
-          let currentDimension = side.depth + "/" + side.height;
-          if (!sidesDictionary[currentDimension]) {
-            sidesDictionary[currentDimension] = 0;
-          }
-
-          sidesDictionary[currentDimension] += 1;
-        }
-
         /* sides */
         for (let side of cabinet.sides) {
           let currentDimension = side.depth + "/" + side.height;

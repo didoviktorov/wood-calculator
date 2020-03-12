@@ -69,7 +69,11 @@
             </v-col>
             <v-col cols="12" sm="6" md="3" class="col-no-top-padding">
               <v-btn
-                :disabled="!isAllCabinetsValid || cabinets.length == 0"
+                :disabled="
+                  !isAllCabinetsValid ||
+                    cabinets.length == 0 ||
+                    !validateCabinets
+                "
                 @click="addCabinetsToStore"
                 color="success"
               >
@@ -508,6 +512,9 @@ export default {
         }
       }
       return true;
+    },
+    validateCabinets() {
+      return this.$validateCabinets(this.cabinets);
     }
   },
   methods: {
@@ -532,7 +539,7 @@ export default {
           depth: cabinet.depth,
           showCabinetElements: cabinet.showCabinetElements,
           bottom: {
-            width: newWidth,
+            width: newWidth - this.$store.state.staticOuterSideWidth * 2,
             height: cabinet.bottom.height,
             depth: cabinet.bottom.depth
           },
@@ -542,7 +549,7 @@ export default {
           },
           sides: cabinet.sides,
           ceil: {
-            width: newWidth,
+            width: newWidth - this.$store.state.staticOuterSideWidth * 2,
             height: this.$store.state.staticOuterSideWidth,
             depth: this.$store.state.upperShelf.depth
           },

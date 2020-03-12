@@ -1,3 +1,4 @@
 module.exports = {
-  transpileDependencies: ["vuetify"]
+  transpileDependencies: ["vuetify", "docx", "file-saver", "jspdf"],
+  productionSourceMap: false
 };
