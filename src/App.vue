@@ -38,6 +38,15 @@
               </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title>
+                <router-link class="navigation-link" to="/other"
+                  >Други Детайли</router-link
+                >
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
         </v-list>
       </v-navigation-drawer>
       <SaveProject />
