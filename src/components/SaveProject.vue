@@ -119,9 +119,12 @@ export default {
       }
 
       let indentation = "  ";
+      let boldEdge = 0;
+      let lightEdge = 0;
 
       let outerSidesDictionary = {};
       for (let outerSide of lowerShelf.outerSides) {
+        lightEdge += outerSide.height;
         let currentDimension =
           (outerSide.height > outerSide.depth ? "д" : "к") +
           indentation +
@@ -139,7 +142,7 @@ export default {
         strResult +=
           indentation +
           prop +
-          " X " +
+          " x " +
           outerSidesDictionary[prop] +
           " външни страници\r\n";
       }
@@ -153,6 +156,7 @@ export default {
       for (let cabinet of lowerShelf.cabinets) {
         /* sides */
         for (let side of cabinet.sides) {
+          lightEdge += side.height;
           let currentDimension =
             (side.height > side.depth ? "д" : "к") +
             indentation +
@@ -167,6 +171,7 @@ export default {
         }
 
         /* bottoms */
+        lightEdge += cabinet.bottom.width;
         let currentBottomDimension =
           (cabinet.bottom.width > cabinet.bottom.depth ? "д" : "к") +
           indentation +
@@ -181,6 +186,7 @@ export default {
 
         /* upper holders */
         for (let holder of cabinet.upperHolders) {
+          lightEdge += holder.width;
           let currentDimension =
             (holder.width > holder.depth ? "д" : "к") +
             indentation +
@@ -196,6 +202,7 @@ export default {
 
         /* shelfs */
         for (let shelf of cabinet.shelfs) {
+          lightEdge += shelf.width;
           let currentDimension =
             (shelf.width > shelf.depth ? "д" : "к") +
             indentation +
@@ -216,7 +223,7 @@ export default {
           if (!doorsDictionary[currentDimension]) {
             doorsDictionary[currentDimension] = 0;
           }
-
+          boldEdge += 2 * (door.height + door.width);
           doorsDictionary[currentDimension] += 1;
         }
 
@@ -232,36 +239,36 @@ export default {
 
       for (let prop in sidesDictionary) {
         strResult +=
-          indentation + prop + " X " + sidesDictionary[prop] + " страници\r\n";
+          indentation + prop + " x " + sidesDictionary[prop] + " страници\r\n";
       }
 
       for (let prop in bottomsDictionary) {
         strResult +=
-          indentation + prop + " X " + bottomsDictionary[prop] + " дъна\r\n";
+          indentation + prop + " x " + bottomsDictionary[prop] + " дъна\r\n";
       }
 
       for (let prop in holdersDictionary) {
         strResult +=
           indentation +
           prop +
-          " X " +
+          " x " +
           holdersDictionary[prop] +
           " подплотници\r\n";
       }
 
       for (let prop in shelfsDictionary) {
         strResult +=
-          indentation + prop + " X " + shelfsDictionary[prop] + " рафтове\r\n";
+          indentation + prop + " x " + shelfsDictionary[prop] + " рафтове\r\n";
       }
 
       for (let prop in doorsDictionary) {
         strResult +=
-          indentation + prop + " X " + doorsDictionary[prop] + " врати\r\n";
+          indentation + prop + " x " + doorsDictionary[prop] + " врати\r\n";
       }
 
       for (let prop in backsDictionary) {
         strResult +=
-          indentation + prop + " X " + backsDictionary[prop] + " гръб\r\n";
+          indentation + prop + " x " + backsDictionary[prop] + " гръб\r\n";
       }
 
       let upperShelf = this.$store.state.upperShelf;
@@ -273,6 +280,8 @@ export default {
 
       outerSidesDictionary = {};
       for (let outerSide of upperShelf.outerSides) {
+        lightEdge += outerSide.height;
+        lightEdge += outerSide.depth;
         let currentDimension =
           "д/к" + indentation + outerSide.height + "/" + outerSide.depth;
         if (!outerSidesDictionary[currentDimension]) {
@@ -286,7 +295,7 @@ export default {
         strResult +=
           indentation +
           prop +
-          " X " +
+          " x " +
           outerSidesDictionary[prop] +
           " външни страници\r\n";
       }
@@ -300,12 +309,10 @@ export default {
       for (let cabinet of upperShelf.cabinets) {
         /* sides */
         for (let side of cabinet.sides) {
+          lightEdge += side.height;
+          lightEdge += side.depth;
           let currentDimension =
-            (side.height > side.depth ? "д" : "к") +
-            indentation +
-            side.height +
-            "/" +
-            side.depth;
+            "д/к " + indentation + side.height + "/" + side.depth;
           if (!sidesDictionary[currentDimension]) {
             sidesDictionary[currentDimension] = 0;
           }
@@ -314,6 +321,7 @@ export default {
         }
 
         /* bottoms */
+        lightEdge += cabinet.bottom.width;
         let currentBottomDimension =
           (cabinet.bottom.width > cabinet.bottom.depth ? "д" : "к") +
           indentation +
@@ -327,6 +335,7 @@ export default {
         bottomsDictionary[currentBottomDimension] += 1;
 
         /* ceils */
+        lightEdge += cabinet.ceil.width;
         let currentCeilDimension =
           (cabinet.ceil.width > cabinet.ceil.depth ? "д" : "к") +
           indentation +
@@ -341,6 +350,7 @@ export default {
 
         /* shelfs */
         for (let shelf of cabinet.shelfs) {
+          lightEdge += shelf.width;
           let currentDimension =
             (shelf.width > shelf.depth ? "д" : "к") +
             indentation +
@@ -362,6 +372,7 @@ export default {
             doorsDictionary[currentDimension] = 0;
           }
 
+          boldEdge += 2 * (door.height + door.width);
           doorsDictionary[currentDimension] += 1;
         }
 
@@ -377,27 +388,88 @@ export default {
 
       for (let prop in sidesDictionary) {
         strResult +=
-          indentation + prop + " X " + sidesDictionary[prop] + " страници\r\n";
+          indentation + prop + " x " + sidesDictionary[prop] + " страници\r\n";
       }
 
       for (let prop in bottomsDictionary) {
         strResult +=
-          indentation + prop + " X " + bottomsDictionary[prop] + " дъна\r\n";
+          indentation + prop + " x " + bottomsDictionary[prop] + " дъна\r\n";
       }
 
       for (let prop in shelfsDictionary) {
         strResult +=
-          indentation + prop + " X " + shelfsDictionary[prop] + " рафтове\r\n";
+          indentation + prop + " x " + shelfsDictionary[prop] + " рафтове\r\n";
       }
 
       for (let prop in doorsDictionary) {
         strResult +=
-          indentation + prop + " X " + doorsDictionary[prop] + " врати\r\n";
+          indentation + prop + " x " + doorsDictionary[prop] + " врати\r\n";
       }
 
       for (let prop in backsDictionary) {
         strResult +=
-          indentation + prop + " X " + backsDictionary[prop] + " гръб\r\n";
+          indentation + prop + " x " + backsDictionary[prop] + " гръб\r\n";
+      }
+
+      if (this.$store.state.otherDetails.length) {
+        strResult += "\r\nДруги детайли\r\n";
+        strResult +=
+          "Брой други детайли " +
+          this.$store.state.otherDetails.length +
+          "\r\n\r\n";
+      }
+
+      let otherDetailsDictionary = {};
+      /* other details */
+      for (let detail of this.$store.state.otherDetails) {
+        let edge = "";
+        if (detail.length.hasEdging && detail.height.hasEdging) {
+          lightEdge += detail.length.value;
+          lightEdge += detail.height.value;
+          edge = "к/д";
+        } else if (detail.length.hasEdging && !detail.height.hasEdging) {
+          lightEdge += detail.length.value;
+          if (detail.length.value > detail.height.value) {
+            edge = "д";
+          } else {
+            edge = "к";
+          }
+        } else if (!detail.length.hasEdging && detail.height.hasEdging) {
+          lightEdge += detail.height.value;
+          if (detail.height.value > detail.length.value) {
+            edge = "д";
+          } else {
+            edge = "к";
+          }
+        }
+        let currentDimension =
+          edge + indentation + detail.height.value + "/" + detail.length.value;
+        if (!otherDetailsDictionary[currentDimension]) {
+          otherDetailsDictionary[currentDimension] = 0;
+        }
+
+        otherDetailsDictionary[currentDimension] += 1;
+      }
+
+      for (let prop in otherDetailsDictionary) {
+        strResult +=
+          indentation +
+          prop +
+          " x " +
+          otherDetailsDictionary[prop] +
+          " детайл\r\n";
+      }
+
+      if (boldEdge > 0 || lightEdge > 0) {
+        strResult += "\r\nДължини на кант\r\n";
+      }
+
+      if (boldEdge > 0) {
+        strResult += indentation + "Дебел кант " + boldEdge + "\r\n";
+      }
+
+      if (lightEdge > 0) {
+        strResult += indentation + "Тънък кант " + lightEdge;
       }
 
       this.textToExport = strResult;
