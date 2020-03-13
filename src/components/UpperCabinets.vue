@@ -445,7 +445,7 @@
                     <div>
                       <v-btn
                         color="info"
-                        class="mx-2 delete-outer-side"
+                        class="mx-2"
                         fab
                         dark
                         small

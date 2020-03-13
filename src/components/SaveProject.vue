@@ -239,10 +239,29 @@ export default {
       }
 
       let upperShelf = this.$store.state.upperShelf;
-      if (upperShelf.cabinets.length) {
+      if (upperShelf.cabinets.length || upperShelf.outerSides.length) {
         strResult += "\r\nГорни шкафове\r\n";
         strResult +=
           "Брой горни шкафове " + upperShelf.cabinets.length + "\r\n\r\n";
+      }
+
+      outerSidesDictionary = {};
+      for (let outerSide of upperShelf.outerSides) {
+        let currentDimension = outerSide.depth + "/" + outerSide.height;
+        if (!outerSidesDictionary[currentDimension]) {
+          outerSidesDictionary[currentDimension] = 0;
+        }
+
+        outerSidesDictionary[currentDimension] += 1;
+      }
+
+      for (let prop in outerSidesDictionary) {
+        strResult +=
+          indentation +
+          outerSidesDictionary[prop] +
+          " X " +
+          prop +
+          " външни страници\r\n";
       }
 
       let ceilsDictionary = {};

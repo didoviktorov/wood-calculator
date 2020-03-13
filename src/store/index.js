@@ -21,7 +21,8 @@ export default new Vuex.Store({
       height: 0,
       width: 0,
       depth: 0,
-      cabinets: []
+      cabinets: [],
+      outerSides: []
     },
     calculationUnit: "мм",
     staticOuterSideWidth: 18,
@@ -71,11 +72,25 @@ export default new Vuex.Store({
       };
       state.lowerShelf.outerSides.push(sideToAdd);
     },
+    ADD_UPPER_SHELF_OUTER_SIDE(state, side) {
+      let sideToAdd = {
+        width: parseInt(side.width),
+        height: parseInt(side.height),
+        depth: parseInt(side.depth)
+      };
+      state.upperShelf.outerSides.push(sideToAdd);
+    },
     REMOVE_SHELF_OUTER_SIDE(state, index) {
       state.lowerShelf.outerSides.splice(index, 1);
     },
+    REMOVE_UPPER_SHELF_OUTER_SIDE(state, index) {
+      state.upperShelf.outerSides.splice(index, 1);
+    },
     CLEAR_SHELF_OUTER_SIDES(state) {
       state.lowerShelf.outerSides = [];
+    },
+    CLEAR_UPPER_SHELF_OUTER_SIDES(state) {
+      state.upperShelf.outerSides = [];
     },
     CHANGE_CABINETS_FEETS_HEIGHT(state, value) {
       state.standardFeetHeightOfCabinet = value;
@@ -152,12 +167,23 @@ export default new Vuex.Store({
     addShelfOuterSide(store, side) {
       store.commit("ADD_SHELF_OUTER_SIDE", side);
     },
+    addUpperShelfOuterSide(store, side) {
+      store.commit("ADD_UPPER_SHELF_OUTER_SIDE", side);
+    },
     clearShelfOuterSides(store) {
       store.commit("CLEAR_SHELF_OUTER_SIDES");
+    },
+    clearUpperShelfOuterSides(store) {
+      store.commit("CLEAR_UPPER_SHELF_OUTER_SIDES");
     },
     removeShelfOuterSide(store, index) {
       if (index >= 0 && index < store.state.lowerShelf.outerSides.length) {
         store.commit("REMOVE_SHELF_OUTER_SIDE", index);
+      }
+    },
+    removeUpperShelfOuterSide(store, index) {
+      if (index >= 0 && index < store.state.upperShelf.outerSides.length) {
+        store.commit("REMOVE_UPPER_SHELF_OUTER_SIDE", index);
       }
     },
     changeInnerCabinetsFeetHeight(store, value) {
@@ -213,6 +239,10 @@ export default new Vuex.Store({
       let currentWidth = 0;
       for (let cabinet of state.upperShelf.cabinets) {
         currentWidth += cabinet.outerWidth;
+      }
+
+      for (let outerSide of state.upperShelf.outerSides) {
+        currentWidth += outerSide.width;
       }
 
       return state.upperShelf.width - currentWidth;

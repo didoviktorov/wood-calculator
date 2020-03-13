@@ -534,22 +534,4 @@ export default {
 .error-holder {
   color: red;
 }
-.left-button {
-  margin-right: 1rem;
-  margin-left: 1rem;
-  margin-top: 2rem;
-}
-.right-button {
-  margin-left: 1rem;
-  margin-right: 1rem;
-  margin-top: 2rem;
-}
-.sides-added {
-  color: #1976d2;
-  text-align: center;
-  margin-top: 2rem;
-}
-.delete-outer-side {
-  top: 1rem;
-}
 </style>
