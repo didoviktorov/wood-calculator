@@ -371,6 +371,9 @@ export default {
 </script>
 
 <style scoped>
+.text-center {
+  padding-top: 1.5rem;
+}
 .overlay-btn {
   padding-bottom: 1rem;
 }

@@ -74,14 +74,15 @@ export default {
 }
 
 .router-link-exact-active {
-  color: #1976d2;
+  color: #1976d2 !important;
 }
 
 .navigation-link {
   text-decoration: none;
   font-size: 1.2rem;
 }
-a {
-  color: #121412;
+
+.v-application a:not(.router-link-exact-active) {
+  color: #121412 !important;
 }
 </style>

@@ -6,33 +6,6 @@
           <v-col cols="12">
             <div class="LowerShelf">
               <h1>{{ shelfObject.title }}</h1>
-              <!-- Metric unit region -->
-              <v-row align="center" justify="center">
-                <v-col cols="12">
-                  <h3>Мерна единица в {{ calculationUnit }}</h3>
-                  <div class="flex-center">
-                    <v-radio-group
-                      :value="calculationUnit"
-                      @change="changeMetricUnit"
-                      row
-                    >
-                      <template v-slot:label>
-                        <div>Промени мерна единица</div>
-                      </template>
-                      <v-radio value="мм">
-                        <template v-slot:label>
-                          <div><strong class="primary--text">ММ</strong></div>
-                        </template>
-                      </v-radio>
-                      <v-radio value="см">
-                        <template v-slot:label>
-                          <div><strong class="primary--text">СМ</strong></div>
-                        </template>
-                      </v-radio>
-                    </v-radio-group>
-                  </div>
-                </v-col>
-              </v-row>
             </div>
           </v-col>
         </v-row>
@@ -375,9 +348,6 @@ export default {
     }
   },
   methods: {
-    changeMetricUnit(unit) {
-      this.$store.dispatch("cnangeMetricUnit", unit);
-    },
     changeStaticSidewidth() {
       let newWidth = parseInt(this.staticSidewidth);
       this.$store.dispatch("changeStaticsidewidth", newWidth);

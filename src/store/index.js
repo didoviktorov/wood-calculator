@@ -32,9 +32,6 @@ export default new Vuex.Store({
     cabinetDoorDiff: 7
   },
   mutations: {
-    CHANGE_METRIC_UNIT(state, unit) {
-      state.calculationUnit = unit;
-    },
     CHANGE_STATIC_SIDE_WIDTH(state, newWidth) {
       state.staticOuterSideWidth = newWidth;
     },
@@ -140,9 +137,6 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    cnangeMetricUnit(store, unit) {
-      store.commit("CHANGE_METRIC_UNIT", unit);
-    },
     changeStaticsidewidth(store, newWidth) {
       store.commit("CHANGE_STATIC_SIDE_WIDTH", newWidth);
     },
