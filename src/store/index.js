@@ -24,6 +24,7 @@ export default new Vuex.Store({
       cabinets: [],
       outerSides: []
     },
+    otherDetails: [],
     calculationUnit: "мм",
     staticOuterSideWidth: 18,
     standardFeetHeightOfCabinet: 100,
@@ -134,9 +135,37 @@ export default new Vuex.Store({
         1,
         params.editedCabinet
       );
+    },
+    ADD_OTHER_DETAILS(state, newDetails) {
+      state.otherDetails = [];
+      for (let newDetail of newDetails) {
+        let detailToAdd = {
+          width: parseInt(newDetail.width),
+          height: {
+            hasEdging: newDetail.height.hasEdging,
+            value: parseInt(newDetail.height.value)
+          },
+          length: {
+            hasEdging: newDetail.length.hasEdging,
+            value: parseInt(newDetail.length.value)
+          },
+          isValid: newDetail.isValid
+        };
+
+        state.otherDetails.push(detailToAdd);
+      }
+    },
+    REMOVE_OTHER_DETAIL(state, index) {
+      state.otherDetails.splice(index, 1);
     }
   },
   actions: {
+    addOtherDetails(store, details) {
+      store.commit("ADD_OTHER_DETAILS", details);
+    },
+    removeOtherDetail(store, index) {
+      store.commit("REMOVE_OTHER_DETAIL", index);
+    },
     changeStaticsidewidth(store, newWidth) {
       store.commit("CHANGE_STATIC_SIDE_WIDTH", newWidth);
     },

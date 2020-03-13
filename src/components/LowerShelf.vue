@@ -4,7 +4,7 @@
       <v-container class="wrapper" fluid>
         <v-row align="center" justify="center">
           <v-col cols="12">
-            <div class="LowerShelf">
+            <div>
               <h1>{{ shelfObject.title }}</h1>
             </div>
           </v-col>

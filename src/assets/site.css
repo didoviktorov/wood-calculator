@@ -63,4 +63,15 @@
 }
 .delete-outer-side {
   top: 1rem;
+  position: inherit !important;
+}
+.v-content {
+  padding: 0 !important;
+}
+
+@media screen and (max-width: 960px) {
+  .v-input--selection-controls {
+    padding: 0 0 2rem 0 !important;
+    margin: 0 !important;
+  }
 }

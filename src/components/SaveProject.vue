@@ -408,7 +408,7 @@ export default {
 
 <style scoped>
 .text-center {
-  padding-top: 1.5rem;
+  padding-top: 5rem;
 }
 .overlay-btn {
   padding-bottom: 1rem;
@@ -424,19 +424,19 @@ export default {
   width: 100%;
   height: 100%;
   position: absolute;
-  z-index: 2;
+  z-index: 7;
   background-color: rgb(33, 33, 33);
   opacity: 0.5;
 }
 #overlay-buttons {
   position: absolute;
-  z-index: 3;
+  z-index: 8;
   top: 1rem;
   right: 1rem;
 }
 #overlay-text {
   position: absolute;
-  z-index: 3;
+  z-index: 8;
   left: 10%;
   right: 10%;
   background-color: white;
