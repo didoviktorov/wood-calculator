@@ -6,13 +6,21 @@
       <v-spacer></v-spacer>
       <v-menu offset-y>
         <template v-slot:activator="{ on }">
-          <v-btn color="primary" dark v-on="on">
-            език
+          <v-btn v-on="on">
+            <v-img v-if="selectedLang == 'BG'" src="./assets/bulgaria.png"></v-img>
+            <v-img v-else src="./assets/england.png"></v-img>
           </v-btn>
         </template>
         <v-list>
-          <v-list-item v-for="(item, index) in languages" :key="index">
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          <v-list-item @click="changeLang('BG')">
+            <v-list-item-title>
+              <v-img src="./assets/bulgaria.png"></v-img>
+            </v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="changeLang('EN')">
+            <v-list-item-title>
+              <v-img src="./assets/england.png"></v-img>
+            </v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -66,8 +74,15 @@ export default {
 
   data: () => ({
     drawer: false,
-    languages: [{ title: "BG" }, { title: "EN" }]
-  })
+    selectedLang: "BG",
+  }),
+  methods: {
+    changeLang(lang) {
+      if (lang != this.selectedLang) {
+        this.selectedLang = lang;
+      }
+    }
+  }
 };
 </script>
 
