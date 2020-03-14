@@ -158,7 +158,7 @@ export default {
         for (let side of cabinet.sides) {
           lightEdge += side.height;
           let currentDimension =
-            (side.height > side.depth ? "д" : "к") +
+            (side.height > side.depth ? "д" : (side.height == side.depth ? "д" : "к")) +
             indentation +
             side.height +
             "/" +
@@ -173,7 +173,7 @@ export default {
         /* bottoms */
         lightEdge += cabinet.bottom.width;
         let currentBottomDimension =
-          (cabinet.bottom.width > cabinet.bottom.depth ? "д" : "к") +
+          (cabinet.bottom.width > cabinet.bottom.depth ? "д" : (cabinet.bottom.width == cabinet.bottom.depth ? "д" : "к")) +
           indentation +
           cabinet.bottom.width +
           "/" +
@@ -188,7 +188,7 @@ export default {
         for (let holder of cabinet.upperHolders) {
           lightEdge += holder.width;
           let currentDimension =
-            (holder.width > holder.depth ? "д" : "к") +
+            (holder.width > holder.depth ? "д" : (holder.width == holder.depth ? "д" : "к")) +
             indentation +
             holder.width +
             "/" +
@@ -204,7 +204,7 @@ export default {
         for (let shelf of cabinet.shelfs) {
           lightEdge += shelf.width;
           let currentDimension =
-            (shelf.width > shelf.depth ? "д" : "к") +
+            (shelf.width > shelf.depth ? "д" : (shelf.width == shelf.depth ? "д" : "к")) +
             indentation +
             shelf.width +
             "/" +
@@ -323,7 +323,7 @@ export default {
         /* bottoms */
         lightEdge += cabinet.bottom.width;
         let currentBottomDimension =
-          (cabinet.bottom.width > cabinet.bottom.depth ? "д" : "к") +
+          (cabinet.bottom.width > cabinet.bottom.depth ? "д" : (cabinet.bottom.width == cabinet.bottom.depth ? "д" : "к")) +
           indentation +
           cabinet.bottom.width +
           "/" +
@@ -337,7 +337,7 @@ export default {
         /* ceils */
         lightEdge += cabinet.ceil.width;
         let currentCeilDimension =
-          (cabinet.ceil.width > cabinet.ceil.depth ? "д" : "к") +
+          (cabinet.ceil.width > cabinet.ceil.depth ? "д" : (cabinet.ceil.width == cabinet.ceil.depth ? "д" : "к")) +
           indentation +
           cabinet.ceil.width +
           "/" +
@@ -352,7 +352,7 @@ export default {
         for (let shelf of cabinet.shelfs) {
           lightEdge += shelf.width;
           let currentDimension =
-            (shelf.width > shelf.depth ? "д" : "к") +
+            (shelf.width > shelf.depth ? "д" : (shelf.width == shelf.depth ? "д" : "к")) +
             indentation +
             shelf.width +
             "/" +
