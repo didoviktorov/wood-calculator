@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import languages from "../assets/languages.json";
 
 Vue.use(Vuex);
 
@@ -30,9 +31,14 @@ export default new Vuex.Store({
     standardFeetHeightOfCabinet: 100,
     maxNumberOfDoors: 2,
     cabinetBackDiff: 5,
-    cabinetDoorDiff: 7
+    cabinetDoorDiff: 7,
+    languages,
+    selectedLang: "BG"
   },
   mutations: {
+    CHANGE_LANGUAGE(state, lang) {
+      state.selectedLang = lang;
+    },
     CHANGE_STATIC_SIDE_WIDTH(state, newWidth) {
       state.staticOuterSideWidth = newWidth;
     },
@@ -160,6 +166,9 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    changeLanguage(store, lang) {
+      store.commit("CHANGE_LANGUAGE", lang);
+    },
     addOtherDetails(store, details) {
       store.commit("ADD_OTHER_DETAILS", details);
     },
@@ -241,6 +250,10 @@ export default new Vuex.Store({
     }
   },
   getters: {
+    translate: (state, literal) => {
+
+      return state.languages.languages[state.selectedLang][literal];
+    },
     getLowerShelfPureWidth: state => {
       let pureWidth = state.lowerShelf.width;
 

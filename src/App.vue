@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar class="toolbar-container" dense fixed clipped-left app>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>Меню</v-toolbar-title>
+      <v-toolbar-title>{{ translate("menu") }}</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-menu offset-y>
         <template v-slot:activator="{ on }">
@@ -10,19 +10,21 @@
             <v-img v-if="selectedLang == 'BG'" src="./assets/bulgaria.png"></v-img>
             <v-img v-else src="./assets/england.png"></v-img>
           </v-btn>
-        </template>
+        </template>      
         <v-list>
-          <v-list-item @click="changeLang('BG')">
-            <v-list-item-title>
-              <v-img src="./assets/bulgaria.png"></v-img>
-            </v-list-item-title>
-          </v-list-item>
-          <v-list-item @click="changeLang('EN')">
-            <v-list-item-title>
-              <v-img src="./assets/england.png"></v-img>
-            </v-list-item-title>
-          </v-list-item>
-        </v-list>
+          <v-list-item-group v-model="selectedLangIndex" color="primary">
+            <v-list-item @click="changeLang('BG')" dark>
+              <v-list-item-title>
+                <v-img src="./assets/bulgaria.png"></v-img>
+              </v-list-item-title>
+            </v-list-item>
+            <v-list-item @click="changeLang('EN')">
+              <v-list-item-title>
+                <v-img src="./assets/england.png"></v-img>
+              </v-list-item-title>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>     
       </v-menu>
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" fixed clipped app>
@@ -31,7 +33,7 @@
           <v-list-item-content>
             <v-list-item-title>
               <router-link class="navigation-link" to="/"
-                >Долни Шкафове</router-link
+                >{{ translate("lowerShelfs") }}</router-link
               >
             </v-list-item-title>
           </v-list-item-content>
@@ -40,7 +42,7 @@
           <v-list-item-content>
             <v-list-item-title>
               <router-link class="navigation-link" to="/upper"
-                >Горни Шкафове</router-link
+                >{{ translate("upperShelfs") }}</router-link
               >
             </v-list-item-title>
           </v-list-item-content>
@@ -49,7 +51,7 @@
           <v-list-item-content>
             <v-list-item-title>
               <router-link class="navigation-link" to="/other"
-                >Други Детайли</router-link
+                >{{ translate("otherDetails") }}</router-link
               >
             </v-list-item-title>
           </v-list-item-content>
@@ -75,12 +77,18 @@ export default {
   data: () => ({
     drawer: false,
     selectedLang: "BG",
+    selectedLangIndex: 0
   }),
   methods: {
     changeLang(lang) {
       if (lang != this.selectedLang) {
+        
         this.selectedLang = lang;
+        this.$store.dispatch("changeLanguage", lang);
       }
+    },
+    translate(literal) {
+      return this.$store.state.languages.languages[this.$store.state.selectedLang][literal];
     }
   }
 };
