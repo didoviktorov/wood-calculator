@@ -4,13 +4,25 @@
             "menu" : "МЕНЮ",
             "lowerShelfs": "Долни Шкафове",
             "upperShelfs": "Горни Шкафове",
-            "otherDetails" : "Други Детайли"
+            "otherDetails" : "Други Детайли",
+            "addDetail": "добави детайл",
+            "otherDetailsTitle": "ДРУГИ ДЕТАЙЛИ",
+            "hideDetails": "скрий детайли",
+            "editDetails": "редактирай детайли",
+            "save": "запази",
+            "edge": "кант"
         },
         "EN": {
             "menu" : "MENU",
             "lowerShelfs": "Lower Shelfs",
             "upperShelfs": "Upper Shelfs",
-            "otherDetails" : "Other Details"
+            "otherDetails" : "Other Details",
+            "addDetail": "add detail",
+            "otherDetailsTitle": "OTHER DETAILS",
+            "hideDetails": "hide details",
+            "editDetails": "edit details",
+            "save": "save",
+            "edge": "edge"
         }
     }
 } 

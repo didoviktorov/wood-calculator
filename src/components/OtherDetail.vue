@@ -5,7 +5,7 @@
         ><v-row align="center" justify="center">
           <v-col cols="12">
             <div>
-              <h1>{{ title }}</h1>
+              <h1>{{ translate("otherDetailsTitle") }}</h1>
             </div>
           </v-col>
         </v-row>
@@ -13,7 +13,7 @@
         <v-row align="center" justify="center">
           <v-col cols="12">
             <v-btn class="left-button" @click="addOuterDetails">
-              добави детайл
+              {{ translate("addDetail") }}
             </v-btn>
             <v-btn
               :disabled="otherDetails.length == 0"
@@ -21,7 +21,7 @@
               @click="showOtherDetailsForEdit = !showOtherDetailsForEdit"
             >
               {{
-                showOtherDetailsForEdit ? "скрий детайли" : "редактирай детайли"
+                showOtherDetailsForEdit ? translate("hideDetails") : translate("editDetails")
               }}
             </v-btn>
             <v-btn
@@ -31,7 +31,7 @@
               class="mr-4 right-button"
               @click="addDetailsToStore"
             >
-              запази
+              {{ translate("save") }}
             </v-btn>
           </v-col>
         </v-row>
@@ -71,7 +71,7 @@
 
                   <v-checkbox
                     v-model="detail.height.hasEdging"
-                    :label="'кант'"
+                    :label="translate('edge')"
                     hide-details
                   ></v-checkbox>
 
@@ -89,7 +89,7 @@
 
                   <v-checkbox
                     v-model="detail.length.hasEdging"
-                    :label="'кант'"
+                    :label="translate('edge')"
                   ></v-checkbox>
 
                   <v-col cols="12" md="1" justify-content>
@@ -122,7 +122,6 @@ export default {
   name: "OtherDetail",
   components: {},
   data: () => ({
-    title: "ДРУГИ ДЕТАЙЛИ",
     otherDetails: [],
     showOtherDetailsForEdit: false
   }),
@@ -143,6 +142,9 @@ export default {
     }
   },
   methods: {
+    translate(literal) {
+      return this.$store.state.languages.languages[this.$store.state.selectedLang][literal];
+    },
     addOuterDetails() {
       let detail = {
         width: this.$store.state.staticOuterSideWidth,
