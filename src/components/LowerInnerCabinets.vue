@@ -142,7 +142,7 @@
                       outlined
                       dense
                       required
-                      @change="changeWidthCabinet(cabinet, index)"
+                      @keyup="changeWidthCabinet(cabinet, index)"
                       type="number"
                     ></v-text-field>
                   </v-col>
@@ -156,7 +156,7 @@
                       dense
                       required
                       type="number"
-                      @change="changeHeightCabinet(cabinet, index)"
+                      @keyup="changeHeightCabinet(cabinet, index)"
                     ></v-text-field>
                   </v-col>
 
@@ -169,7 +169,7 @@
                       dense
                       required
                       type="number"
-                      @change="changeDepthCabinet(cabinet, index)"
+                      @keyup="changeDepthCabinet(cabinet, index)"
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -555,13 +555,23 @@ export default {
     }
   },
   methods: {
+    isValidNumber(number) {
+      let isValid = true;
+      for (let func of this.$getnumberValidationRules) {
+        if (typeof func(number) == "string") {
+          return false;
+        }
+      }
+
+      return isValid;
+    },
     showHideCabinetElements(index) {
       this.cabinets[index].showCabinetElements = !this.cabinets[index]
         .showCabinetElements;
     },
     changeWidthCabinet(cabinet, index) {
-      if (cabinet.isValid) {
-        let newWidth = parseInt(cabinet.outerWidth);
+      let newWidth = parseInt(cabinet.outerWidth);  
+      if (this.isValidNumber(newWidth)) {
         let newInnerWidth =
           newWidth - 2 * this.$store.state.staticOuterSideWidth;
         let cabinetToChange = {
@@ -614,9 +624,8 @@ export default {
       }
     },
     changeHeightCabinet(cabinet, index) {
-      if (cabinet.isValid) {
-        let newHeight = parseInt(cabinet.height);
-
+      let newHeight = parseInt(cabinet.height);
+      if (this.isValidNumber(newHeight)) {       
         let cabinetToChange = {
           outerWidth: cabinet.outerWidth,
           innerWidth: cabinet.innerWidth,
@@ -660,8 +669,9 @@ export default {
       }
     },
     changeDepthCabinet(cabinet, index) {
-      if (cabinet.isValid) {
-        let newDepth = parseInt(cabinet.depth);
+      let newDepth = parseInt(cabinet.depth);
+      if (this.isValidNumber(newDepth)) {
+        
 
         let cabinetToChange = {
           outerWidth: cabinet.outerWidth,

@@ -219,7 +219,7 @@ export default {
         /* doors */
         for (let door of cabinet.doors) {
           let currentDimension =
-            "к/д х 2" + indentation + door.height + "/" + door.width;
+            "2 x к/д" + indentation + door.height + "/" + door.width;
           if (!doorsDictionary[currentDimension]) {
             doorsDictionary[currentDimension] = 0;
           }
@@ -367,7 +367,7 @@ export default {
         /* doors */
         for (let door of cabinet.doors) {
           let currentDimension =
-            "к/д х 2" + indentation + door.height + "/" + door.width;
+            "2 x к/д" + indentation + door.height + "/" + door.width;
           if (!doorsDictionary[currentDimension]) {
             doorsDictionary[currentDimension] = 0;
           }
