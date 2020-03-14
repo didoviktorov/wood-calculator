@@ -503,7 +503,7 @@ export default {
       return !this.validNumberOfCabinets;
     },
     numberRules() {
-      return this.$getnumberValidationRules;
+      return this.$getnumberValidationRules(this.$store.state.languages.languages[this.$store.state.selectedLang], this.$store.state.validatoinRulesLiterals);
     },
     isAllCabinetsValid() {
       for (let cabinet of this.cabinets) {

@@ -33,7 +33,8 @@ export default new Vuex.Store({
     cabinetBackDiff: 5,
     cabinetDoorDiff: 7,
     languages,
-    selectedLang: "BG"
+    selectedLang: "BG",
+    validatoinRulesLiterals: ["required", "mustBeNumber", "greaterThan", "mustBeInteger"]
   },
   mutations: {
     CHANGE_LANGUAGE(state, lang) {

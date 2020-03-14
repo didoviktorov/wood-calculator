@@ -1,14 +1,18 @@
 export default {
   install(Vue) {
-    let validationRules = [
-      v => !!v || "Тази стойност е задължителна",
-      v => !isNaN(v) || "Стойността трябва да бъде число",
-      v => v > 0 || "Стойността трябва да по-голяма от 0",
-      v =>
-        Number.isInteger(Number(v)) ||
-        "Стойността трябва да бъде целочислено число"
-    ];
-
-    Vue.prototype.$getnumberValidationRules = validationRules;
+    function validation(language, literals) {
+      let validationRules = [
+        v => !!v || language[literals[0]],
+        v => !isNaN(v) || language[literals[1]],
+        v => v > 0 || language[literals[2]],
+        v =>
+          Number.isInteger(Number(v)) ||
+          language[literals[3]]
+      ];
+      
+      return validationRules;
+    }
+    
+    Vue.prototype.$getnumberValidationRules = validation;
   }
 };

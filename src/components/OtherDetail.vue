@@ -138,7 +138,8 @@ export default {
       return true;
     },
     numberRules() {
-      return this.$getnumberValidationRules;
+      
+      return this.$getnumberValidationRules(this.$store.state.languages.languages[this.$store.state.selectedLang], this.$store.state.validatoinRulesLiterals);
     }
   },
   methods: {

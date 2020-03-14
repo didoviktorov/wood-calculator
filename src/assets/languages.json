@@ -10,19 +10,27 @@
             "hideDetails": "скрий детайли",
             "editDetails": "редактирай детайли",
             "save": "запази",
-            "edge": "кант"
+            "edge": "кант",
+            "required": "Стойността е задължителна",
+            "mustBeNumber": "Стойността трябва да бъде число",
+            "greaterThan": "Стойността трябва да по-голяма от 0",
+            "mustBeInteger": "Стойността трябва да бъде целочислено число"
         },
         "EN": {
             "menu" : "MENU",
-            "lowerShelfs": "Lower Shelfs",
-            "upperShelfs": "Upper Shelfs",
+            "lowerShelfs": "Lower Cabinets",
+            "upperShelfs": "Upper Cabinets",
             "otherDetails" : "Other Details",
             "addDetail": "add detail",
             "otherDetailsTitle": "OTHER DETAILS",
             "hideDetails": "hide details",
             "editDetails": "edit details",
             "save": "save",
-            "edge": "edge"
+            "edge": "edge",
+            "required": "Required",
+            "mustBeNumber": "Value must be a number",
+            "greaterThan": "Value must be grater than 0",
+            "mustBeInteger": "Value must be an integer"
         }
     }
 } 
