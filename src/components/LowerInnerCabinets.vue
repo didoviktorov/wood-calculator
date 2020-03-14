@@ -6,15 +6,16 @@
           id="pure-width-left"
           :class="{
             positive: getPureWidthLeft >= 0,
-            negative: getPureWidthLeft < 0
+            negative: isNaN(getPureWidthLeft) || getPureWidthLeft < 0
           }"
         >
           <span>
             {{
-              "оставащи " +
+              isNaN(getPureWidthLeft) ? "въведете ширина" : 
+              ("оставащи " +
                 getPureWidthLeft +
                 " " +
-                this.$store.state.calculationUnit
+                this.$store.state.calculationUnit)
             }}
           </span>
         </div>
@@ -35,7 +36,7 @@
                 <v-text-field
                   v-model="standardFeetHeight"
                   :label="'Стандартна височина на крачета в ' + calculationUnit"
-                  :rules="this.$getnumberValidationRules"
+                  :rules="numberRules"
                   outlined
                   dense
                   required
@@ -75,7 +76,7 @@
               <v-text-field
                 v-model="numberOfCabinets"
                 :label="'Брой вътрешни шкафове'"
-                :rules="this.$getnumberValidationRules"
+                :rules="numberRules"
                 outlined
                 dense
                 required
@@ -518,14 +519,13 @@ export default {
     getPureWidthLeft() {
       let remainingWidth = this.$store.getters.getLowerShelfPureWidth;
       for (let cabinetIndex in this.cabinets) {
-        if (this.cabinets[cabinetIndex].isValid) {
-          if (this.$store.state.lowerShelf.cabinets[cabinetIndex]) {
-            remainingWidth += this.$store.state.lowerShelf.cabinets[
-              cabinetIndex
-            ].outerWidth;
-          }
-          remainingWidth -= parseInt(this.cabinets[cabinetIndex].outerWidth);
+        if (this.$store.state.lowerShelf.cabinets[cabinetIndex]) {
+          remainingWidth += this.$store.state.lowerShelf.cabinets[
+            cabinetIndex
+          ].outerWidth;
         }
+
+        remainingWidth -= this.cabinets[cabinetIndex].outerWidth;
       }
 
       return remainingWidth;
@@ -551,13 +551,16 @@ export default {
       return true;
     },
     validateCabinets() {
+      if (this.getPureWidthLeft < 0) {
+        return false;
+      }
       return this.$validateCabinets(this.cabinets);
     }
   },
   methods: {
     isValidNumber(number) {
       let isValid = true;
-      for (let func of this.$getnumberValidationRules) {
+      for (let func of this.numberRules) {
         if (typeof func(number) == "string") {
           return false;
         }
@@ -570,7 +573,7 @@ export default {
         .showCabinetElements;
     },
     changeWidthCabinet(cabinet, index) {
-      let newWidth = parseInt(cabinet.outerWidth);  
+      let newWidth = Number(cabinet.outerWidth);  
       if (this.isValidNumber(newWidth)) {
         let newInnerWidth =
           newWidth - 2 * this.$store.state.staticOuterSideWidth;
@@ -624,7 +627,7 @@ export default {
       }
     },
     changeHeightCabinet(cabinet, index) {
-      let newHeight = parseInt(cabinet.height);
+      let newHeight = Number(cabinet.height);
       if (this.isValidNumber(newHeight)) {       
         let cabinetToChange = {
           outerWidth: cabinet.outerWidth,
@@ -669,7 +672,7 @@ export default {
       }
     },
     changeDepthCabinet(cabinet, index) {
-      let newDepth = parseInt(cabinet.depth);
+      let newDepth = Number(cabinet.depth);
       if (this.isValidNumber(newDepth)) {
         
 

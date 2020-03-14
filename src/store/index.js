@@ -147,6 +147,7 @@ export default new Vuex.Store({
       state.otherDetails = [];
       for (let newDetail of newDetails) {
         let detailToAdd = {
+          count: newDetail.count,
           width: parseInt(newDetail.width),
           height: {
             hasEdging: newDetail.height.hasEdging,

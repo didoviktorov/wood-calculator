@@ -45,11 +45,23 @@
             <v-form v-model="detail.isValid" @submit.prevent>
               <v-container>
                 <v-row justify="space-around">
+                  <v-col cols="4" md="1">
+                    <v-text-field
+                      v-model="detail.count"
+                      :rules="numberRules"
+                      label="Брой"
+                      outlined
+                      dense
+                      required
+                      type="number"
+                    ></v-text-field>
+                  </v-col>
+
                   <v-col cols="12" md="3">
                     <v-text-field
                       v-model="detail.width"
                       :rules="numberRules"
-                      label="Ширина"
+                      label="Дебелина"
                       outlined
                       dense
                       required
@@ -61,7 +73,7 @@
                     <v-text-field
                       v-model="detail.height.value"
                       :rules="numberRules"
-                      label="Височина"
+                      label="Дължина"
                       outlined
                       dense
                       required
@@ -79,7 +91,7 @@
                     <v-text-field
                       v-model="detail.length.value"
                       :rules="numberRules"
-                      label="Дължина"
+                      label="Ширина"
                       outlined
                       dense
                       required
@@ -131,14 +143,17 @@ export default {
         let width = parseInt(detail.width);
         let height = parseInt(detail.height.value);
         let length = parseInt(detail.length.value);
+        if (isNaN(width) || isNaN(height) || isNaN(length)) {
+          return false;
+        }
+
         if (width <= 0 || height <= 0 || length <= 0) {
           return false;
         }
       }
       return true;
     },
-    numberRules() {
-      
+    numberRules() {      
       return this.$getnumberValidationRules(this.$store.state.languages.languages[this.$store.state.selectedLang], this.$store.state.validatoinRulesLiterals);
     }
   },
@@ -148,6 +163,7 @@ export default {
     },
     addOuterDetails() {
       let detail = {
+        count: 1,
         width: this.$store.state.staticOuterSideWidth,
         height: {
           hasEdging: false,

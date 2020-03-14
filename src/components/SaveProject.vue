@@ -422,33 +422,27 @@ export default {
       let otherDetailsDictionary = {};
       /* other details */
       for (let detail of this.$store.state.otherDetails) {
-        let edge = "";
-        if (detail.length.hasEdging && detail.height.hasEdging) {
-          lightEdge += detail.length.value;
-          lightEdge += detail.height.value;
-          edge = "к/д";
-        } else if (detail.length.hasEdging && !detail.height.hasEdging) {
-          lightEdge += detail.length.value;
-          if (detail.length.value > detail.height.value) {
+        for (let i = 0; i < detail.count; i++) {
+          let edge = "";
+          if (detail.length.hasEdging && detail.height.hasEdging) {
+            lightEdge += detail.length.value;
+            lightEdge += detail.height.value;
+            edge = "д/к";
+          } else if (detail.length.hasEdging && !detail.height.hasEdging) {
+            lightEdge += detail.length.value;
+              edge = "к";
+          } else if (!detail.length.hasEdging && detail.height.hasEdging) {
+            lightEdge += detail.height.value;
             edge = "д";
-          } else {
-            edge = "к";
           }
-        } else if (!detail.length.hasEdging && detail.height.hasEdging) {
-          lightEdge += detail.height.value;
-          if (detail.height.value > detail.length.value) {
-            edge = "д";
-          } else {
-            edge = "к";
+          let currentDimension =
+            edge + indentation + detail.height.value + "/" + detail.length.value;
+          if (!otherDetailsDictionary[currentDimension]) {
+            otherDetailsDictionary[currentDimension] = 0;
           }
-        }
-        let currentDimension =
-          edge + indentation + detail.height.value + "/" + detail.length.value;
-        if (!otherDetailsDictionary[currentDimension]) {
-          otherDetailsDictionary[currentDimension] = 0;
-        }
 
-        otherDetailsDictionary[currentDimension] += 1;
+          otherDetailsDictionary[currentDimension] += 1;
+        }        
       }
 
       for (let prop in otherDetailsDictionary) {
