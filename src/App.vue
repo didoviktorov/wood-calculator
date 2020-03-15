@@ -15,12 +15,12 @@
           <v-list-item-group v-model="selectedLangIndex" color="primary">
             <v-list-item @click="changeLang('BG')" dark>
               <v-list-item-title>
-                <v-img src="./assets/bulgaria.png"></v-img>
+                <img src="./assets/bulgaria.png" />
               </v-list-item-title>
             </v-list-item>
             <v-list-item @click="changeLang('EN')">
               <v-list-item-title>
-                <v-img src="./assets/england.png"></v-img>
+                <img src="./assets/england.png" />
               </v-list-item-title>
             </v-list-item>
           </v-list-item-group>
@@ -28,8 +28,8 @@
       </v-menu>
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" fixed clipped app>
-      <v-list dense>
-        <v-list-item>
+      <v-list dense rounded>
+        <v-list-item class="menu-item">
           <v-list-item-content>
             <v-list-item-title>
               <router-link class="navigation-link" to="/"
@@ -38,7 +38,7 @@
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item>
+        <v-list-item class="menu-item">
           <v-list-item-content>
             <v-list-item-title>
               <router-link class="navigation-link" to="/upper"
@@ -47,7 +47,7 @@
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item>
+        <v-list-item class="menu-item">
           <v-list-item-content>
             <v-list-item-title>
               <router-link class="navigation-link" to="/other"
@@ -116,5 +116,9 @@ export default {
 
 .v-application a:not(.router-link-exact-active) {
   color: #121412 !important;
+}
+
+.menu-item {
+  text-align: left;
 }
 </style>

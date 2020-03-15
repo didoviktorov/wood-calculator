@@ -69,6 +69,10 @@
   padding: 0 !important;
 }
 
+.v-responsive__content {
+  width: auto !important;
+}
+
 @media screen and (max-width: 960px) {
   .v-input--selection-controls {
     padding: 0 0 2rem 0 !important;
