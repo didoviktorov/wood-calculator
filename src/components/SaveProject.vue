@@ -105,7 +105,19 @@ export default {
         pdf.addFileToVFS("Roboto-Regular-normal.ttf", font);
         pdf.addFont("Roboto-Regular-normal.ttf", "Roboto-Regular", "normal");
         pdf.setFont("Roboto-Regular");
-        pdf.text(this.textToExport, 10, 10);
+
+        let textToArray = this.textToExport.split("\r\n");
+        let startIndex = 0;
+        let linesPerPage = 44;
+        let pagesCount = Math.ceil(textToArray.length / linesPerPage);
+        for (let i = 0; i < pagesCount; i++) {
+          let textToAdd = textToArray.splice(startIndex, linesPerPage).join("\r\n");
+          pdf.text(textToAdd, 10, 10);
+          if (textToArray.length > 0) {
+            pdf.addPage();
+          }          
+        }
+
         pdf.save("test.pdf");
       }
     },
