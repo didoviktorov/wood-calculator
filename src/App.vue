@@ -7,10 +7,13 @@
       <v-menu offset-y>
         <template v-slot:activator="{ on }">
           <v-btn v-on="on">
-            <v-img v-if="selectedLang == 'BG'" src="./assets/bulgaria.png"></v-img>
+            <v-img
+              v-if="selectedLang == 'BG'"
+              src="./assets/bulgaria.png"
+            ></v-img>
             <v-img v-else src="./assets/england.png"></v-img>
           </v-btn>
-        </template>      
+        </template>
         <v-list>
           <v-list-item-group v-model="selectedLangIndex" color="primary">
             <v-list-item @click="changeLang('BG')" dark>
@@ -24,7 +27,7 @@
               </v-list-item-title>
             </v-list-item>
           </v-list-item-group>
-        </v-list>     
+        </v-list>
       </v-menu>
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" fixed clipped app>
@@ -32,27 +35,27 @@
         <v-list-item class="menu-item">
           <v-list-item-content>
             <v-list-item-title>
-              <router-link class="navigation-link" to="/"
-                >{{ translate("lowerShelfs") }}</router-link
-              >
+              <router-link class="navigation-link" to="/">{{
+                translate("lowerShelfs")
+              }}</router-link>
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item class="menu-item">
           <v-list-item-content>
             <v-list-item-title>
-              <router-link class="navigation-link" to="/upper"
-                >{{ translate("upperShelfs") }}</router-link
-              >
+              <router-link class="navigation-link" to="/upper">{{
+                translate("upperShelfs")
+              }}</router-link>
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item class="menu-item">
           <v-list-item-content>
             <v-list-item-title>
-              <router-link class="navigation-link" to="/other"
-                >{{ translate("otherDetails") }}</router-link
-              >
+              <router-link class="navigation-link" to="/other">{{
+                translate("otherDetails")
+              }}</router-link>
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -82,13 +85,14 @@ export default {
   methods: {
     changeLang(lang) {
       if (lang != this.selectedLang) {
-        
         this.selectedLang = lang;
         this.$store.dispatch("changeLanguage", lang);
       }
     },
     translate(literal) {
-      return this.$store.state.languages.languages[this.$store.state.selectedLang][literal];
+      return this.$store.state.languages.languages[
+        this.$store.state.selectedLang
+      ][literal];
     }
   }
 };

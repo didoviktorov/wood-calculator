@@ -11,11 +11,12 @@
         >
           <span>
             {{
-              isNaN(getPureWidthLeft) ? "въведете ширина" : 
-              ("оставащи " +
-                getPureWidthLeft +
-                " " +
-                this.$store.state.calculationUnit)
+              isNaN(getPureWidthLeft)
+                ? "въведете ширина"
+                : "оставащи " +
+                  getPureWidthLeft +
+                  " " +
+                  this.$store.state.calculationUnit
             }}
           </span>
         </div>
@@ -483,9 +484,8 @@ export default {
       let remainingWidth = this.$store.getters.getUpperShelfPureWidth;
       for (let cabinetIndex in this.cabinets) {
         if (this.$store.state.upperShelf.cabinets[cabinetIndex]) {
-          remainingWidth += this.$store.state.upperShelf.cabinets[
-            cabinetIndex
-          ].outerWidth;
+          remainingWidth += this.$store.state.upperShelf.cabinets[cabinetIndex]
+            .outerWidth;
         }
         remainingWidth -= parseInt(this.cabinets[cabinetIndex].outerWidth);
       }
@@ -502,7 +502,10 @@ export default {
       return !this.validNumberOfCabinets;
     },
     numberRules() {
-      return this.$getnumberValidationRules(this.$store.state.languages.languages[this.$store.state.selectedLang], this.$store.state.validatoinRulesLiterals);
+      return this.$getnumberValidationRules(
+        this.$store.state.languages.languages[this.$store.state.selectedLang],
+        this.$store.state.validatoinRulesLiterals
+      );
     },
     isAllCabinetsValid() {
       if (this.getPureWidthLeft < 0 || isNaN(this.getPureWidthLeft)) {

@@ -34,7 +34,12 @@ export default new Vuex.Store({
     cabinetDoorDiff: 7,
     languages,
     selectedLang: "BG",
-    validatoinRulesLiterals: ["required", "mustBeNumber", "greaterThan", "mustBeInteger"]
+    validatoinRulesLiterals: [
+      "required",
+      "mustBeNumber",
+      "greaterThan",
+      "mustBeInteger"
+    ]
   },
   mutations: {
     CHANGE_LANGUAGE(state, lang) {
@@ -253,7 +258,6 @@ export default new Vuex.Store({
   },
   getters: {
     translate: (state, literal) => {
-
       return state.languages.languages[state.selectedLang][literal];
     },
     getLowerShelfPureWidth: state => {

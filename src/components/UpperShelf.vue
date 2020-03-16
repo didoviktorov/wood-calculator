@@ -203,7 +203,10 @@ export default {
       return this.$store.state.calculationUnit;
     },
     numberRules() {
-      return this.$getnumberValidationRules(this.$store.state.languages.languages[this.$store.state.selectedLang], this.$store.state.validatoinRulesLiterals);
+      return this.$getnumberValidationRules(
+        this.$store.state.languages.languages[this.$store.state.selectedLang],
+        this.$store.state.validatoinRulesLiterals
+      );
     },
     showCabinetsCabinets() {
       return (

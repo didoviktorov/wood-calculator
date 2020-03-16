@@ -11,11 +11,12 @@
         >
           <span>
             {{
-              isNaN(getPureWidthLeft) ? "въведете ширина" : 
-              ("оставащи " +
-                getPureWidthLeft +
-                " " +
-                this.$store.state.calculationUnit)
+              isNaN(getPureWidthLeft)
+                ? "въведете ширина"
+                : "оставащи " +
+                  getPureWidthLeft +
+                  " " +
+                  this.$store.state.calculationUnit
             }}
           </span>
         </div>
@@ -520,9 +521,8 @@ export default {
       let remainingWidth = this.$store.getters.getLowerShelfPureWidth;
       for (let cabinetIndex in this.cabinets) {
         if (this.$store.state.lowerShelf.cabinets[cabinetIndex]) {
-          remainingWidth += this.$store.state.lowerShelf.cabinets[
-            cabinetIndex
-          ].outerWidth;
+          remainingWidth += this.$store.state.lowerShelf.cabinets[cabinetIndex]
+            .outerWidth;
         }
 
         remainingWidth -= this.cabinets[cabinetIndex].outerWidth;
@@ -540,7 +540,10 @@ export default {
       return !this.validNumberOfCabinets;
     },
     numberRules() {
-      return this.$getnumberValidationRules(this.$store.state.languages.languages[this.$store.state.selectedLang], this.$store.state.validatoinRulesLiterals);
+      return this.$getnumberValidationRules(
+        this.$store.state.languages.languages[this.$store.state.selectedLang],
+        this.$store.state.validatoinRulesLiterals
+      );
     },
     isAllCabinetsValid() {
       for (let cabinet of this.cabinets) {
@@ -573,7 +576,7 @@ export default {
         .showCabinetElements;
     },
     changeWidthCabinet(cabinet, index) {
-      let newWidth = Number(cabinet.outerWidth);  
+      let newWidth = Number(cabinet.outerWidth);
       if (this.isValidNumber(newWidth)) {
         let newInnerWidth =
           newWidth - 2 * this.$store.state.staticOuterSideWidth;
@@ -628,7 +631,7 @@ export default {
     },
     changeHeightCabinet(cabinet, index) {
       let newHeight = Number(cabinet.height);
-      if (this.isValidNumber(newHeight)) {       
+      if (this.isValidNumber(newHeight)) {
         let cabinetToChange = {
           outerWidth: cabinet.outerWidth,
           innerWidth: cabinet.innerWidth,
@@ -674,8 +677,6 @@ export default {
     changeDepthCabinet(cabinet, index) {
       let newDepth = Number(cabinet.depth);
       if (this.isValidNumber(newDepth)) {
-        
-
         let cabinetToChange = {
           outerWidth: cabinet.outerWidth,
           innerWidth: cabinet.innerWidth,

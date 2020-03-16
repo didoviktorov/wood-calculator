@@ -21,7 +21,9 @@
               @click="showOtherDetailsForEdit = !showOtherDetailsForEdit"
             >
               {{
-                showOtherDetailsForEdit ? translate("hideDetails") : translate("editDetails")
+                showOtherDetailsForEdit
+                  ? translate("hideDetails")
+                  : translate("editDetails")
               }}
             </v-btn>
             <v-btn
@@ -153,13 +155,18 @@ export default {
       }
       return true;
     },
-    numberRules() {      
-      return this.$getnumberValidationRules(this.$store.state.languages.languages[this.$store.state.selectedLang], this.$store.state.validatoinRulesLiterals);
+    numberRules() {
+      return this.$getnumberValidationRules(
+        this.$store.state.languages.languages[this.$store.state.selectedLang],
+        this.$store.state.validatoinRulesLiterals
+      );
     }
   },
   methods: {
     translate(literal) {
-      return this.$store.state.languages.languages[this.$store.state.selectedLang][literal];
+      return this.$store.state.languages.languages[
+        this.$store.state.selectedLang
+      ][literal];
     },
     addOuterDetails() {
       let detail = {
