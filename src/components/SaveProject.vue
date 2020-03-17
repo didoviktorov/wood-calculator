@@ -573,7 +573,7 @@ export default {
   text-align: left;
   font-weight: bold;
   padding: 1.5rem;
-  overflow: scroll;
+  overflow-y: scroll;
   max-height: 90%;
 }
 #project-title {
