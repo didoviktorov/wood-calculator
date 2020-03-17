@@ -484,14 +484,22 @@ export default {
         for (let i = 0; i < detail.count; i++) {
           let edge = "";
           if (detail.length.hasEdging && detail.height.hasEdging) {
-            lightEdge += detail.length.value;
-            lightEdge += detail.height.value;
+            lightEdge += detail.length.hasDoubleEdging
+              ? 2 * detail.length.value
+              : detail.length.value;
+            lightEdge += detail.height.hasDoubleEdging
+              ? 2 * detail.height.value
+              : detail.height.value;
             edge = "д/к";
           } else if (detail.length.hasEdging && !detail.height.hasEdging) {
-            lightEdge += detail.length.value;
+            lightEdge += detail.length.hasDoubleEdging
+              ? 2 * detail.length.value
+              : detail.length.value;
             edge = "к";
           } else if (!detail.length.hasEdging && detail.height.hasEdging) {
-            lightEdge += detail.height.value;
+            lightEdge += detail.height.hasDoubleEdging
+              ? 2 * detail.height.value
+              : detail.height.value;
             edge = "д";
           }
           let currentDimension =

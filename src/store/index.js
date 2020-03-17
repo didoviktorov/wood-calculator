@@ -156,10 +156,12 @@ export default new Vuex.Store({
           width: parseInt(newDetail.width),
           height: {
             hasEdging: newDetail.height.hasEdging,
+            hasDoubleEdging: newDetail.height.hasDoubleEdging,
             value: parseInt(newDetail.height.value)
           },
           length: {
             hasEdging: newDetail.length.hasEdging,
+            hasDoubleEdging: newDetail.length.hasDoubleEdging,
             value: parseInt(newDetail.length.value)
           },
           isValid: newDetail.isValid

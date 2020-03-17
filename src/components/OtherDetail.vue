@@ -59,7 +59,7 @@
                     ></v-text-field>
                   </v-col>
 
-                  <v-col cols="12" md="3">
+                  <v-col cols="12" md="2">
                     <v-text-field
                       v-model="detail.width"
                       :rules="numberRules"
@@ -71,7 +71,7 @@
                     ></v-text-field>
                   </v-col>
 
-                  <v-col cols="12" md="3">
+                  <v-col cols="12" md="2">
                     <v-text-field
                       v-model="detail.height.value"
                       :rules="numberRules"
@@ -89,7 +89,12 @@
                     hide-details
                   ></v-checkbox>
 
-                  <v-col cols="12" md="3">
+                  <v-checkbox
+                    v-model="detail.height.hasDoubleEdging"
+                    :label="'двустранен'"
+                  ></v-checkbox>
+
+                  <v-col cols="12" md="2">
                     <v-text-field
                       v-model="detail.length.value"
                       :rules="numberRules"
@@ -104,6 +109,11 @@
                   <v-checkbox
                     v-model="detail.length.hasEdging"
                     :label="translate('edge')"
+                  ></v-checkbox>
+
+                  <v-checkbox
+                    v-model="detail.length.hasDoubleEdging"
+                    :label="'двустранен'"
                   ></v-checkbox>
 
                   <v-col cols="12" md="1" justify-content>
@@ -174,10 +184,12 @@ export default {
         width: this.$store.state.staticOuterSideWidth,
         height: {
           hasEdging: false,
+          hasDoubleEdging: false,
           value: 0
         },
         length: {
           hasEdging: false,
+          hasDoubleEdging: false,
           value: 0
         },
         isValid: false
