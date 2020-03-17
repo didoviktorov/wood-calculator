@@ -577,7 +577,7 @@ export default {
   max-height: 90%;
 }
 #project-title {
-  z-index: 9;
+  z-index: 8;
   position: absolute;
   top: 0.5rem;
   bottom: 0;
