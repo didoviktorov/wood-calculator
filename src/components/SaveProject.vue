@@ -4,7 +4,18 @@
       <v-btn color="primary" @click="showOverlayInfo">
         генерирай проект
       </v-btn>
-
+      <v-row v-if="overlay" align="center" justify="center" id="project-title">
+        <!-- Whole width region -->
+        <v-col cols="12" sm="8" md="4">
+          <v-text-field
+            v-model="projectTitle"
+            :label="'Име на проект'"
+            outlined
+            dense
+            required
+          ></v-text-field>
+        </v-col>
+      </v-row>
       <div v-if="overlay" id="overlay"></div>
       <span v-if="overlay" id="overlay-text" v-html="generateHtmlText()"></span>
       <div v-if="overlay" id="overlay-buttons">
@@ -39,7 +50,8 @@ export default {
   components: {},
   data: () => ({
     overlay: false,
-    textToExport: ""
+    textToExport: "",
+    projectTitle: ""
   }),
   computed: {},
   methods: {
@@ -94,7 +106,10 @@ export default {
         });
 
         Packer.toBlob(doc).then(blob => {
-          saveAs(blob, "detailed_report.docx");
+          saveAs(
+            blob,
+            this.projectTitle ? this.projectTitle + ".docx" : "no_name..docx"
+          );
         });
       }
     },
@@ -111,14 +126,18 @@ export default {
         let linesPerPage = 44;
         let pagesCount = Math.ceil(textToArray.length / linesPerPage);
         for (let i = 0; i < pagesCount; i++) {
-          let textToAdd = textToArray.splice(startIndex, linesPerPage).join("\r\n");
+          let textToAdd = textToArray
+            .splice(startIndex, linesPerPage)
+            .join("\r\n");
           pdf.text(textToAdd, 10, 10);
           if (textToArray.length > 0) {
             pdf.addPage();
-          }          
+          }
         }
 
-        pdf.save("test.pdf");
+        pdf.save(
+          this.projectTitle ? this.projectTitle + ".pdf" : "no_name.pdf"
+        );
       }
     },
     generateData() {
@@ -554,5 +573,17 @@ export default {
   text-align: left;
   font-weight: bold;
   padding: 1.5rem;
+  overflow: scroll;
+  max-height: 90%;
+}
+#project-title {
+  z-index: 9;
+  position: absolute;
+  top: 0.5rem;
+  bottom: 0;
+  right: 25%;
+  left: 25%;
+  background: white;
+  max-height: 4rem;
 }
 </style>
