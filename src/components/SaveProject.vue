@@ -2,14 +2,14 @@
   <div class="my-2">
     <div class="text-center">
       <v-btn color="primary" @click="showOverlayInfo">
-        генерирай проект
+        {{ this.translate("generateProject") }}
       </v-btn>
       <v-row v-if="overlay" align="center" justify="center" id="project-title">
         <!-- Whole width region -->
         <v-col cols="12" sm="8" md="4">
           <v-text-field
             v-model="projectTitle"
-            :label="'Име на проект'"
+            :label="translate('projectTitle')"
             outlined
             dense
             required
@@ -21,7 +21,7 @@
       <div v-if="overlay" id="overlay-buttons">
         <div class="overlay-btn">
           <v-btn @click="showOverlayInfo" color="error" id="close-button">
-            затвори
+            {{ this.translate("close") }}
           </v-btn>
         </div>
         <div class="overlay-btn">
@@ -55,6 +55,11 @@ export default {
   }),
   computed: {},
   methods: {
+    translate(literal) {
+      return this.$store.state.languages.languages[
+        this.$store.state.selectedLang
+      ][literal];
+    },
     showOverlayInfo() {
       this.overlay = !this.overlay;
 
@@ -144,9 +149,12 @@ export default {
       let lowerShelf = this.$store.state.lowerShelf;
       let strResult = "";
       if (lowerShelf.cabinets.length) {
-        strResult += "Долни шкафове\r\n";
+        strResult += this.translate("lowerCabinets") + "\r\n";
         strResult +=
-          "Брой долни шкафове " + lowerShelf.cabinets.length + "\r\n\r\n";
+          this.translate("countOfLowerCabinets") +
+          " " +
+          lowerShelf.cabinets.length +
+          "\r\n\r\n";
       }
 
       let indentation = "  ";
@@ -157,7 +165,9 @@ export default {
       for (let outerSide of lowerShelf.outerSides) {
         lightEdge += outerSide.height;
         let currentDimension =
-          (outerSide.height > outerSide.depth ? "д" : "к") +
+          (outerSide.height > outerSide.depth
+            ? this.translate("longEdge")
+            : this.translate("shortEdge")) +
           indentation +
           outerSide.height +
           "/" +
@@ -175,7 +185,9 @@ export default {
           prop +
           " x " +
           outerSidesDictionary[prop] +
-          " външни страници\r\n";
+          " " +
+          this.translate("outerSides") +
+          "\r\n";
       }
 
       let sidesDictionary = {};
@@ -190,10 +202,10 @@ export default {
           lightEdge += side.height;
           let currentDimension =
             (side.height > side.depth
-              ? "д"
+              ? this.translate("longEdge")
               : side.height == side.depth
-              ? "д"
-              : "к") +
+              ? this.translate("longEdge")
+              : this.translate("shortEdge")) +
             indentation +
             side.height +
             "/" +
@@ -209,10 +221,10 @@ export default {
         lightEdge += cabinet.bottom.width;
         let currentBottomDimension =
           (cabinet.bottom.width > cabinet.bottom.depth
-            ? "д"
+            ? this.translate("longEdge")
             : cabinet.bottom.width == cabinet.bottom.depth
-            ? "д"
-            : "к") +
+            ? this.translate("longEdge")
+            : this.translate("shortEdge")) +
           indentation +
           cabinet.bottom.width +
           "/" +
@@ -228,10 +240,10 @@ export default {
           lightEdge += holder.width;
           let currentDimension =
             (holder.width > holder.depth
-              ? "д"
+              ? this.translate("longEdge")
               : holder.width == holder.depth
-              ? "д"
-              : "к") +
+              ? this.translate("longEdge")
+              : this.translate("shortEdge")) +
             indentation +
             holder.width +
             "/" +
@@ -248,10 +260,10 @@ export default {
           lightEdge += shelf.width;
           let currentDimension =
             (shelf.width > shelf.depth
-              ? "д"
+              ? this.translate("longEdge")
               : shelf.width == shelf.depth
-              ? "д"
-              : "к") +
+              ? this.translate("longEdge")
+              : this.translate("shortEdge")) +
             indentation +
             shelf.width +
             "/" +
@@ -266,7 +278,11 @@ export default {
         /* doors */
         for (let door of cabinet.doors) {
           let currentDimension =
-            "2 x к/д" + indentation + door.height + "/" + door.width;
+            this.translate("doubleShortLong") +
+            indentation +
+            door.height +
+            "/" +
+            door.width;
           if (!doorsDictionary[currentDimension]) {
             doorsDictionary[currentDimension] = 0;
           }
@@ -286,12 +302,24 @@ export default {
 
       for (let prop in sidesDictionary) {
         strResult +=
-          indentation + prop + " x " + sidesDictionary[prop] + " страници\r\n";
+          indentation +
+          prop +
+          " x " +
+          sidesDictionary[prop] +
+          " " +
+          this.translate("sides") +
+          "\r\n";
       }
 
       for (let prop in bottomsDictionary) {
         strResult +=
-          indentation + prop + " x " + bottomsDictionary[prop] + " дъна\r\n";
+          indentation +
+          prop +
+          " x " +
+          bottomsDictionary[prop] +
+          " " +
+          this.translate("bottoms") +
+          "\r\n";
       }
 
       for (let prop in holdersDictionary) {
@@ -300,29 +328,52 @@ export default {
           prop +
           " x " +
           holdersDictionary[prop] +
-          " подплотници\r\n";
+          " " +
+          this.translate("apertures") +
+          "\r\n";
       }
 
       for (let prop in shelfsDictionary) {
         strResult +=
-          indentation + prop + " x " + shelfsDictionary[prop] + " рафтове\r\n";
+          indentation +
+          prop +
+          " x " +
+          shelfsDictionary[prop] +
+          " " +
+          this.translate("shelfs") +
+          "\r\n";
       }
 
       for (let prop in doorsDictionary) {
         strResult +=
-          indentation + prop + " x " + doorsDictionary[prop] + " врати\r\n";
+          indentation +
+          prop +
+          " x " +
+          doorsDictionary[prop] +
+          " " +
+          this.translate("doors") +
+          "\r\n";
       }
 
       for (let prop in backsDictionary) {
         strResult +=
-          indentation + prop + " x " + backsDictionary[prop] + " гръб\r\n";
+          indentation +
+          prop +
+          " x " +
+          backsDictionary[prop] +
+          " " +
+          this.translate("backs") +
+          "\r\n";
       }
 
       let upperShelf = this.$store.state.upperShelf;
       if (upperShelf.cabinets.length || upperShelf.outerSides.length) {
-        strResult += "\r\nГорни шкафове\r\n";
+        strResult += "\r\n" + this.translate("upperCabinets") + "\r\n";
         strResult +=
-          "Брой горни шкафове " + upperShelf.cabinets.length + "\r\n\r\n";
+          this.translate("upperCabinetsCount") +
+          " " +
+          upperShelf.cabinets.length +
+          "\r\n\r\n";
       }
 
       outerSidesDictionary = {};
@@ -330,7 +381,11 @@ export default {
         lightEdge += outerSide.height;
         lightEdge += outerSide.depth;
         let currentDimension =
-          "д/к" + indentation + outerSide.height + "/" + outerSide.depth;
+          this.translate("longAndShortEdge") +
+          indentation +
+          outerSide.height +
+          "/" +
+          outerSide.depth;
         if (!outerSidesDictionary[currentDimension]) {
           outerSidesDictionary[currentDimension] = 0;
         }
@@ -344,7 +399,9 @@ export default {
           prop +
           " x " +
           outerSidesDictionary[prop] +
-          " външни страници\r\n";
+          " " +
+          this.translate("outerSides") +
+          "\r\n";
       }
 
       sidesDictionary = {};
@@ -359,7 +416,11 @@ export default {
           lightEdge += side.height;
           lightEdge += side.depth;
           let currentDimension =
-            "д/к " + indentation + side.height + "/" + side.depth;
+            this.translate("longAndShortEdge") +
+            indentation +
+            side.height +
+            "/" +
+            side.depth;
           if (!sidesDictionary[currentDimension]) {
             sidesDictionary[currentDimension] = 0;
           }
@@ -371,10 +432,10 @@ export default {
         lightEdge += cabinet.bottom.width;
         let currentBottomDimension =
           (cabinet.bottom.width > cabinet.bottom.depth
-            ? "д"
+            ? this.translate("longEdge")
             : cabinet.bottom.width == cabinet.bottom.depth
-            ? "д"
-            : "к") +
+            ? this.translate("longEdge")
+            : this.translate("shortEdge")) +
           indentation +
           cabinet.bottom.width +
           "/" +
@@ -389,10 +450,10 @@ export default {
         lightEdge += cabinet.ceil.width;
         let currentCeilDimension =
           (cabinet.ceil.width > cabinet.ceil.depth
-            ? "д"
+            ? this.translate("longEdge")
             : cabinet.ceil.width == cabinet.ceil.depth
-            ? "д"
-            : "к") +
+            ? this.translate("longEdge")
+            : this.translate("shortEdge")) +
           indentation +
           cabinet.ceil.width +
           "/" +
@@ -408,10 +469,10 @@ export default {
           lightEdge += shelf.width;
           let currentDimension =
             (shelf.width > shelf.depth
-              ? "д"
+              ? this.translate("longEdge")
               : shelf.width == shelf.depth
-              ? "д"
-              : "к") +
+              ? this.translate("longEdge")
+              : this.translate("shortEdge")) +
             indentation +
             shelf.width +
             "/" +
@@ -426,7 +487,11 @@ export default {
         /* doors */
         for (let door of cabinet.doors) {
           let currentDimension =
-            "2 x к/д" + indentation + door.height + "/" + door.width;
+            this.translate("doubleShortLong") +
+            indentation +
+            door.height +
+            "/" +
+            door.width;
           if (!doorsDictionary[currentDimension]) {
             doorsDictionary[currentDimension] = 0;
           }
@@ -447,33 +512,64 @@ export default {
 
       for (let prop in sidesDictionary) {
         strResult +=
-          indentation + prop + " x " + sidesDictionary[prop] + " страници\r\n";
+          indentation +
+          prop +
+          " x " +
+          sidesDictionary[prop] +
+          " " +
+          this.translate("sides") +
+          "\r\n";
       }
 
       for (let prop in bottomsDictionary) {
         strResult +=
-          indentation + prop + " x " + bottomsDictionary[prop] + " дъна\r\n";
+          indentation +
+          prop +
+          " x " +
+          bottomsDictionary[prop] +
+          " " +
+          this.translate("bottoms") +
+          "\r\n";
       }
 
       for (let prop in shelfsDictionary) {
         strResult +=
-          indentation + prop + " x " + shelfsDictionary[prop] + " рафтове\r\n";
+          indentation +
+          prop +
+          " x " +
+          shelfsDictionary[prop] +
+          " " +
+          this.translate("shelfs") +
+          "\r\n";
       }
 
       for (let prop in doorsDictionary) {
         strResult +=
-          indentation + prop + " x " + doorsDictionary[prop] + " врати\r\n";
+          indentation +
+          prop +
+          " x " +
+          doorsDictionary[prop] +
+          " " +
+          this.translate("doors") +
+          "\r\n";
       }
 
       for (let prop in backsDictionary) {
         strResult +=
-          indentation + prop + " x " + backsDictionary[prop] + " гръб\r\n";
+          indentation +
+          prop +
+          " x " +
+          backsDictionary[prop] +
+          " " +
+          this.translate("backs") +
+          "\r\n";
       }
 
       if (this.$store.state.otherDetails.length) {
-        strResult += "\r\nДруги детайли\r\n";
+        strResult += "\r\n" + this.translate("otherDetails") + "\r\n";
         strResult +=
-          "Брой други детайли " +
+          this.translate("otherDetailsCount") +
+          " " +
           this.$store.state.otherDetails.length +
           "\r\n\r\n";
       }
@@ -492,22 +588,26 @@ export default {
               : detail.height.value;
             edge =
               detail.length.hasDoubleEdging && detail.height.hasDoubleEdging
-                ? "2 x д/к"
+                ? this.translate("doubleLongDoubleShort")
                 : detail.length.hasDoubleEdging
-                ? "д/(2 х к)"
+                ? this.translate("longDoubleShort")
                 : detail.height.hasDoubleEdging
-                ? "(2 х д)/к"
-                : "д/к";
+                ? this.translate("doubleLongShort")
+                : this.translate("longAndShortEdge");
           } else if (detail.length.hasEdging && !detail.height.hasEdging) {
             lightEdge += detail.length.hasDoubleEdging
               ? 2 * detail.length.value
               : detail.length.value;
-            edge = detail.length.hasDoubleEdging ? "2 х к" : "к";
+            edge = detail.length.hasDoubleEdging
+              ? this.translate("doubleShortEdge")
+              : this.translate("shortEdge");
           } else if (!detail.length.hasEdging && detail.height.hasEdging) {
             lightEdge += detail.height.hasDoubleEdging
               ? 2 * detail.height.value
               : detail.height.value;
-            edge = detail.height.hasDoubleEdging ? "2 х д" : "д";
+            edge = detail.height.hasDoubleEdging
+              ? this.translate("doubleShortEdge")
+              : this.translate("longEdge");
           }
           let currentDimension =
             edge +
@@ -529,19 +629,22 @@ export default {
           prop +
           " x " +
           otherDetailsDictionary[prop] +
-          " детайл\r\n";
+          " " +
+          this.translate("detail") +
+          "\r\n";
       }
 
       if (boldEdge > 0 || lightEdge > 0) {
-        strResult += "\r\nДължини на кант\r\n";
+        strResult += "\r\n" + this.translate("edgesLength") + "\r\n";
       }
 
       if (boldEdge > 0) {
-        strResult += indentation + "Дебел кант " + boldEdge + "\r\n";
+        strResult +=
+          indentation + this.translate("thickEdge") + " " + boldEdge + "\r\n";
       }
 
       if (lightEdge > 0) {
-        strResult += indentation + "Тънък кант " + lightEdge;
+        strResult += indentation + this.translate("thinEdge") + " " + lightEdge;
       }
 
       this.textToExport = strResult;
