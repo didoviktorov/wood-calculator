@@ -490,17 +490,24 @@ export default {
             lightEdge += detail.height.hasDoubleEdging
               ? 2 * detail.height.value
               : detail.height.value;
-            edge = "д/к";
+            edge =
+              detail.length.hasDoubleEdging && detail.height.hasDoubleEdging
+                ? "2 x д/к"
+                : detail.length.hasDoubleEdging
+                ? "д/(2 х к)"
+                : detail.height.hasDoubleEdging
+                ? "(2 х д)/к"
+                : "д/к";
           } else if (detail.length.hasEdging && !detail.height.hasEdging) {
             lightEdge += detail.length.hasDoubleEdging
               ? 2 * detail.length.value
               : detail.length.value;
-            edge = "к";
+            edge = detail.length.hasDoubleEdging ? "2 х к" : "к";
           } else if (!detail.length.hasEdging && detail.height.hasEdging) {
             lightEdge += detail.height.hasDoubleEdging
               ? 2 * detail.height.value
               : detail.height.value;
-            edge = "д";
+            edge = detail.height.hasDoubleEdging ? "2 х д" : "д";
           }
           let currentDimension =
             edge +
