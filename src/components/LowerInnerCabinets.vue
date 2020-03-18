@@ -69,7 +69,17 @@
           v-if="this.$store.state.lowerShelf.cabinets.length > 0"
           class="cabinets-added"
         >
-          Добавени са {{ this.$store.state.lowerShelf.cabinets.length }} шкафа
+          {{
+            this.$store.state.lowerShelf.cabinets.length == 1
+              ? translate("cabinetAddedMessage").replace(
+                  "%count%",
+                  this.$store.state.lowerShelf.cabinets.length
+                )
+              : translate("cabinetsAddedMessage").replace(
+                  "%count%",
+                  this.$store.state.lowerShelf.cabinets.length
+                )
+          }}
         </div>
         <v-form v-model="validNumberOfCabinets" @submit.prevent>
           <v-row align="center" justify="center">
@@ -561,6 +571,11 @@ export default {
     }
   },
   methods: {
+    translate(literal) {
+      return this.$store.state.languages.languages[
+        this.$store.state.selectedLang
+      ][literal];
+    },
     isValidNumber(number) {
       let isValid = true;
       for (let func of this.numberRules) {

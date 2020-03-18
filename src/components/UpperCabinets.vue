@@ -12,18 +12,19 @@
           <span>
             {{
               isNaN(getPureWidthLeft)
-                ? "въведете ширина"
-                : "оставащи " +
+                ? translate("enterWidth")
+                : translate("mmLeft") +
+                  " " +
                   getPureWidthLeft +
                   " " +
-                  this.$store.state.calculationUnit
+                  translate(this.$store.state.calculationUnit)
             }}
           </span>
         </div>
         <v-row>
           <v-col cols="12">
             <v-divider />
-            <h2>Горни шкафове</h2>
+            <h2>{{ translate("upperCabinets") }}</h2>
             <v-divider />
           </v-col>
         </v-row>
@@ -31,7 +32,7 @@
         <v-row align="center" justify="center">
           <v-col cols="12" class="col-no-top-padding">
             <div>
-              <h3>Добави брой шкафове</h3>
+              <h3>{{ translate("enterCountOfCabinets") }}</h3>
             </div>
           </v-col>
         </v-row>
@@ -39,14 +40,24 @@
           v-if="this.$store.state.upperShelf.cabinets.length > 0"
           class="cabinets-added"
         >
-          Добавени са {{ this.$store.state.upperShelf.cabinets.length }} шкафа
+          {{
+            this.$store.state.upperShelf.cabinets.length == 1
+              ? translate("cabinetAddedMessage").replace(
+                  "%count%",
+                  this.$store.state.upperShelf.cabinets.length
+                )
+              : translate("cabinetsAddedMessage").replace(
+                  "%count%",
+                  this.$store.state.upperShelf.cabinets.length
+                )
+          }}
         </div>
         <v-form v-model="validNumberOfCabinets" @submit.prevent>
           <v-row align="center" justify="center">
             <v-col cols="12" class="col-no-top-padding col-no-bottom-padding">
               <v-text-field
                 v-model="numberOfCabinets"
-                :label="'Брой шкафове'"
+                :label="translate('countShelfs')"
                 :rules="numberRules"
                 outlined
                 dense
@@ -58,7 +69,7 @@
           <v-row align="center" justify="center">
             <v-col cols="12" sm="6" md="3" class="col-no-top-padding">
               <v-btn :disabled="validateAddButton" @click="addCabinets">
-                добави
+                {{ translate("add") }}
               </v-btn>
             </v-col>
             <v-col cols="12" sm="6" md="3" class="col-no-top-padding">
@@ -66,7 +77,7 @@
                 :disabled="cabinets.length == 0"
                 @click="openForEditHandler"
               >
-                {{ openForEdit ? "скрий" : "прегледай" }}
+                {{ openForEdit ? translate("hide") : translate("review") }}
               </v-btn>
             </v-col>
             <v-col cols="12" sm="6" md="3" class="col-no-top-padding">
@@ -79,7 +90,7 @@
                 @click="addCabinetsToStore"
                 color="success"
               >
-                запази
+                {{ translate("save") }}
               </v-btn>
             </v-col>
             <v-col cols="12" sm="6" md="3" class="col-no-top-padding">
@@ -88,7 +99,7 @@
                 color="error"
                 @click="removeAllCabinets"
               >
-                изтрий всички
+                {{ translate("deleteAll") }}
               </v-btn>
             </v-col>
           </v-row>
@@ -102,7 +113,9 @@
           >
             <v-form v-model="cabinet.isValid" @submit.prevent>
               <v-divider />
-              <h4>Шкаф {{ index + 1 }}</h4>
+              <h4>
+                {{ translate("cabinetIndex").replace("%index%", index + 1) }}
+              </h4>
               <v-container>
                 <!-- cabinet dimensions -->
                 <v-row>
@@ -110,7 +123,7 @@
                     <v-text-field
                       v-model="cabinet.outerWidth"
                       :rules="numberRules"
-                      label="Ширина"
+                      :label="translate('width')"
                       outlined
                       dense
                       required
@@ -123,7 +136,7 @@
                     <v-text-field
                       v-model="cabinet.height"
                       :rules="numberRules"
-                      label="Височина"
+                      :label="translate('height')"
                       outlined
                       dense
                       required
@@ -136,7 +149,7 @@
                     <v-text-field
                       v-model="cabinet.depth"
                       :rules="numberRules"
-                      label="Дълбочина"
+                      :label="translate('depth')"
                       outlined
                       dense
                       required
@@ -146,14 +159,21 @@
                   </v-col>
                 </v-row>
                 <div v-if="cabinet.showCabinetElements">
-                  <h5>Дъно шкаф {{ index + 1 }}</h5>
+                  <h5>
+                    {{
+                      translate("bottomCabinetIndex").replace(
+                        "%index%",
+                        index + 1
+                      )
+                    }}
+                  </h5>
                   <!-- cabinet bottom dimensions -->
                   <v-row>
                     <v-col cols="12" md="4">
                       <v-text-field
                         v-model="cabinet.bottom.width"
                         :rules="numberRules"
-                        label="Ширина дъно"
+                        :label="translate('bottomWidth')"
                         outlined
                         dense
                         required
@@ -165,7 +185,7 @@
                       <v-text-field
                         v-model="cabinet.bottom.height"
                         :rules="numberRules"
-                        label="Височина дъно"
+                        :label="translate('bottomHeight')"
                         outlined
                         dense
                         required
@@ -177,7 +197,7 @@
                       <v-text-field
                         v-model="cabinet.bottom.depth"
                         :rules="numberRules"
-                        label="Дълбочина дъно"
+                        :label="translate('bottomDepth')"
                         outlined
                         dense
                         required
@@ -185,14 +205,21 @@
                       ></v-text-field>
                     </v-col>
                   </v-row>
-                  <h5>Горна страна шкаф {{ index + 1 }}</h5>
+                  <h5>
+                    {{
+                      translate("upperCabinetCeilIndex").replace(
+                        "%index%",
+                        index + 1
+                      )
+                    }}
+                  </h5>
                   <!-- cabinet ceil dimensions -->
                   <v-row>
                     <v-col cols="12" md="4">
                       <v-text-field
                         v-model="cabinet.ceil.width"
                         :rules="numberRules"
-                        label="Ширина горна страна"
+                        :label="translate('upperCabinetCeilWidth')"
                         outlined
                         dense
                         required
@@ -204,7 +231,7 @@
                       <v-text-field
                         v-model="cabinet.ceil.height"
                         :rules="numberRules"
-                        label="Височина горна страна"
+                        :label="translate('upperCabinetCeilHeight')"
                         outlined
                         dense
                         required
@@ -216,7 +243,7 @@
                       <v-text-field
                         v-model="cabinet.ceil.depth"
                         :rules="numberRules"
-                        label="Дълбочина горна страна"
+                        :label="translate('upperCabinetCeilDepth')"
                         outlined
                         dense
                         required
@@ -224,14 +251,21 @@
                       ></v-text-field>
                     </v-col>
                   </v-row>
-                  <h5>Гръб горен шкаф {{ index + 1 }}</h5>
+                  <h5>
+                    {{
+                      translate("cabinetBackIndex").replace(
+                        "%index%",
+                        index + 1
+                      )
+                    }}
+                  </h5>
                   <!-- cabinet back dimensions -->
                   <v-row>
                     <v-col cols="12" md="6">
                       <v-text-field
                         v-model="cabinet.back.width"
                         :rules="numberRules"
-                        label="Ширина гръб"
+                        :label="translate('cabinetBackWidth')"
                         outlined
                         dense
                         required
@@ -243,7 +277,7 @@
                       <v-text-field
                         v-model="cabinet.back.height"
                         :rules="numberRules"
-                        label="Височина гръб"
+                        :label="translate('cabinetBackHeight')"
                         outlined
                         dense
                         required
@@ -252,7 +286,14 @@
                     </v-col>
                   </v-row>
                   <!-- cabinet sides dimensions -->
-                  <h5>Страници шкаф {{ index + 1 }}</h5>
+                  <h5>
+                    {{
+                      translate("cabinetSidesIndex").replace(
+                        "%index%",
+                        index + 1
+                      )
+                    }}
+                  </h5>
                   <v-row
                     v-for="(side, sideIndex) in cabinet.sides"
                     :key="sideIndex + 's'"
@@ -261,7 +302,12 @@
                       <v-text-field
                         v-model="side.width"
                         :rules="numberRules"
-                        :label="'Ширина страница ' + (sideIndex + 1)"
+                        :label="
+                          translate('sideWidthIndex').replace(
+                            '%index%',
+                            sideIndex + 1
+                          )
+                        "
                         outlined
                         dense
                         required
@@ -273,7 +319,12 @@
                       <v-text-field
                         v-model="side.height"
                         :rules="numberRules"
-                        :label="'Височина страница ' + (sideIndex + 1)"
+                        :label="
+                          translate('sideHeightIndex').replace(
+                            '%index%',
+                            sideIndex + 1
+                          )
+                        "
                         outlined
                         dense
                         required
@@ -285,7 +336,12 @@
                       <v-text-field
                         v-model="side.depth"
                         :rules="numberRules"
-                        :label="'Дълбочина страница ' + (sideIndex + 1)"
+                        :label="
+                          translate('sideDepthIndex').replace(
+                            '%index%',
+                            sideIndex + 1
+                          )
+                        "
                         outlined
                         dense
                         required
@@ -295,7 +351,14 @@
                   </v-row>
 
                   <!-- cabinet shelfs dimensions -->
-                  <h5>Рафтове за шкаф {{ index + 1 }}</h5>
+                  <h5>
+                    {{
+                      translate("shelfOfCabinetIndex").replace(
+                        "%index%",
+                        index + 1
+                      )
+                    }}
+                  </h5>
                   <v-row
                     v-for="(shelf, shelfIndex) in cabinet.shelfs"
                     :key="shelfIndex + 'q'"
@@ -304,7 +367,12 @@
                       <v-text-field
                         v-model="shelf.width"
                         :rules="numberRules"
-                        :label="'Ширина рафт ' + (shelfIndex + 1)"
+                        :label="
+                          translate('shelfWidthIndex').replace(
+                            '%index%',
+                            shelfIndex + 1
+                          )
+                        "
                         outlined
                         dense
                         required
@@ -316,7 +384,12 @@
                       <v-text-field
                         v-model="shelf.height"
                         :rules="numberRules"
-                        :label="'Височина рафт ' + (shelfIndex + 1)"
+                        :label="
+                          translate('shelfHeightIndex').replace(
+                            '%index%',
+                            shelfIndex + 1
+                          )
+                        "
                         outlined
                         dense
                         required
@@ -328,7 +401,12 @@
                       <v-text-field
                         v-model="shelf.depth"
                         :rules="numberRules"
-                        :label="'Дълбочина рафт ' + (shelfIndex + 1)"
+                        :label="
+                          translate('shelfDepthIndex').replace(
+                            '%index%',
+                            shelfIndex + 1
+                          )
+                        "
                         outlined
                         dense
                         required
@@ -343,7 +421,7 @@
                         color="info"
                         @click="addShelf(cabinet)"
                       >
-                        добави рафт
+                        {{ translate("addShelf") }}
                       </v-btn>
                     </v-col>
                     <v-col cols="6">
@@ -354,11 +432,18 @@
                         color="error"
                         @click="removeShelf(cabinet)"
                       >
-                        изтрий рафт
+                        {{ translate("deleteShelf") }}
                       </v-btn>
                     </v-col> </v-row
                   ><!-- cabinet doors dimensions -->
-                  <h5>Врати за шкаф {{ index + 1 }}</h5>
+                  <h5>
+                    {{
+                      translate("doorsCabinetIndex").replace(
+                        "%index%",
+                        index + 1
+                      )
+                    }}
+                  </h5>
                   <v-row
                     v-for="(door, doorIndex) in cabinet.doors"
                     :key="doorIndex + 'd'"
@@ -367,7 +452,12 @@
                       <v-text-field
                         v-model="door.width"
                         :rules="numberRules"
-                        :label="'Ширина врата ' + (doorIndex + 1)"
+                        :label="
+                          translate('doorWidthIndex').replace(
+                            '%index%',
+                            doorIndex + 1
+                          )
+                        "
                         outlined
                         dense
                         required
@@ -379,7 +469,12 @@
                       <v-text-field
                         v-model="door.height"
                         :rules="numberRules"
-                        :label="'Височина врата ' + (doorIndex + 1)"
+                        :label="
+                          translate('doorHeightIndex').replace(
+                            '%index%',
+                            doorIndex + 1
+                          )
+                        "
                         outlined
                         dense
                         required
@@ -391,7 +486,12 @@
                       <v-text-field
                         v-model="door.depth"
                         :rules="numberRules"
-                        :label="'Дълбочина врата ' + (doorIndex + 1)"
+                        :label="
+                          translate('doorDepthIndex').replace(
+                            '%index%',
+                            doorIndex + 1
+                          )
+                        "
                         outlined
                         dense
                         required
@@ -410,7 +510,7 @@
                         color="info"
                         @click="addDoor(cabinet)"
                       >
-                        добави врата
+                        {{ translate("addDoor") }}
                       </v-btn>
                     </v-col>
                     <v-col cols="6">
@@ -421,7 +521,7 @@
                         color="error"
                         @click="removeDoor(cabinet)"
                       >
-                        изтрий врата
+                        {{ translate("deleteDoor") }}
                       </v-btn>
                     </v-col>
                   </v-row>
@@ -432,7 +532,7 @@
                         color="success"
                         @click="editCabinet(index)"
                       >
-                        запази шкаф
+                        {{ translate("saveCabinet") }}
                       </v-btn>
                     </v-col>
                   </v-row>
@@ -524,6 +624,11 @@ export default {
     }
   },
   methods: {
+    translate(literal) {
+      return this.$store.state.languages.languages[
+        this.$store.state.selectedLang
+      ][literal];
+    },
     isValidNumber(number) {
       let isValid = true;
       for (let func of this.numberRules) {
