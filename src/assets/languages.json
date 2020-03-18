@@ -41,7 +41,12 @@
       "detail": "детайл",
       "edgesLength": "Дължини на кант",
       "thickEdge": "Дебел кант",
-      "thinEdge": "Тънък кант"
+      "thinEdge": "Тънък кант",
+      "count": "Брой",
+      "width": "Ширина",
+      "length": "Дължина",
+      "thickness": "Дебелина",
+      "doubleSided": "двустранен"
     },
     "EN": {
       "menu": "MENU",
@@ -84,7 +89,12 @@
       "detail": "detail",
       "edgesLength": "Edges length",
       "thickEdge": "Thick edge",
-      "thinEdge": "Thin edge"
+      "thinEdge": "Thin edge",
+      "count": "Count",
+      "width": "Width",
+      "length": "Length",
+      "thickness": "Тhickness",
+      "doubleSided": "doublesided"
     }
   }
 }

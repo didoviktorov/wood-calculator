@@ -51,7 +51,7 @@
                     <v-text-field
                       v-model="detail.count"
                       :rules="numberRules"
-                      label="Брой"
+                      :label="translate('count')"
                       outlined
                       dense
                       required
@@ -63,7 +63,7 @@
                     <v-text-field
                       v-model="detail.width"
                       :rules="numberRules"
-                      label="Дебелина"
+                      :label="translate('thickness')"
                       outlined
                       dense
                       required
@@ -75,7 +75,7 @@
                     <v-text-field
                       v-model="detail.height.value"
                       :rules="numberRules"
-                      label="Дължина"
+                      :label="translate('length')"
                       outlined
                       dense
                       required
@@ -91,14 +91,14 @@
 
                   <v-checkbox
                     v-model="detail.height.hasDoubleEdging"
-                    :label="'двустранен'"
+                    :label="translate('doubleSided')"
                   ></v-checkbox>
 
                   <v-col cols="12" md="2">
                     <v-text-field
                       v-model="detail.length.value"
                       :rules="numberRules"
-                      label="Ширина"
+                      :label="translate('width')"
                       outlined
                       dense
                       required
@@ -113,7 +113,7 @@
 
                   <v-checkbox
                     v-model="detail.length.hasDoubleEdging"
-                    :label="'двустранен'"
+                    :label="translate('doubleSided')"
                   ></v-checkbox>
 
                   <v-col cols="12" md="1" justify-content>
