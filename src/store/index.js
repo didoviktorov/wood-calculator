@@ -7,7 +7,6 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     lowerShelf: {
-      title: "ДОЛНИ ШКАФОВЕ",
       cabinets: [],
       staticCabinets: [],
       outerSides: [],
@@ -18,7 +17,6 @@ export default new Vuex.Store({
       pureWidth: 0
     },
     upperShelf: {
-      title: "ГОРНИ ШКАФОВЕ",
       height: 0,
       width: 0,
       depth: 0,

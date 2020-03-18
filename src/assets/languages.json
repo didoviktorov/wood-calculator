@@ -67,6 +67,7 @@
       "cabinetsAddedMessage": "Добавени са %count% шкафа",
       "cabinetAddedMessage": "Добавен e %count% шкаф",
       "add": "добави",
+      "remove": "премахни",
       "hide": "скрий",
       "review": "прегледай",
       "deleteAll": "изтрий всички",
@@ -98,7 +99,17 @@
       "doorDepthIndex": "Дълбочина врата %index%",
       "addDoor": "добави врата",
       "deleteDoor": "изтрий врата",
-      "saveCabinet": "запази шкаф"
+      "saveCabinet": "запази шкаф",
+      "changeStandartWidthOfSides": "Промени стандартна дебелина на страници",
+      "standartWidthOfSidesIn": "Стандартна дебелина на страници в ",
+      "valueOfLowerRowOfCabinets": "Стойности за целия долен ред шкафове",
+      "totalWidthOfLowerRow": "Обща ширина на долния ред шкафове в",
+      "totalHeightOfLowerRow": "Обща височина на долния ред шкафове в",
+      "totalDepthOfLowerRow": "Обща дълбочина на долния ред шкафове в",
+      "valuesOfLowerRowOuterSides": "Стойности за страници на долния ред шкафове",
+      "nicheAppliancesValues": "Стойности за ниши за уреди",
+      "countOfNiches": "Брой ниши %count%",
+      "nicheWidthIn": "Ширина на ниша %index% в "
     },
     "EN": {
       "menu": "MENU",
@@ -167,6 +178,7 @@
       "cabinetsAddedMessage": "%count% cabinets were added",
       "cabinetAddedMessage": "A %count% was added",
       "add": "add",
+      "remove": "remove",
       "hide": "hide",
       "review": "review",
       "deleteAll": "delete all",
@@ -198,7 +210,17 @@
       "doorDepthIndex": "Depth of door %index%",
       "addDoor": "add door",
       "deleteDoor": "delete door",
-      "saveCabinet": "save cabinet"
+      "saveCabinet": "save cabinet",
+      "changeStandartWidthOfSides": "Change the standart width of sides",
+      "standartWidthOfSidesIn": "Standart width of sides in ",
+      "valueOfLowerRowOfCabinets": "Values ​​for the entire bottom row of cabinets",
+      "totalWidthOfLowerRow": "Total width of lower row of cabinets in",
+      "totalHeightOfLowerRow": "Total height of lower row of cabinets in",
+      "totalDepthOfLowerRow": "Total depth of lower row of cabinets in",
+      "valuesOfLowerRowOuterSides": "Values ​​for outer sides of the lower row of cabinets",
+      "nicheAppliancesValues": "Niche values ​​for appliances",
+      "countOfNiches": "Niches count %count%",
+      "nicheWidthIn": "Width of niche %index% in "
     }
   }
 }

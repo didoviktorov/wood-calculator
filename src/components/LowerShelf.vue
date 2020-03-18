@@ -5,13 +5,13 @@
         <v-row align="center" justify="center">
           <v-col cols="12">
             <div>
-              <h1>{{ shelfObject.title }}</h1>
+              <h1>{{ translate("lowerCabinets").toUpperCase() }}</h1>
             </div>
           </v-col>
         </v-row>
         <v-divider />
         <div class="header-section">
-          <h3>Промени стандартна дебелина на страници</h3>
+          <h3>{{ translate("changeStandartWidthOfSides") }}</h3>
         </div>
         <v-form v-model="validStaticSideWidth" @submit.prevent>
           <v-row align="center" justify="center">
@@ -24,7 +24,10 @@
             >
               <v-text-field
                 v-model="staticSidewidth"
-                :label="'Стандартна дебелина на страници в ' + calculationUnit"
+                :label="
+                  translate('standartWidthOfSidesIn') +
+                    translate(calculationUnit)
+                "
                 :rules="numberRules"
                 outlined
                 dense
@@ -38,14 +41,14 @@
                 color="success"
                 @click="changeStaticSidewidth"
               >
-                запази
+                {{ translate("save") }}
               </v-btn>
             </v-col>
           </v-row>
         </v-form>
         <v-divider />
         <div class="header-section">
-          <h3>Стойности за целия долен шкаф</h3>
+          <h3>{{ translate("valueOfLowerRowOfCabinets") }}</h3>
         </div>
         <v-form v-model="validWholeShelf" @submit.prevent>
           <v-row align="center" justify="center">
@@ -53,7 +56,11 @@
             <v-col cols="12" sm="8" md="4">
               <v-text-field
                 v-model="shelfWidth"
-                :label="'Обща ширина на долната част в ' + calculationUnit"
+                :label="
+                  translate('totalWidthOfLowerRow') +
+                    ' ' +
+                    translate(calculationUnit)
+                "
                 :rules="numberRules"
                 outlined
                 dense
@@ -65,7 +72,11 @@
             <v-col cols="12" sm="8" md="4">
               <v-text-field
                 v-model="shelfHeight"
-                :label="'Обща височина на долната част в ' + calculationUnit"
+                :label="
+                  translate('totalHeightOfLowerRow') +
+                    ' ' +
+                    translate(calculationUnit)
+                "
                 :rules="numberRules"
                 outlined
                 dense
@@ -77,7 +88,11 @@
             <v-col cols="12" sm="8" md="4">
               <v-text-field
                 v-model="shelfDepth"
-                :label="'Обща дълбочина на долната част в ' + calculationUnit"
+                :label="
+                  translate('totalDepthOfLowerRow') +
+                    ' ' +
+                    translate(calculationUnit)
+                "
                 :rules="numberRules"
                 outlined
                 dense
@@ -91,7 +106,7 @@
                 color="success"
                 @click="changeTheWholeShelfProperties"
               >
-                запази
+                {{ translate("save") }}
               </v-btn>
             </v-col>
           </v-row>
@@ -99,7 +114,7 @@
         <!-- Shelf outer sides region -->
         <v-divider />
         <div class="header-section">
-          <h3>Стойности за страници на долния шкаф</h3>
+          <h3>{{ translate("valuesOfLowerRowOuterSides") }}</h3>
         </div>
         <div
           v-if="
@@ -120,7 +135,7 @@
               class="left-button"
               @click="addShelfOuterSides"
             >
-              добави страници
+              {{ translate("addSides") }}
             </v-btn>
             <v-btn
               :disabled="shelfOuterSides.length == 0"
@@ -129,8 +144,8 @@
             >
               {{
                 showOuterShelfSidesForEdit
-                  ? "скрий страници"
-                  : "редактирай страници"
+                  ? translate("hideSides")
+                  : translate("editSides")
               }}
             </v-btn>
             <v-btn
@@ -140,7 +155,7 @@
               class="mr-4 right-button"
               @click="addShelfOuterSidesToStore"
             >
-              запази
+              {{ translate("save") }}
             </v-btn>
           </v-col>
         </v-row>
@@ -158,7 +173,7 @@
                     <v-text-field
                       v-model="side.width"
                       :rules="numberRules"
-                      label="Ширина"
+                      :label="translate('width')"
                       outlined
                       dense
                       required
@@ -170,7 +185,7 @@
                     <v-text-field
                       v-model="side.height"
                       :rules="numberRules"
-                      label="Височина"
+                      :label="translate('height')"
                       outlined
                       dense
                       required
@@ -182,7 +197,7 @@
                     <v-text-field
                       v-model="side.depth"
                       :rules="numberRules"
-                      label="Дълбочина"
+                      :label="translate('depth')"
                       outlined
                       dense
                       required
@@ -211,12 +226,17 @@
         </div>
         <v-divider />
         <div class="header-section">
-          <h3>Стойности за ниши за уреди</h3>
+          <h3>{{ translate("nicheAppliancesValues") }}</h3>
         </div>
         <!-- Static cabinets region -->
         <v-row align="center" justify="center">
           <v-col cols="12">
-            Статични размери брой {{ allStaticWidths.length }}
+            {{
+              translate("countOfNiches").replace(
+                "%count%",
+                allStaticWidths.length
+              )
+            }}
           </v-col>
           <v-col
             cols="12"
@@ -238,14 +258,14 @@
               class="left-button"
               @click="addStaticCabintes"
             >
-              добави
+              {{ translate("add") }}
             </v-btn>
             <v-btn
               :disabled="allStaticWidths.length == 0"
               class="right-button"
               @click="removeStaticcabintes"
             >
-              премахни
+              {{ translate("remove") }}
             </v-btn>
           </v-col>
         </v-row>
@@ -262,10 +282,8 @@
                   :key="index"
                   v-model="item.width"
                   :label="
-                    'Ширина на статичен шкаф ' +
-                      (index + 1) +
-                      ' в ' +
-                      calculationUnit
+                    translate('nicheWidthIn').replace('%index%', index + 1) +
+                      translate(calculationUnit)
                   "
                   outlined
                   dense
@@ -280,7 +298,7 @@
                 class="mr-4"
                 @click="addStaticWidth"
               >
-                запази
+                {{ translate("save") }}
               </v-btn>
             </v-form>
           </v-col>
