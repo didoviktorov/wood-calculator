@@ -123,7 +123,6 @@
                         color="error"
                         class="mx-2 delete-outer-side"
                         fab
-                        dark
                         small
                         @click="removeDetail(index)"
                       >
