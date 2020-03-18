@@ -26,7 +26,7 @@ export default new Vuex.Store({
       outerSides: []
     },
     otherDetails: [],
-    calculationUnit: "мм",
+    calculationUnit: "calculationUnit",
     staticOuterSideWidth: 18,
     standardFeetHeightOfCabinet: 100,
     maxNumberOfDoors: 2,

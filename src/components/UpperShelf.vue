@@ -4,12 +4,12 @@
       <v-container class="wrapper" fluid>
         <v-row align="center" justify="center">
           <v-col cols="12">
-            <h1>{{ shelfObject.title }}</h1>
+            <h1>{{ translate("upperShelfs").toUpperCase() }}</h1>
           </v-col>
         </v-row>
         <v-divider />
         <div class="header-section">
-          <h3>Стойности за целия горен шкаф</h3>
+          <h3>{{ translate("allUpperCabinetsValues") }}</h3>
         </div>
         <v-form v-model="validWholeShelf" @submit.prevent>
           <v-row align="center" justify="center">
@@ -17,7 +17,11 @@
             <v-col cols="12" sm="8" md="4">
               <v-text-field
                 v-model="shelfWidth"
-                :label="'Обща ширина на горната част в ' + calculationUnit"
+                :label="
+                  translate('totalWidthOfTopRow') +
+                    ' ' +
+                    translate(calculationUnit)
+                "
                 :rules="numberRules"
                 outlined
                 dense
@@ -29,7 +33,11 @@
             <v-col cols="12" sm="8" md="4">
               <v-text-field
                 v-model="shelfHeight"
-                :label="'Обща височина на горната част в ' + calculationUnit"
+                :label="
+                  translate('totalHeightOfTopRow') +
+                    ' ' +
+                    translate(calculationUnit)
+                "
                 :rules="numberRules"
                 outlined
                 dense
@@ -41,7 +49,11 @@
             <v-col cols="12" sm="8" md="4">
               <v-text-field
                 v-model="shelfDepth"
-                :label="'Обща дълбочина на горната част в ' + calculationUnit"
+                :label="
+                  translate('totalDepthOfTopRow') +
+                    ' ' +
+                    translate(calculationUnit)
+                "
                 :rules="numberRules"
                 outlined
                 dense
@@ -55,7 +67,7 @@
                 color="success"
                 @click="changeTheWholeShelfProperties"
               >
-                запази
+                {{ translate("save") }}
               </v-btn>
             </v-col>
           </v-row>
@@ -63,7 +75,7 @@
         <!-- Shelf outer sides region -->
         <v-divider />
         <div class="header-section">
-          <h3>Стойности за страници на долния шкаф</h3>
+          <h3>{{ translate("outherSidesUpperRowCabinets") }}</h3>
         </div>
         <div
           v-if="
@@ -84,7 +96,7 @@
               class="left-button"
               @click="addShelfOuterSides"
             >
-              добави страници
+              {{ translate("addSides") }}
             </v-btn>
             <v-btn
               :disabled="shelfOuterSides.length == 0"
@@ -93,8 +105,8 @@
             >
               {{
                 showOuterShelfSidesForEdit
-                  ? "скрий страници"
-                  : "редактирай страници"
+                  ? translate("hideSides")
+                  : translate("editSides")
               }}
             </v-btn>
             <v-btn
@@ -104,7 +116,7 @@
               class="mr-4 right-button"
               @click="addShelfOuterSidesToStore"
             >
-              запази
+              {{ translate("save") }}
             </v-btn>
           </v-col>
         </v-row>
@@ -122,7 +134,7 @@
                     <v-text-field
                       v-model="side.width"
                       :rules="numberRules"
-                      label="Ширина"
+                      :label="translate('width')"
                       outlined
                       dense
                       required
@@ -134,7 +146,7 @@
                     <v-text-field
                       v-model="side.height"
                       :rules="numberRules"
-                      label="Височина"
+                      :label="translate('height')"
                       outlined
                       dense
                       required
@@ -146,7 +158,7 @@
                     <v-text-field
                       v-model="side.depth"
                       :rules="numberRules"
-                      label="Дълбочина"
+                      :label="translate('depth')"
                       outlined
                       dense
                       required
@@ -232,6 +244,11 @@ export default {
     }
   },
   methods: {
+    translate(literal) {
+      return this.$store.state.languages.languages[
+        this.$store.state.selectedLang
+      ][literal];
+    },
     isAllShelfOuterSidesValid() {
       for (let side of this.shelfOuterSides) {
         if (!side.isValid) {
@@ -259,29 +276,31 @@ export default {
       }
     },
     getShelfOuterSidesAddedMessage() {
-      let letStartMessage =
-        this.shelfOuterSides.length == 1
-          ? "Ще бъдe добавена " +
-            this.$getnumberWord(this.shelfOuterSides.length - 1) +
-            " страница"
-          : "Ще бъдат добавени " +
-            this.$getnumberWord(this.shelfOuterSides.length - 1) +
-            " страници";
-
       let message =
-        letStartMessage +
-        " с дебелина: " +
-        this.getStaticOuterSideWidth +
-        " " +
-        this.$store.state.calculationUnit +
-        " дълбочина: " +
-        this.shelfDepth +
-        " " +
-        this.$store.state.calculationUnit +
-        " и височина: " +
-        this.shelfHeight +
-        " " +
-        this.$store.state.calculationUnit;
+        this.shelfOuterSides.length == 1
+          ? this.translate("sideWillBeAdded")
+          : this.translate("sidesWillBeAdded");
+
+      message = message.replace("%count%", this.shelfOuterSides.length);
+      message = message.replace(
+        "%width%",
+        this.translate("width").toLowerCase()
+      );
+      message = message.replace("%widthNumber%", this.getStaticOuterSideWidth);
+      message = message.replace(
+        "%height%",
+        this.translate("height").toLowerCase()
+      );
+      message = message.replace("%heightNumber%", this.shelfHeight);
+      message = message.replace(
+        "%depth%",
+        this.translate("depth").toLowerCase()
+      );
+      message = message.replace("%depthNumber%", this.shelfDepth);
+      message = message.replace(
+        /(%calculationUnit%)+/g,
+        this.translate(this.calculationUnit)
+      );
 
       return message;
     },

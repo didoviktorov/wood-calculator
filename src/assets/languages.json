@@ -7,6 +7,9 @@
       "otherDetails": "Други Детайли",
       "otherDetailsCount": "Брой други детайли",
       "addDetail": "добави детайл",
+      "addSides": "добави страници",
+      "hideSides": "скрий страници",
+      "editSides": "промени страници",
       "otherDetailsTitle": "ДРУГИ ДЕТАЙЛИ",
       "hideDetails": "скрий детайли",
       "editDetails": "редактирай детайли",
@@ -46,7 +49,17 @@
       "width": "Ширина",
       "length": "Дължина",
       "thickness": "Дебелина",
-      "doubleSided": "двустранен"
+      "doubleSided": "двустранен",
+      "height": "Височина",
+      "depth": "Дълбочина",
+      "allUpperCabinetsValues": "Стойности за целия горен ред шкафове",
+      "outherSidesUpperRowCabinets": "Стойности за страници на горния ред шкафове",
+      "totalWidthOfTopRow": "Обща ширина на горния ред шкафове в",
+      "totalHeightOfTopRow": "Обща височина на горния ред шкафове в",
+      "totalDepthOfTopRow": "Обща дълбочина на горния ред шкафове в",
+      "calculationUnit": "мм",
+      "sideWillBeAdded": "Ще бъдe добавена %count% страница с %width%: %widthNumber% %calculationUnit% %depth%: %depthNumber% %calculationUnit% и %height%: %heightNumber% %calculationUnit%",
+      "sidesWillBeAdded": "Ще бъдат добавени %count% страници с %width%: %widthNumber% %calculationUnit% %depth%: %depthNumber% %calculationUnit% и %height%: %heightNumber% %calculationUnit%"
     },
     "EN": {
       "menu": "MENU",
@@ -55,6 +68,9 @@
       "otherDetails": "Other Details",
       "otherDetailsCount": "Other Details Count",
       "addDetail": "add detail",
+      "addSides": "add sides",
+      "hideSides": "hide sides",
+      "editSides": "edit sides",
       "otherDetailsTitle": "OTHER DETAILS",
       "hideDetails": "hide details",
       "editDetails": "edit details",
@@ -94,7 +110,17 @@
       "width": "Width",
       "length": "Length",
       "thickness": "Тhickness",
-      "doubleSided": "doublesided"
+      "doubleSided": "doublesided",
+      "height": "Height",
+      "depth": "Depth",
+      "allUpperCabinetsValues": "Values ​​for the entire top row of cabinets",
+      "outherSidesUpperRowCabinets": "Top row cabinets values ​​for outer sides",
+      "totalWidthOfTopRow": "Total width of top row of cabinets in",
+      "totalHeightOfTopRow": "Total height of top row of cabinets in",
+      "totalDepthOfTopRow": "Total depth of top row of cabinets in",
+      "calculationUnit": "mm",
+      "sideWillBeAdded": "A %count% side with %width%: %widthNumber% %calculationUnit% %depth%: %depthNumber% %calculationUnit% and %height%: %heightNumber% %calculationUnit% will be added",
+      "sidesWillBeAdded": "%count% sides with %width%: %widthNumber% %calculationUnit% %depth%: %depthNumber% %calculationUnit% and %height%: %heightNumber% %calculationUnit% will be added"
     }
   }
 }

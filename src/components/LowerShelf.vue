@@ -350,6 +350,11 @@ export default {
     }
   },
   methods: {
+    translate(literal) {
+      return this.$store.state.languages.languages[
+        this.$store.state.selectedLang
+      ][literal];
+    },
     changeStaticSidewidth() {
       let newWidth = parseInt(this.staticSidewidth);
       this.$store.dispatch("changeStaticsidewidth", newWidth);
@@ -407,29 +412,31 @@ export default {
       }
     },
     getShelfOuterSidesAddedMessage() {
-      let letStartMessage =
-        this.shelfOuterSides.length == 1
-          ? "Ще бъдe добавена " +
-            this.$getnumberWord(this.shelfOuterSides.length - 1) +
-            " страница"
-          : "Ще бъдат добавени " +
-            this.$getnumberWord(this.shelfOuterSides.length - 1) +
-            " страници";
-
       let message =
-        letStartMessage +
-        " с дебелина: " +
-        this.getStaticOuterSideWidth +
-        " " +
-        this.calculationUnit +
-        " дълбочина: " +
-        this.shelfDepth +
-        " " +
-        this.calculationUnit +
-        " и височина: " +
-        this.shelfHeight +
-        " " +
-        this.calculationUnit;
+        this.shelfOuterSides.length == 1
+          ? this.translate("sideWillBeAdded")
+          : this.translate("sidesWillBeAdded");
+
+      message = message.replace("%count%", this.shelfOuterSides.length);
+      message = message.replace(
+        "%width%",
+        this.translate("width").toLowerCase()
+      );
+      message = message.replace("%widthNumber%", this.getStaticOuterSideWidth);
+      message = message.replace(
+        "%height%",
+        this.translate("height").toLowerCase()
+      );
+      message = message.replace("%heightNumber%", this.shelfHeight);
+      message = message.replace(
+        "%depth%",
+        this.translate("depth").toLowerCase()
+      );
+      message = message.replace("%depthNumber%", this.shelfDepth);
+      message = message.replace(
+        /(%calculationUnit%)+/g,
+        this.translate(this.calculationUnit)
+      );
 
       return message;
     },
