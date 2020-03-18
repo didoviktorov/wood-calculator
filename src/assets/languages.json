@@ -109,7 +109,13 @@
       "valuesOfLowerRowOuterSides": "Стойности за страници на долния ред шкафове",
       "nicheAppliancesValues": "Стойности за ниши за уреди",
       "countOfNiches": "Брой ниши %count%",
-      "nicheWidthIn": "Ширина на ниша %index% в "
+      "nicheWidthIn": "Ширина на ниша %index% в ",
+      "changeStandartHeightOfLegs": "Промени стандартна височина на крачета",
+      "standartHeightOfLegs": "Стандартна височина на крачета в ",
+      "aperturesCabinetIndex": "Горни стабилизатори шкаф %index%",
+      "apertureWidthIndex": "Ширина стабилизатор %index%",
+      "apertureHeightIndex": "Височина стабилизатор %index%",
+      "apertureDepthIndex": "Дълбочина стабилизатор %index%"
     },
     "EN": {
       "menu": "MENU",
@@ -220,7 +226,13 @@
       "valuesOfLowerRowOuterSides": "Values ​​for outer sides of the lower row of cabinets",
       "nicheAppliancesValues": "Niche values ​​for appliances",
       "countOfNiches": "Niches count %count%",
-      "nicheWidthIn": "Width of niche %index% in "
+      "nicheWidthIn": "Width of niche %index% in ",
+      "changeStandartHeightOfLegs": "Change standart height of cabinet legs",
+      "standartHeightOfLegs": "Standart height of cabinet legs in ",
+      "aperturesCabinetIndex": "Upper apertures for cabinet %index%",
+      "apertureWidthIndex": "Width of aperture for cabinet %index%",
+      "apertureHeightIndex": "Height of aperture for cabinet %index%",
+      "apertureDepthIndex": "Depth of aperture for cabinet %index%"
     }
   }
 }
