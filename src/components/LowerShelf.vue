@@ -376,6 +376,14 @@ export default {
     changeStaticSidewidth() {
       let newWidth = parseInt(this.staticSidewidth);
       this.$store.dispatch("changeStaticsidewidth", newWidth);
+      this.$toasted.info("test", {
+        action: {
+          text: this.translate("close"),
+          onClick: (e, toastObject) => {
+            toastObject.goAway(0);
+          }
+        }
+      });
     },
     changeTheWholeShelfProperties() {
       let formWidth = parseInt(this.shelfWidth, 10);

@@ -4,6 +4,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
+import toasted from "./plugins/vue-toasted";
 import numToWord from "./plugins/numberToWord";
 import numberRules from "./plugins/numberValidationRules";
 import lowerCabinetInstance from "./plugins/copyInnerLowerCabinets";
@@ -23,5 +24,6 @@ new Vue({
   router,
   store,
   vuetify,
+  toasted,
   render: h => h(App)
 }).$mount("#app");
