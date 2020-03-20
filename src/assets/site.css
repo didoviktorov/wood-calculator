@@ -79,3 +79,7 @@
     margin: 0 !important;
   }
 }
+.notification a {
+  color: #fff !important;
+  text-decoration: none !important;
+}

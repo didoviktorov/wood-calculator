@@ -115,7 +115,8 @@
       "aperturesCabinetIndex": "Горни стабилизатори шкаф %index%",
       "apertureWidthIndex": "Ширина стабилизатор %index%",
       "apertureHeightIndex": "Височина стабилизатор %index%",
-      "apertureDepthIndex": "Дълбочина стабилизатор %index%"
+      "apertureDepthIndex": "Дълбочина стабилизатор %index%",
+      "successfullChange": "УСПЕШНО ПРОМЕНЕНО"
     },
     "EN": {
       "menu": "MENU",
@@ -232,7 +233,8 @@
       "aperturesCabinetIndex": "Upper apertures for cabinet %index%",
       "apertureWidthIndex": "Width of aperture for cabinet %index%",
       "apertureHeightIndex": "Height of aperture for cabinet %index%",
-      "apertureDepthIndex": "Depth of aperture for cabinet %index%"
+      "apertureDepthIndex": "Depth of aperture for cabinet %index%",
+      "successfullChange": "SUCCESSFULLY CHANGED"
     }
   }
 }

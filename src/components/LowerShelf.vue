@@ -376,7 +376,8 @@ export default {
     changeStaticSidewidth() {
       let newWidth = parseInt(this.staticSidewidth);
       this.$store.dispatch("changeStaticsidewidth", newWidth);
-      this.$toasted.success("test", {
+
+      this.$toasted.success(this.translate("successfullChange"), {
         action: {
           text: this.translate("close"),
           class: "notification-close",
