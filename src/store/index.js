@@ -69,7 +69,7 @@ export default new Vuex.Store({
       }
       value.forEach(element => {
         element.width = parseInt(element.width);
-        state.lowerShelf.staticCabinets.push(element);
+        state.lowerShelf.staticCabinets.push({ width: element.width });
       });
     },
     ADD_SHELF_OUTER_SIDE(state, side) {

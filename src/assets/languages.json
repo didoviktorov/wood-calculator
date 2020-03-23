@@ -116,7 +116,13 @@
       "apertureWidthIndex": "Ширина стабилизатор %index%",
       "apertureHeightIndex": "Височина стабилизатор %index%",
       "apertureDepthIndex": "Дълбочина стабилизатор %index%",
-      "successfullChange": "УСПЕШНО ПРОМЕНЕНО"
+      "successfullSideWidthChange": "УСПЕШНО ПРОМЕНЕНA ДЕБЕЛИНА",
+      "successfullyStoredValues": "УСПЕШНО ВЪВЕДЕНИ ДАННИ",
+      "successfullyChangedValues": "УСПЕШНО ПРОМЕНЕНИ СТОЙНОСТИ",
+      "successfullyAddedOuterSides": "УСПЕШНО ДОБАВЕНИ ВЪНШНИ СТРАНИЦИ",
+      "successfullyDeletedOuterSide": "ИЗТРИХТЕ ЕДНА СТРАНИЦА",
+      "successfullyAddedStaticWidths": "УСПЕШНО ЗАПАЗЕНИ НИШИ ЗА УРЕДИ",
+      "successfullyDeletedNiche": "БЕШЕ ИЗТРИТА НИША ЗА УРЕДИ"
     },
     "EN": {
       "menu": "MENU",
@@ -153,7 +159,7 @@
       "doubleLongShort": "(2 x l)/s",
       "sides": "sides",
       "bottoms": "bottoms",
-      "apertures": "apertures",
+      "apertures": "upper supports",
       "shelfs": "shelfs",
       "doors": "doors",
       "backs": "backs",
@@ -234,7 +240,13 @@
       "apertureWidthIndex": "Width of aperture for cabinet %index%",
       "apertureHeightIndex": "Height of aperture for cabinet %index%",
       "apertureDepthIndex": "Depth of aperture for cabinet %index%",
-      "successfullChange": "SUCCESSFULLY CHANGED"
+      "successfullSideWidthChange": "SUCCESSFULLY CHANGED WIDTH",
+      "successfullyStoredValues": "VALUES ARE SUCCESSFULLY STORED",
+      "successfullyChangedValues": "SUCCESSFULLY CHANGED VALUES",
+      "successfullyAddedOuterSides": "SUCCESSFULLY ADDED OUTER SIDES",
+      "successfullyDeletedOuterSide": "ONE OUTER SIDE WAS DELETED",
+      "successfullyAddedStaticWidths": "SUCCESSFULLY STORED NICHES",
+      "successfullyDeletedNiche": "ONE NICHE WAS DELETED"
     }
   }
 }

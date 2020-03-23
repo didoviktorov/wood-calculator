@@ -83,3 +83,8 @@
   color: #fff !important;
   text-decoration: none !important;
 }
+@media only screen and (max-width: 600px) {
+  .toasted-container.top-center {
+    top: 3rem !important;
+  }
+}

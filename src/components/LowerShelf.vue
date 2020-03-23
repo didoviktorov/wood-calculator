@@ -263,7 +263,7 @@
             <v-btn
               :disabled="allStaticWidths.length == 0"
               class="right-button"
-              @click="removeStaticcabintes"
+              @click="removeStaticCabintes"
             >
               {{ translate("remove") }}
             </v-btn>
@@ -321,10 +321,10 @@ export default {
     validWholeShelf: false,
     validStaticWidth: false,
     validStaticSideWidth: false,
-    staticSidewidth: 0,
-    shelfWidth: 0,
-    shelfHeight: 0,
-    shelfDepth: 0,
+    staticSidewidth: "",
+    shelfWidth: "",
+    shelfHeight: "",
+    shelfDepth: "",
     shelfOuterSides: [],
     allStaticWidths: [],
     maxNumberOfStaticCabinets: 5,
@@ -375,32 +375,50 @@ export default {
     },
     changeStaticSidewidth() {
       let newWidth = parseInt(this.staticSidewidth);
-      this.$store.dispatch("changeStaticsidewidth", newWidth);
+      if (newWidth != this.$store.state.staticOuterSideWidth) {
+        this.$store.dispatch("changeStaticsidewidth", newWidth);
 
-      this.$toasted.success(this.translate("successfullChange"), {
-        action: {
-          text: this.translate("close"),
-          class: "notification-close",
-          onClick: (e, toastObject) => {
-            toastObject.goAway(0);
+        this.$toasted.success(this.translate("successfullSideWidthChange"), {
+          action: {
+            text: this.translate("close"),
+            class: "notification-close",
+            onClick: (e, toastObject) => {
+              toastObject.goAway(0);
+            }
           }
-        }
-      });
+        });
+      }
     },
     changeTheWholeShelfProperties() {
       let formWidth = parseInt(this.shelfWidth, 10);
+      let riseNotification = false;
       if (formWidth != this.shelfObject.width) {
         this.$store.dispatch("changeShelfWidth", formWidth);
+        riseNotification = true;
       }
 
       let formHeight = parseInt(this.shelfHeight, 10);
       if (formHeight != this.shelfObject.height) {
         this.$store.dispatch("changeShelfHeight", formHeight);
+        riseNotification = true;
       }
 
       let formDepth = parseInt(this.shelfDepth, 10);
       if (formDepth != this.shelfObject.depth) {
         this.$store.dispatch("changeShelfDepth", formDepth);
+        riseNotification = true;
+      }
+
+      if (riseNotification) {
+        this.$toasted.success(this.translate("successfullyStoredValues"), {
+          action: {
+            text: this.translate("close"),
+            class: "notification-close",
+            onClick: (e, toastObject) => {
+              toastObject.goAway(0);
+            }
+          }
+        });
       }
     },
     addShelfOuterSides() {
@@ -423,6 +441,45 @@ export default {
     },
     addShelfOuterSidesToStore() {
       if (this.isAllShelfOuterSidesValid()) {
+        if (
+          this.shelfOuterSides.length !=
+          this.$store.state.lowerShelf.outerSides.length
+        ) {
+          this.$toasted.success(this.translate("successfullyAddedOuterSides"), {
+            action: {
+              text: this.translate("close"),
+              class: "notification-close",
+              onClick: (e, toastObject) => {
+                toastObject.goAway(0);
+              }
+            }
+          });
+        } else {
+          for (let i = 0; i < this.shelfOuterSides.length; i++) {
+            if (
+              this.shelfOuterSides[i].width !=
+                this.$store.state.lowerShelf.outerSides[i].width ||
+              this.shelfOuterSides[i].height !=
+                this.$store.state.lowerShelf.outerSides[i].height ||
+              this.shelfOuterSides[i].depth !=
+                this.$store.state.lowerShelf.outerSides[i].depth
+            ) {
+              this.$toasted.success(
+                this.translate("successfullyChangedValues"),
+                {
+                  action: {
+                    text: this.translate("close"),
+                    class: "notification-close",
+                    onClick: (e, toastObject) => {
+                      toastObject.goAway(0);
+                    }
+                  }
+                }
+              );
+              break;
+            }
+          }
+        }
         this.$store.dispatch("clearShelfOuterSides");
         for (let side of this.shelfOuterSides) {
           this.$store.dispatch("addShelfOuterSide", side);
@@ -433,6 +490,15 @@ export default {
       if (index >= 0 && index < this.shelfOuterSides.length) {
         this.shelfOuterSides.splice(index, 1);
         this.$store.dispatch("removeShelfOuterSide", index);
+        this.$toasted.error(this.translate("successfullyDeletedOuterSide"), {
+          action: {
+            text: this.translate("close"),
+            class: "notification-close",
+            onClick: (e, toastObject) => {
+              toastObject.goAway(0);
+            }
+          }
+        });
       }
 
       if (this.shelfOuterSides.length <= 0) {
@@ -474,23 +540,65 @@ export default {
     addStaticCabintes() {
       if (this.allStaticWidths.length < this.maxNumberOfStaticCabinets) {
         let currentCabinet = {
-          width: 0
+          width: ""
         };
         this.allStaticWidths.push(currentCabinet);
       }
     },
-    removeStaticcabintes() {
+    removeStaticCabintes() {
       if (this.allStaticWidths.length > 0) {
         if (
           this.allStaticWidths.length ==
           this.$store.state.lowerShelf.staticCabinets.length
         ) {
+          this.$toasted.error(this.translate("successfullyDeletedNiche"), {
+            action: {
+              text: this.translate("close"),
+              class: "notification-close",
+              onClick: (e, toastObject) => {
+                toastObject.goAway(0);
+              }
+            }
+          });
           this.$store.dispatch("removeStaticCabinet");
         }
         this.allStaticWidths.splice(this.allStaticWidths.length - 1);
       }
     },
     addStaticWidth() {
+      if (
+        this.allStaticWidths.length !=
+        this.$store.state.lowerShelf.staticCabinets.length
+      ) {
+        this.$toasted.success(this.translate("successfullyAddedStaticWidths"), {
+          action: {
+            text: this.translate("close"),
+            class: "notification-close",
+            onClick: (e, toastObject) => {
+              toastObject.goAway(0);
+            }
+          }
+        });
+      } else {
+        for (let i = 0; i < this.allStaticWidths.length; i++) {
+          console.log(this.$store.state.lowerShelf.staticCabinets[i].width);
+          if (
+            parseInt(this.allStaticWidths[i].width) !=
+            this.$store.state.lowerShelf.staticCabinets[i].width
+          ) {
+            this.$toasted.success(this.translate("successfullyChangedValues"), {
+              action: {
+                text: this.translate("close"),
+                class: "notification-close",
+                onClick: (e, toastObject) => {
+                  toastObject.goAway(0);
+                }
+              }
+            });
+            break;
+          }
+        }
+      }
       this.$store.dispatch("addStaticFieldsWidth", this.allStaticWidths);
     }
   },
