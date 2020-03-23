@@ -4,11 +4,10 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
-// import toasted from "./plugins/vue-toasted";
-import numToWord from "./plugins/numberToWord";
 import numberRules from "./plugins/numberValidationRules";
 import lowerCabinetInstance from "./plugins/copyInnerLowerCabinets";
 import validateCabinets from "./plugins/validateCabinets";
+import isCabinetsChanged from "./plugins/isCabinetsChanged";
 
 import Toasted from "vue-toasted";
 
@@ -24,9 +23,9 @@ Vue.use(Toasted, options);
 
 Vue.config.productionTip = false;
 
-Vue.use(numToWord);
-
 Vue.use(numberRules);
+
+Vue.use(isCabinetsChanged);
 
 Vue.use(lowerCabinetInstance);
 

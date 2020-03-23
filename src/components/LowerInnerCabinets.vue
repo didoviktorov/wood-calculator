@@ -844,6 +844,17 @@ export default {
     },
     changeFeetsHeight() {
       let newHeight = parseInt(this.standardFeetHeight);
+      if (newHeight != this.$store.state.standardFeetHeightOfCabinet) {
+        this.$toasted.success(this.translate("successfullyChangedValues"), {
+          action: {
+            text: this.translate("close"),
+            class: "notification-close",
+            onClick: (e, toastObject) => {
+              toastObject.goAway(0);
+            }
+          }
+        });
+      }
       this.$store.dispatch("changeInnerCabinetsFeetHeight", newHeight);
     },
     addInnerCabinets() {
@@ -860,7 +871,7 @@ export default {
       const backDiff = 5;
       for (let i = 0; i < currentNumerOfCabinets; i++) {
         let currentCabinetToAdd = {
-          outerWidth: 0,
+          outerWidth: "",
           innerWidth: 0,
           height: heightOfCabinets,
           depth: this.$store.state.lowerShelf.depth,
@@ -912,7 +923,18 @@ export default {
       if (this.cabinets.length > 0) {
         this.cabinets = [];
         this.numberOfCabinets = 0;
+        this.$toasted.error(this.translate("successfullyDeletedCabinets"), {
+          action: {
+            text: this.translate("close"),
+            class: "notification-close",
+            onClick: (e, toastObject) => {
+              toastObject.goAway(0);
+            }
+          }
+        });
+
         this.$store.dispatch("removeAllLowerInnerCabinets");
+        this.numberOfCabinets = 0;
       }
     },
     addShelf(cabinet) {
@@ -964,16 +986,74 @@ export default {
         cabinets: this.cabinets,
         copyCabinet: this.$getCabinetInstance
       };
+      let hasChanged = this.$isCabinetsChanged(
+        this.cabinets,
+        this.$store.state.lowerShelf.cabinets,
+        false
+      );
+      if (
+        this.cabinets.length != this.$store.state.lowerShelf.cabinets.length
+      ) {
+        this.$toasted.success(this.translate("successfullyStoredCabinets"), {
+          action: {
+            text: this.translate("close"),
+            class: "notification-close",
+            onClick: (e, toastObject) => {
+              toastObject.goAway(0);
+            }
+          }
+        });
+      } else if (hasChanged) {
+        this.$toasted.success(this.translate("successfullyChangedValues"), {
+          action: {
+            text: this.translate("close"),
+            class: "notification-close",
+            onClick: (e, toastObject) => {
+              toastObject.goAway(0);
+            }
+          }
+        });
+      }
+
       this.$store.dispatch("addLowerShelfCabinets", args);
     },
     editCabinet(index) {
       let cabinetToEdit = this.$getCabinetInstance(this.cabinets[index]);
+      let hasChanged = this.$isCabinetsChanged(
+        this.cabinets,
+        this.$store.state.lowerShelf.cabinets,
+        false
+      );
 
+      if (
+        this.cabinets.length != this.$store.state.lowerShelf.cabinets.length
+      ) {
+        this.$toasted.success(this.translate("successfullyStoredCabinets"), {
+          action: {
+            text: this.translate("close"),
+            class: "notification-close",
+            onClick: (e, toastObject) => {
+              toastObject.goAway(0);
+            }
+          }
+        });
+      } else if (hasChanged) {
+        this.$toasted.success(this.translate("successfullyChangedValues"), {
+          action: {
+            text: this.translate("close"),
+            class: "notification-close",
+            onClick: (e, toastObject) => {
+              toastObject.goAway(0);
+            }
+          }
+        });
+      }
       cabinetToEdit.isEdited = true;
       let params = {
         editedCabinet: cabinetToEdit,
         cabinetIndex: index
       };
+
       this.$store.dispatch("saveCabinetLowerShelfCabinets", params);
     },
     openForEditHandler() {
