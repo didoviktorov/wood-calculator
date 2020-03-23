@@ -124,7 +124,9 @@
       "successfullyAddedStaticWidths": "УСПЕШНО ЗАПАЗЕНИ НИШИ ЗА УРЕДИ",
       "successfullyDeletedNiche": "БЕШЕ ИЗТРИТА НИША ЗА УРЕДИ",
       "successfullyStoredCabinets": "УСПЕШНО ДОБАВЕНИ ШКАФОВЕ",
-      "successfullyDeletedCabinets": "ВСИЧКИ ШКАФОВЕ БЯХА ИЗТРИТИ"
+      "successfullyDeletedCabinets": "ВСИЧКИ ШКАФОВЕ БЯХА ИЗТРИТИ",
+      "successfullyAddedOtherDetails": "УСПЕШНО ДОБАВЕНИ ДЕТАЙЛИ",
+      "successfullyRemovedOtherDetails": "БЕШЕ ИЗТРИТ ЕДИН ДЕТАЙЛ"
     },
     "EN": {
       "menu": "MENU",
@@ -250,7 +252,9 @@
       "successfullyAddedStaticWidths": "SUCCESSFULLY STORED NICHES",
       "successfullyDeletedNiche": "ONE NICHE WAS DELETED",
       "successfullyStoredCabinets": "SUCCESSFULLY ADDED CABINETS",
-      "successfullyDeletedCabinets": "ALL CABINETS WERE REMOVED"
+      "successfullyDeletedCabinets": "ALL CABINETS WERE REMOVED",
+      "successfullyAddedOtherDetails": "УСПЕШНО ДОБАВЕНИ ДЕТАЙЛИ",
+      "successfullyRemovedOtherDetails": "ONE DETAIL WAS REMOVED"
     }
   }
 }

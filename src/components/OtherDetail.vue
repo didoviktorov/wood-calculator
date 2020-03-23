@@ -197,10 +197,40 @@ export default {
       this.otherDetails.push(detail);
     },
     addDetailsToStore() {
+      if (this.otherDetails.length != this.$store.state.otherDetails.length) {
+        this.$toasted.success(this.translate("successfullyAddedOtherDetails"), {
+          action: {
+            text: this.translate("close"),
+            class: "notification-close",
+            onClick: (e, toastObject) => {
+              toastObject.goAway(0);
+            }
+          }
+        });
+      } else if (this.isDetailsChanged()) {
+        this.$toasted.success(this.translate("successfullyChangedValues"), {
+          action: {
+            text: this.translate("close"),
+            class: "notification-close",
+            onClick: (e, toastObject) => {
+              toastObject.goAway(0);
+            }
+          }
+        });
+      }
       this.$store.dispatch("addOtherDetails", this.otherDetails);
     },
     removeDetail(index) {
       if (index >= 0 && index < this.otherDetails.length) {
+        this.$toasted.error(this.translate("successfullyRemovedOtherDetails"), {
+          action: {
+            text: this.translate("close"),
+            class: "notification-close",
+            onClick: (e, toastObject) => {
+              toastObject.goAway(0);
+            }
+          }
+        });
         this.otherDetails.splice(index, 1);
         this.$store.dispatch("removeOtherDetail", index);
       }
@@ -208,6 +238,49 @@ export default {
       if (this.otherDetails.length <= 0) {
         this.showOtherDetailsForEdit = false;
       }
+    },
+    isDetailsChanged() {
+      for (
+        let detailIndex = 0;
+        detailIndex < this.otherDetails.length;
+        detailIndex++
+      ) {
+        let currentDetail = this.otherDetails[detailIndex];
+        let storeDetail = this.$store.state.otherDetails[detailIndex];
+        if (
+          currentDetail.height.value != storeDetail.height.value ||
+          currentDetail.length.value != storeDetail.length.value ||
+          currentDetail.width != storeDetail.width
+        ) {
+          return true;
+        }
+
+        if (
+          currentDetail.height.hasEdging != storeDetail.height.hasEdging ||
+          currentDetail.length.hasEdging != storeDetail.length.hasEdging
+        ) {
+          return true;
+        }
+
+        if (
+          currentDetail.height.hasEdging &&
+          storeDetail.height.hasEdging &&
+          currentDetail.height.hasDoubleEdging !=
+            storeDetail.height.hasDoubleEdging
+        ) {
+          return true;
+        }
+
+        if (
+          currentDetail.length.hasEdging &&
+          storeDetail.length.hasEdging &&
+          currentDetail.length.hasDoubleEdging !=
+            storeDetail.length.hasDoubleEdging
+        ) {
+          return true;
+        }
+      }
+      return false;
     }
   },
   mounted() {
