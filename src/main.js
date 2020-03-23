@@ -13,7 +13,7 @@ import Toasted from "vue-toasted";
 
 let options = {
   position: "top-center",
-  duration: 300000,
+  duration: 3000,
   closeOnSwipe: true,
   singleton: true,
   containerClass: "notification"

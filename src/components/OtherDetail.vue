@@ -184,12 +184,12 @@ export default {
         height: {
           hasEdging: false,
           hasDoubleEdging: false,
-          value: 0
+          value: ""
         },
         length: {
           hasEdging: false,
           hasDoubleEdging: false,
-          value: 0
+          value: ""
         },
         isValid: false
       };
