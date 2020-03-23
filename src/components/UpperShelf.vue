@@ -200,9 +200,9 @@ export default {
   },
   data: () => ({
     validWholeShelf: false,
-    shelfWidth: 0,
-    shelfHeight: 0,
-    shelfDepth: 0,
+    shelfWidth: "",
+    shelfHeight: "",
+    shelfDepth: "",
     shelfOuterSides: [],
     showOuterShelfSidesForEdit: false
   }),
@@ -259,6 +259,45 @@ export default {
     },
     addShelfOuterSidesToStore() {
       if (this.isAllShelfOuterSidesValid()) {
+        if (
+          this.shelfOuterSides.length !=
+          this.$store.state.upperShelf.outerSides.length
+        ) {
+          this.$toasted.success(this.translate("successfullyAddedOuterSides"), {
+            action: {
+              text: this.translate("close"),
+              class: "notification-close",
+              onClick: (e, toastObject) => {
+                toastObject.goAway(0);
+              }
+            }
+          });
+        } else {
+          for (let i = 0; i < this.shelfOuterSides.length; i++) {
+            if (
+              this.shelfOuterSides[i].width !=
+                this.$store.state.upperShelf.outerSides[i].width ||
+              this.shelfOuterSides[i].height !=
+                this.$store.state.upperShelf.outerSides[i].height ||
+              this.shelfOuterSides[i].depth !=
+                this.$store.state.upperShelf.outerSides[i].depth
+            ) {
+              this.$toasted.success(
+                this.translate("successfullyChangedValues"),
+                {
+                  action: {
+                    text: this.translate("close"),
+                    class: "notification-close",
+                    onClick: (e, toastObject) => {
+                      toastObject.goAway(0);
+                    }
+                  }
+                }
+              );
+              break;
+            }
+          }
+        }
         this.$store.dispatch("clearUpperShelfOuterSides");
         for (let side of this.shelfOuterSides) {
           this.$store.dispatch("addUpperShelfOuterSide", side);
@@ -269,6 +308,15 @@ export default {
       if (index >= 0 && index < this.shelfOuterSides.length) {
         this.shelfOuterSides.splice(index, 1);
         this.$store.dispatch("removeUpperShelfOuterSide", index);
+        this.$toasted.error(this.translate("successfullyDeletedOuterSide"), {
+          action: {
+            text: this.translate("close"),
+            class: "notification-close",
+            onClick: (e, toastObject) => {
+              toastObject.goAway(0);
+            }
+          }
+        });
       }
 
       if (this.shelfOuterSides.length <= 0) {
@@ -319,18 +367,36 @@ export default {
     },
     changeTheWholeShelfProperties() {
       let formWidth = parseInt(this.shelfWidth, 10);
+      let riseNotification = false;
       if (formWidth != this.shelfObject.width) {
         this.$store.dispatch("changeUpperShelfWidth", formWidth);
+        riseNotification = true;
       }
 
       let formHeight = parseInt(this.shelfHeight, 10);
       if (formHeight != this.shelfObject.height) {
         this.$store.dispatch("changeUpperShelfHeight", formHeight);
+        riseNotification = true;
       }
 
       let formDepth = parseInt(this.shelfDepth, 10);
       if (formDepth != this.shelfObject.depth) {
         this.$store.dispatch("changeUpperShelfDepth", formDepth);
+        riseNotification = true;
+      }
+
+      if (riseNotification) {
+        if (riseNotification) {
+          this.$toasted.success(this.translate("successfullyStoredValues"), {
+            action: {
+              text: this.translate("close"),
+              class: "notification-close",
+              onClick: (e, toastObject) => {
+                toastObject.goAway(0);
+              }
+            }
+          });
+        }
       }
     }
   },
