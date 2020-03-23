@@ -1,6 +1,7 @@
 export default {
   install(Vue) {
     function changedCabinets(cabinets, storeCabinets, isUpperRow) {
+      console.log(isUpperRow);
       for (let i = 0; i < storeCabinets.length; i++) {
         let currentCabinet = cabinets[i];
         let storeCabinet = storeCabinets[i];
@@ -100,11 +101,19 @@ export default {
             }
           }
         }
-      }
 
-      //   if (cabinets.length != storeCabinets.length) {
-      //     return true;
-      //   }
+        if (isUpperRow) {
+          let currentCeil = currentCabinet.ceil;
+          let storeCeil = storeCabinet.ceil;
+          if (
+            currentCeil.depth != storeCeil.depth ||
+            currentCeil.width != storeCeil.width ||
+            currentCeil.height != storeCeil.height
+          ) {
+            return true;
+          }
+        }
+      }
 
       return false;
     }

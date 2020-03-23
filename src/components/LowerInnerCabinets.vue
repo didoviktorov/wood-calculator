@@ -877,12 +877,12 @@ export default {
           depth: this.$store.state.lowerShelf.depth,
           showCabinetElements: false,
           bottom: {
-            width: 0,
+            width: "",
             height: this.$store.state.staticOuterSideWidth,
             depth: this.$store.state.lowerShelf.depth
           },
           back: {
-            width: 0,
+            width: "",
             height: heightOfCabinets - backDiff
           },
           sides: [
@@ -899,12 +899,12 @@ export default {
           ],
           upperHolders: [
             {
-              width: 0,
+              width: "",
               height: this.$store.state.staticOuterSideWidth,
               depth: this.$store.state.standardFeetHeightOfCabinet
             },
             {
-              width: 0,
+              width: "",
               height: this.$store.state.staticOuterSideWidth,
               depth: this.$store.state.standardFeetHeightOfCabinet
             }
