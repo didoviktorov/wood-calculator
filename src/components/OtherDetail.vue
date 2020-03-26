@@ -92,6 +92,7 @@
                   <v-checkbox
                     v-model="detail.height.hasDoubleEdging"
                     :label="translate('doubleSided')"
+                    :disabled="!detail.height.hasEdging"
                   ></v-checkbox>
 
                   <v-col cols="12" md="2">
@@ -114,6 +115,7 @@
                   <v-checkbox
                     v-model="detail.length.hasDoubleEdging"
                     :label="translate('doubleSided')"
+                    :disabled="!detail.length.hasEdging"
                   ></v-checkbox>
 
                   <v-col cols="12" md="1" justify-content>
