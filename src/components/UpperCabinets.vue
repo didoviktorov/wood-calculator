@@ -587,7 +587,7 @@ export default {
           remainingWidth += this.$store.state.upperShelf.cabinets[cabinetIndex]
             .outerWidth;
         }
-        remainingWidth -= parseInt(this.cabinets[cabinetIndex].outerWidth);
+        remainingWidth -= this.cabinets[cabinetIndex].outerWidth;
       }
 
       return remainingWidth;
