@@ -160,7 +160,7 @@ export default {
       let indentation = "  ";
       let boldEdge = 0;
       let lightEdge = 0;
-
+      let totalDetailsCount = 0;
       let outerSidesDictionary = {};
       for (let outerSide of lowerShelf.outerSides) {
         lightEdge += outerSide.height;
@@ -177,6 +177,7 @@ export default {
         }
 
         outerSidesDictionary[currentDimension] += 1;
+        totalDetailsCount += 1;
       }
 
       for (let prop in outerSidesDictionary) {
@@ -215,6 +216,7 @@ export default {
           }
 
           sidesDictionary[currentDimension] += 1;
+          totalDetailsCount += 1;
         }
 
         /* bottoms */
@@ -234,6 +236,7 @@ export default {
         }
 
         bottomsDictionary[currentBottomDimension] += 1;
+        totalDetailsCount += 1;
 
         /* upper holders */
         for (let holder of cabinet.upperHolders) {
@@ -253,6 +256,7 @@ export default {
           }
 
           holdersDictionary[currentDimension] += 1;
+          totalDetailsCount += 1;
         }
 
         /* shelfs */
@@ -273,6 +277,7 @@ export default {
           }
 
           shelfsDictionary[currentDimension] += 1;
+          totalDetailsCount += 1;
         }
 
         /* doors */
@@ -288,6 +293,7 @@ export default {
           }
           boldEdge += 2 * (door.height + door.width);
           doorsDictionary[currentDimension] += 1;
+          totalDetailsCount += 1;
         }
 
         /* backs */
@@ -298,6 +304,7 @@ export default {
         }
 
         backsDictionary[currentBackDimension] += 1;
+        totalDetailsCount += 1;
       }
 
       for (let prop in sidesDictionary) {
@@ -391,6 +398,7 @@ export default {
         }
 
         outerSidesDictionary[currentDimension] += 1;
+        totalDetailsCount += 1;
       }
 
       for (let prop in outerSidesDictionary) {
@@ -426,6 +434,7 @@ export default {
           }
 
           sidesDictionary[currentDimension] += 1;
+          totalDetailsCount += 1;
         }
 
         /* bottoms */
@@ -445,6 +454,7 @@ export default {
         }
 
         bottomsDictionary[currentBottomDimension] += 1;
+        totalDetailsCount += 1;
 
         /* ceils */
         lightEdge += cabinet.ceil.width;
@@ -463,6 +473,7 @@ export default {
         }
 
         bottomsDictionary[currentCeilDimension] += 1;
+        totalDetailsCount += 1;
 
         /* shelfs */
         for (let shelf of cabinet.shelfs) {
@@ -482,6 +493,7 @@ export default {
           }
 
           shelfsDictionary[currentDimension] += 1;
+          totalDetailsCount += 1;
         }
 
         /* doors */
@@ -498,6 +510,7 @@ export default {
 
           boldEdge += 2 * (door.height + door.width);
           doorsDictionary[currentDimension] += 1;
+          totalDetailsCount += 1;
         }
 
         /* backs */
@@ -508,6 +521,7 @@ export default {
         }
 
         backsDictionary[currentBackDimension] += 1;
+        totalDetailsCount += 1;
       }
 
       for (let prop in sidesDictionary) {
@@ -620,6 +634,7 @@ export default {
           }
 
           otherDetailsDictionary[currentDimension] += 1;
+          totalDetailsCount += 1;
         }
       }
 
@@ -647,6 +662,12 @@ export default {
         strResult += indentation + this.translate("thinEdge") + " " + lightEdge;
       }
 
+      strResult +=
+        "\r\n" +
+        indentation +
+        this.translate("totalCountOfDetails") +
+        " " +
+        totalDetailsCount;
       this.textToExport = strResult;
     }
   }
