@@ -86,7 +86,7 @@
                   <v-checkbox
                     v-model="detail.height.hasEdging"
                     :label="translate('edge')"
-                    hide-details
+                    :onchange="changeEdging(index)"
                   ></v-checkbox>
 
                   <v-checkbox
@@ -110,6 +110,7 @@
                   <v-checkbox
                     v-model="detail.length.hasEdging"
                     :label="translate('edge')"
+                    :onchange="changeEdging(index)"
                   ></v-checkbox>
 
                   <v-checkbox
@@ -174,6 +175,21 @@ export default {
     }
   },
   methods: {
+    changeEdging(detailIndex) {
+      if (
+        !this.otherDetails[detailIndex].length.hasEdging &&
+        this.otherDetails[detailIndex].length.hasDoubleEdging
+      ) {
+        this.otherDetails[detailIndex].length.hasDoubleEdging = false;
+      }
+
+      if (
+        !this.otherDetails[detailIndex].height.hasEdging &&
+        this.otherDetails[detailIndex].height.hasDoubleEdging
+      ) {
+        this.otherDetails[detailIndex].height.hasDoubleEdging = false;
+      }
+    },
     translate(literal) {
       return this.$store.state.languages.languages[
         this.$store.state.selectedLang
