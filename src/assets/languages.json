@@ -127,7 +127,8 @@
       "successfullyDeletedCabinets": "ВСИЧКИ ШКАФОВЕ БЯХА ИЗТРИТИ",
       "successfullyAddedOtherDetails": "УСПЕШНО ДОБАВЕНИ ДЕТАЙЛИ",
       "successfullyRemovedOtherDetails": "БЕШЕ ИЗТРИТ ЕДИН ДЕТАЙЛ",
-      "totalCountOfDetails": "Общ брой на всички детайли"
+      "totalCountOfDetails": "Общ брой на всички детайли",
+      "detailTitle": "Име"
     },
     "EN": {
       "menu": "MENU",
@@ -256,7 +257,8 @@
       "successfullyDeletedCabinets": "ALL CABINETS WERE REMOVED",
       "successfullyAddedOtherDetails": "УСПЕШНО ДОБАВЕНИ ДЕТАЙЛИ",
       "successfullyRemovedOtherDetails": "ONE DETAIL WAS REMOVED",
-      "totalCountOfDetails": "Total count of all details"
+      "totalCountOfDetails": "Total count of all details",
+      "detailTitle": "Name"
     }
   }
 }

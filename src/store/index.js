@@ -150,6 +150,7 @@ export default new Vuex.Store({
       state.otherDetails = [];
       for (let newDetail of newDetails) {
         let detailToAdd = {
+          title: newDetail.title,
           count: newDetail.count,
           width: parseInt(newDetail.width),
           height: {

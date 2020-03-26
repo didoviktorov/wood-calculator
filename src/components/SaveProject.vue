@@ -628,7 +628,10 @@ export default {
             indentation +
             detail.height.value +
             "/" +
-            detail.length.value;
+            detail.length.value +
+            indentation +
+            "%split%" +
+            detail.title;
           if (!otherDetailsDictionary[currentDimension]) {
             otherDetailsDictionary[currentDimension] = 0;
           }
@@ -639,13 +642,17 @@ export default {
       }
 
       for (let prop in otherDetailsDictionary) {
+        let dimension = prop.split("%split%")[0].trim();
+        let title = prop.split("%split%")[1].trim();
         strResult +=
           indentation +
-          prop +
+          dimension +
           " x " +
           otherDetailsDictionary[prop] +
           " " +
           this.translate("detail") +
+          indentation +
+          title +
           "\r\n";
       }
 
@@ -663,7 +670,7 @@ export default {
       }
 
       strResult +=
-        "\r\n" +
+        "\r\n\r\n" +
         indentation +
         this.translate("totalCountOfDetails") +
         " " +

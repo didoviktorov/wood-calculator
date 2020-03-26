@@ -59,6 +59,17 @@
                     ></v-text-field>
                   </v-col>
 
+                  <v-col cols="4" md="1">
+                    <v-text-field
+                      v-model="detail.title"
+                      :rules="titleValidationRules"
+                      :label="translate('detailTitle')"
+                      outlined
+                      dense
+                      required
+                    ></v-text-field>
+                  </v-col>
+
                   <v-col cols="12" md="2">
                     <v-text-field
                       v-model="detail.width"
@@ -164,6 +175,10 @@ export default {
         if (width <= 0 || height <= 0 || length <= 0) {
           return false;
         }
+
+        if (!detail.isValid) {
+          return false;
+        }
       }
       return true;
     },
@@ -172,6 +187,9 @@ export default {
         this.$store.state.languages.languages[this.$store.state.selectedLang],
         this.$store.state.validatoinRulesLiterals
       );
+    },
+    titleValidationRules() {
+      return [v => !!v || this.translate("required")];
     }
   },
   methods: {
@@ -197,6 +215,7 @@ export default {
     },
     addOuterDetails() {
       let detail = {
+        title: "",
         count: 1,
         width: this.$store.state.staticOuterSideWidth,
         height: {
