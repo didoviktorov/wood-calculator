@@ -680,7 +680,6 @@ export default {
   },
   methods: {
     isAllDetailsValid() {
-      console.log("valid");
       return this.isAllCabinetsValid && this.validStandardFeetHeight;
     },
     translate(literal) {

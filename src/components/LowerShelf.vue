@@ -369,7 +369,6 @@ export default {
   },
   methods: {
     isAllDetailsValid() {
-      console.log("called");
       let childComponentValid = true;
       if (this.$store.state.currentChildOfChildRenderedCompnent) {
         childComponentValid = this.$store.state.currentChildOfChildRenderedCompnent.isAllDetailsValid();

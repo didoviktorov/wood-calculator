@@ -608,12 +608,8 @@ export default {
       );
     },
     isAllCabinetsValid() {
-      if (this.getPureWidthLeft < 0 || isNaN(this.getPureWidthLeft)) {
-        return false;
-      }
-
       for (let cabinet of this.cabinets) {
-        if (!cabinet.isValid) {
+        if (!cabinet.isValid || !cabinet.outerWidth) {
           return false;
         }
       }
@@ -974,6 +970,25 @@ export default {
           door.width = availableWidth - diff;
         }
       }
+    },
+    isAllDetailsValid() {
+      return this.isAllCabinetsValid;
+    },
+    addElementsToStore() {
+      let args = {
+        cabinets: this.cabinets,
+        copyCabinet: this.$getCabinetInstance
+      };
+      this.$store.dispatch("addUpperShelfCabinets", args);
+    },
+    isChanged() {
+      let cabinetsChanged = this.$isCabinetsChanged(
+        this.cabinets,
+        this.$store.state.upperShelf.cabinets,
+        true
+      );
+
+      return cabinetsChanged;
     }
   },
   mounted() {
@@ -982,6 +997,7 @@ export default {
     }
 
     this.numberOfCabinets = this.cabinets.length;
+    this.$store.dispatch("setChildRenderedComponent", this);
   }
 };
 </script>

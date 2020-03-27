@@ -398,6 +398,98 @@ export default {
           });
         }
       }
+    },
+    addElementsToStore() {
+      this.$store.dispatch("clearUpperShelfOuterSides");
+      for (let side of this.shelfOuterSides) {
+        this.$store.dispatch("addUpperShelfOuterSide", side);
+      }
+
+      this.$store.dispatch(
+        "changeUpperShelfWidth",
+        parseInt(this.shelfWidth, 10)
+      );
+
+      this.$store.dispatch(
+        "changeUpperShelfHeight",
+        parseInt(this.shelfHeight, 10)
+      );
+
+      this.$store.dispatch(
+        "changeUpperShelfDepth",
+        parseInt(this.shelfDepth, 10)
+      );
+
+      this.$toasted.success(this.translate("successfullyStoredValues"), {
+        action: {
+          text: this.translate("close"),
+          class: "notification-close",
+          onClick: (e, toastObject) => {
+            toastObject.goAway(0);
+          }
+        }
+      });
+
+      if (this.$store.state.currentChildOfChildRenderedCompnent) {
+        this.$store.state.currentChildOfChildRenderedCompnent.addElementsToStore();
+      }
+    },
+    isAllDetailsValid() {
+      let childComponentValid = true;
+      if (this.$store.state.currentChildOfChildRenderedCompnent) {
+        childComponentValid = this.$store.state.currentChildOfChildRenderedCompnent.isAllDetailsValid();
+      }
+      let outerSidesValid = true;
+      for (let side of this.shelfOuterSides) {
+        if (!side.isValid) {
+          outerSidesValid = false;
+          break;
+        }
+      }
+      return this.validWholeShelf && outerSidesValid && childComponentValid;
+    },
+    isChanged() {
+      console.log("upper");
+      if (
+        this.shelfWidth != this.$store.state.upperShelf.width ||
+        this.shelfHeight != this.$store.state.upperShelf.height ||
+        this.shelfDepth != this.$store.state.upperShelf.depth
+      ) {
+        return true;
+      }
+
+      if (
+        this.shelfOuterSides.length !=
+        this.$store.state.upperShelf.outerSides.length
+      ) {
+        return true;
+      }
+
+      for (
+        let outerSideIndex = 0;
+        outerSideIndex < this.shelfOuterSides.length;
+        outerSideIndex++
+      ) {
+        let outerSide = this.shelfOuterSides[outerSideIndex];
+        let storeOuterSide = this.$store.state.upperShelf.outerSides[
+          outerSideIndex
+        ];
+        if (
+          outerSide.depth != storeOuterSide.depth ||
+          outerSide.height != storeOuterSide.height ||
+          outerSide.width != storeOuterSide.width
+        ) {
+          return true;
+        }
+      }
+
+      if (this.$store.state.currentChildOfChildRenderedCompnent) {
+        if (this.$store.state.currentChildOfChildRenderedCompnent.isChanged()) {
+          return true;
+        }
+      }
+
+      return false;
     }
   },
   mounted() {
@@ -422,6 +514,8 @@ export default {
       };
       this.shelfOuterSides.push(currentSide);
     }
+
+    this.$store.dispatch("setRenderedComponent", this);
   }
 };
 </script>
