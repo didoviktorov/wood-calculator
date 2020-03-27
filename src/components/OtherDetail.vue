@@ -12,9 +12,10 @@
         <v-divider />
         <v-row align="center" justify="center">
           <v-col cols="12">
-            <v-btn class="left-button" @click="addOuterDetails">
+            <v-btn class="left-button" @click="addOtherDetails">
               {{ translate("addDetail") }}
             </v-btn>
+
             <v-btn
               :disabled="otherDetails.length == 0"
               class="right-button left-button"
@@ -26,6 +27,7 @@
                   : translate("editDetails")
               }}
             </v-btn>
+
             <v-btn
               v-if="otherDetails.length > 0"
               :disabled="!isAllDetailsValid"
@@ -34,6 +36,15 @@
               @click="addDetailsToStore"
             >
               {{ translate("save") }}
+            </v-btn>
+
+            <v-btn
+              :disabled="otherDetails.length == 0"
+              class="right-button left-button"
+              color="error"
+              @click="removeAllDetails"
+            >
+              {{ translate("deleteAll") }}
             </v-btn>
           </v-col>
         </v-row>
@@ -213,7 +224,7 @@ export default {
         this.$store.state.selectedLang
       ][literal];
     },
-    addOuterDetails() {
+    addOtherDetails() {
       let detail = {
         title: "",
         count: 1,
@@ -277,6 +288,10 @@ export default {
       }
     },
     isDetailsChanged() {
+      if (this.otherDetails.length != this.$store.state.otherDetails.length) {
+        return true;
+      }
+
       for (
         let detailIndex = 0;
         detailIndex < this.otherDetails.length;
@@ -316,13 +331,36 @@ export default {
         ) {
           return true;
         }
+
+        if (currentDetail.title != storeDetail.title) {
+          return true;
+        }
       }
       return false;
+    },
+    removeAllDetails() {
+      if (this.otherDetails.length) {
+        this.$toasted.error(
+          this.translate("successfullyRemovedAllOtherDetails"),
+          {
+            action: {
+              text: this.translate("close"),
+              class: "notification-close",
+              onClick: (e, toastObject) => {
+                toastObject.goAway(0);
+              }
+            }
+          }
+        );
+      }
+      this.otherDetails = [];
+      this.$store.dispatch("removeAllOtherDetails");
     }
   },
   mounted() {
+    this.otherDetails = [];
     for (let detail of this.$store.state.otherDetails) {
-      this.otherDetails.push(detail);
+      this.otherDetails.push(Object.assign({}, detail));
     }
   }
 };

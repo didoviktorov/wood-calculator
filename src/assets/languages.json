@@ -127,8 +127,12 @@
       "successfullyDeletedCabinets": "ВСИЧКИ ШКАФОВЕ БЯХА ИЗТРИТИ",
       "successfullyAddedOtherDetails": "УСПЕШНО ДОБАВЕНИ ДЕТАЙЛИ",
       "successfullyRemovedOtherDetails": "БЕШЕ ИЗТРИТ ЕДИН ДЕТАЙЛ",
+      "successfullyRemovedAllOtherDetails": "ВСИЧКИ ДЕТАЙЛИ БЯХА ИЗТРИТИ",
       "totalCountOfDetails": "Общ брой на всички детайли",
-      "detailTitle": "Име"
+      "detailTitle": "Име",
+      "unsavedChanges": "Имате незапазени промени",
+      "saveChanges": "Запази всички промени?",
+      "continueWithoutSave": "Продължи"
     },
     "EN": {
       "menu": "MENU",
@@ -257,8 +261,12 @@
       "successfullyDeletedCabinets": "ALL CABINETS WERE REMOVED",
       "successfullyAddedOtherDetails": "УСПЕШНО ДОБАВЕНИ ДЕТАЙЛИ",
       "successfullyRemovedOtherDetails": "ONE DETAIL WAS REMOVED",
+      "successfullyRemovedAllOtherDetails": "ALL DETAILS WERE REMOVED",
       "totalCountOfDetails": "Total count of all details",
-      "detailTitle": "Name"
+      "detailTitle": "Name",
+      "unsavedChanges": "You have unsaved changes",
+      "saveChanges": "Save all changes?",
+      "continueWithoutSave": "Continue"
     }
   }
 }

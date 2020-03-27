@@ -149,31 +149,21 @@ export default new Vuex.Store({
     ADD_OTHER_DETAILS(state, newDetails) {
       state.otherDetails = [];
       for (let newDetail of newDetails) {
-        let detailToAdd = {
-          title: newDetail.title,
-          count: newDetail.count,
-          width: parseInt(newDetail.width),
-          height: {
-            hasEdging: newDetail.height.hasEdging,
-            hasDoubleEdging: newDetail.height.hasDoubleEdging,
-            value: parseInt(newDetail.height.value)
-          },
-          length: {
-            hasEdging: newDetail.length.hasEdging,
-            hasDoubleEdging: newDetail.length.hasDoubleEdging,
-            value: parseInt(newDetail.length.value)
-          },
-          isValid: newDetail.isValid
-        };
-
+        let detailToAdd = Object.assign({}, newDetail);
         state.otherDetails.push(detailToAdd);
       }
     },
     REMOVE_OTHER_DETAIL(state, index) {
       state.otherDetails.splice(index, 1);
+    },
+    REMOVE_ALL_OTHER_DETAILS(state) {
+      state.otherDetails = [];
     }
   },
   actions: {
+    removeAllOtherDetails(store) {
+      store.commit("REMOVE_ALL_OTHER_DETAILS");
+    },
     changeLanguage(store, lang) {
       store.commit("CHANGE_LANGUAGE", lang);
     },
@@ -205,10 +195,10 @@ export default new Vuex.Store({
       store.commit("ADD_ALL_STATIC_FIELDS_WIDTH", value);
     },
     addShelfOuterSide(store, side) {
-      store.commit("ADD_SHELF_OUTER_SIDE", side);
+      store.commit("ADD_SHELF_OUTER_SIDE", Object.assign({}, side));
     },
     addUpperShelfOuterSide(store, side) {
-      store.commit("ADD_UPPER_SHELF_OUTER_SIDE", side);
+      store.commit("ADD_UPPER_SHELF_OUTER_SIDE", Object.assign({}, side));
     },
     clearShelfOuterSides(store) {
       store.commit("CLEAR_SHELF_OUTER_SIDES");
@@ -236,7 +226,7 @@ export default new Vuex.Store({
       store.commit("REMOVE_ALL_LOWER_SHELF_CABINETS");
     },
     saveCabinetLowerShelfCabinets(store, params) {
-      store.commit("SAVE_CABINET", params);
+      store.commit("SAVE_CABINET", Object.assign({}, params));
     },
     changeUpperShelfWidth(store, newWidth) {
       store.commit("CHANGE_UPPER_SHELF_WIDTH", newWidth);
