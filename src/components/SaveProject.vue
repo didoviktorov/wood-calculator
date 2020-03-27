@@ -68,7 +68,7 @@ export default {
       if (
         currentRenderedComopnent &&
         currentRenderedComopnent.isChanged() &&
-        currentRenderedComopnent.isAllDetailsValid &&
+        currentRenderedComopnent.isAllDetailsValid() &&
         !this.overlay
       ) {
         this.$refs.confirm

@@ -88,3 +88,12 @@
     top: 3rem !important;
   }
 }
+
+.v-toolbar__content {
+  justify-content: center !important;
+}
+
+.v-card__text {
+  font-size: 1.3rem !important;
+  font-weight: bold;
+}

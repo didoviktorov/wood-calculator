@@ -1,7 +1,10 @@
 export default {
   install(Vue) {
     function changedCabinets(cabinets, storeCabinets, isUpperRow) {
-      console.log(isUpperRow);
+      if (cabinets.length != storeCabinets.length) {
+        return true;
+      }
+
       for (let i = 0; i < storeCabinets.length; i++) {
         let currentCabinet = cabinets[i];
         let storeCabinet = storeCabinets[i];

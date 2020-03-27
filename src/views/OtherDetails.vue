@@ -28,7 +28,7 @@ export default {
     if (
       currentRenderedComopnent &&
       currentRenderedComopnent.isChanged() &&
-      currentRenderedComopnent.isAllDetailsValid
+      currentRenderedComopnent.isAllDetailsValid()
     ) {
       this.$refs.confirm
         .open(this.translate("unsavedChanges"), this.translate("saveChanges"), {

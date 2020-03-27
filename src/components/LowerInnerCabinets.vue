@@ -665,7 +665,7 @@ export default {
     },
     isAllCabinetsValid() {
       for (let cabinet of this.cabinets) {
-        if (!cabinet.isValid) {
+        if (!cabinet.isValid || !cabinet.outerWidth) {
           return false;
         }
       }
@@ -679,6 +679,10 @@ export default {
     }
   },
   methods: {
+    isAllDetailsValid() {
+      console.log("valid");
+      return this.isAllCabinetsValid && this.validStandardFeetHeight;
+    },
     translate(literal) {
       return this.$store.state.languages.languages[
         this.$store.state.selectedLang
@@ -1058,6 +1062,29 @@ export default {
     },
     openForEditHandler() {
       this.openForEdit = !this.openForEdit;
+    },
+    addElementsToStore() {
+      let args = {
+        cabinets: this.cabinets,
+        copyCabinet: this.$getCabinetInstance
+      };
+      this.$store.dispatch("addLowerShelfCabinets", args);
+      this.$store.dispatch(
+        "changeInnerCabinetsFeetHeight",
+        parseInt(this.standardFeetHeight)
+      );
+    },
+    isChanged() {
+      let cabinetsChanged = this.$isCabinetsChanged(
+        this.cabinets,
+        this.$store.state.lowerShelf.cabinets,
+        false
+      );
+      let feetHeightChanged =
+        this.standardFeetHeight !=
+        this.$store.state.standardFeetHeightOfCabinet;
+
+      return cabinetsChanged || feetHeightChanged;
     }
   },
   mounted() {
@@ -1068,6 +1095,7 @@ export default {
     }
 
     this.numberOfCabinets = this.cabinets.length;
+    this.$store.dispatch("setChildRenderedComponent", this);
   }
 };
 </script>

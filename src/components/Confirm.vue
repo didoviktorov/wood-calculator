@@ -10,14 +10,20 @@
         <v-toolbar-title class="white--text">{{ title }}</v-toolbar-title>
       </v-toolbar>
       <v-card-text v-show="!!message" class="pa-4">{{ message }}</v-card-text>
-      <v-card-actions class="pt-0">
+      <v-card-actions class="pa-4">
         <v-spacer></v-spacer>
-        <v-btn color="primary darken-1" text @click.native="agree">{{
+
+        <v-btn color="success" @click.native="agree">{{
           options.confirmText
         }}</v-btn>
-        <v-btn color="grey" text @click.native="cancel">{{
+
+        <v-spacer></v-spacer>
+
+        <v-btn color="primary" @click.native="cancel">{{
           options.cancelText
         }}</v-btn>
+
+        <v-spacer></v-spacer>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -61,8 +67,8 @@ export default {
     title: null,
     options: {
       color: "primary",
-      width: 290,
-      zIndex: 200,
+      width: "30rem",
+      zIndex: 10,
       cancelText: "",
       confirmText: ""
     }

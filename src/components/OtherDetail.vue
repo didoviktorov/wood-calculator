@@ -174,6 +174,17 @@ export default {
     showOtherDetailsForEdit: false
   }),
   computed: {
+    numberRules() {
+      return this.$getnumberValidationRules(
+        this.$store.state.languages.languages[this.$store.state.selectedLang],
+        this.$store.state.validatoinRulesLiterals
+      );
+    },
+    titleValidationRules() {
+      return [v => !!v || this.translate("required")];
+    }
+  },
+  methods: {
     isAllDetailsValid() {
       for (let detail of this.otherDetails) {
         let width = parseInt(detail.width);
@@ -193,17 +204,6 @@ export default {
       }
       return true;
     },
-    numberRules() {
-      return this.$getnumberValidationRules(
-        this.$store.state.languages.languages[this.$store.state.selectedLang],
-        this.$store.state.validatoinRulesLiterals
-      );
-    },
-    titleValidationRules() {
-      return [v => !!v || this.translate("required")];
-    }
-  },
-  methods: {
     changeEdging(detailIndex) {
       if (
         !this.otherDetails[detailIndex].length.hasEdging &&

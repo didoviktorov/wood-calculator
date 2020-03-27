@@ -319,7 +319,7 @@ export default {
   },
   data: () => ({
     validWholeShelf: false,
-    validStaticWidth: false,
+    validStaticWidth: true,
     validStaticSideWidth: false,
     staticSidewidth: "",
     shelfWidth: "",
@@ -368,6 +368,20 @@ export default {
     }
   },
   methods: {
+    isAllDetailsValid() {
+      console.log("called");
+      let childComponentValid = true;
+      if (this.$store.state.currentChildOfChildRenderedCompnent) {
+        childComponentValid = this.$store.state.currentChildOfChildRenderedCompnent.isAllDetailsValid();
+      }
+      return (
+        this.validWholeShelf &&
+        this.validStaticWidth &&
+        this.validStaticSideWidth &&
+        this.isAllShelfOuterSidesValid() &&
+        childComponentValid
+      );
+    },
     translate(literal) {
       return this.$store.state.languages.languages[
         this.$store.state.selectedLang
@@ -581,7 +595,6 @@ export default {
         });
       } else {
         for (let i = 0; i < this.allStaticWidths.length; i++) {
-          console.log(this.$store.state.lowerShelf.staticCabinets[i].width);
           if (
             parseInt(this.allStaticWidths[i].width) !=
             this.$store.state.lowerShelf.staticCabinets[i].width
@@ -600,6 +613,99 @@ export default {
         }
       }
       this.$store.dispatch("addStaticFieldsWidth", this.allStaticWidths);
+    },
+    addElementsToStore() {
+      this.$store.dispatch(
+        "changeStaticsidewidth",
+        parseInt(this.staticSidewidth)
+      );
+
+      this.$store.dispatch("changeShelfWidth", parseInt(this.shelfWidth, 10));
+      this.$store.dispatch("changeShelfHeight", parseInt(this.shelfHeight, 10));
+      this.$store.dispatch("changeShelfDepth", parseInt(this.shelfDepth, 10));
+
+      this.$store.dispatch("addStaticFieldsWidth", this.allStaticWidths);
+      this.$store.dispatch("clearShelfOuterSides");
+      for (let side of this.shelfOuterSides) {
+        this.$store.dispatch("addShelfOuterSide", side);
+      }
+      this.$toasted.success(this.translate("successfullyStoredValues"), {
+        action: {
+          text: this.translate("close"),
+          class: "notification-close",
+          onClick: (e, toastObject) => {
+            toastObject.goAway(0);
+          }
+        }
+      });
+
+      if (this.$store.state.currentChildOfChildRenderedCompnent) {
+        this.$store.state.currentChildOfChildRenderedCompnent.addElementsToStore();
+      }
+    },
+    isChanged() {
+      if (
+        this.shelfWidth != this.$store.state.lowerShelf.width ||
+        this.shelfHeight != this.$store.state.lowerShelf.height ||
+        this.shelfDepth != this.$store.state.lowerShelf.depth ||
+        this.staticSidewidth != this.$store.state.staticOuterSideWidth
+      ) {
+        return true;
+      }
+
+      if (
+        this.shelfOuterSides.length !=
+        this.$store.state.lowerShelf.outerSides.length
+      ) {
+        return true;
+      }
+
+      if (
+        this.allStaticWidths.length !=
+        this.$store.state.lowerShelf.staticCabinets.length
+      ) {
+        return true;
+      }
+
+      for (
+        let staticIndex = 0;
+        staticIndex < this.allStaticWidths.length;
+        staticIndex++
+      ) {
+        let staticWidth = this.allStaticWidths[staticIndex];
+        let storeStaticWidth = this.$store.state.lowerShelf.staticCabinets[
+          staticIndex
+        ];
+        if (staticWidth.width != storeStaticWidth.width) {
+          return true;
+        }
+      }
+
+      for (
+        let outerSideIndex = 0;
+        outerSideIndex < this.shelfOuterSides.length;
+        outerSideIndex++
+      ) {
+        let outerSide = this.shelfOuterSides[outerSideIndex];
+        let storeOuterSide = this.$store.state.lowerShelf.outerSides[
+          outerSideIndex
+        ];
+        if (
+          outerSide.depth != storeOuterSide.depth ||
+          outerSide.height != storeOuterSide.height ||
+          outerSide.width != storeOuterSide.width
+        ) {
+          return true;
+        }
+      }
+
+      if (this.$store.state.currentChildOfChildRenderedCompnent) {
+        if (this.$store.state.currentChildOfChildRenderedCompnent.isChanged()) {
+          return true;
+        }
+      }
+
+      return false;
     }
   },
   mounted() {
@@ -633,6 +739,7 @@ export default {
     }
 
     this.staticSidewidth = this.$store.state.staticOuterSideWidth;
+    this.$store.dispatch("setRenderedComponent", this);
   }
 };
 </script>

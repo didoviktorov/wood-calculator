@@ -7,13 +7,14 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     currentChildRenderedCompnent: undefined,
+    currentChildOfChildRenderedCompnent: undefined,
     lowerShelf: {
       cabinets: [],
       staticCabinets: [],
       outerSides: [],
-      height: 0,
-      width: 0,
-      depth: 0,
+      height: "",
+      width: "",
+      depth: "",
       feetHeightOfCabinet: 0,
       pureWidth: 0
     },
@@ -178,9 +179,15 @@ export default new Vuex.Store({
     },
     SET_RENDRED_COMPONENT(state, component) {
       state.currentChildRenderedCompnent = component;
+    },
+    SET_CHILD_RENDERED_COMPONENT(state, component) {
+      state.currentChildOfChildRenderedCompnent = component;
     }
   },
   actions: {
+    setChildRenderedComponent(store, component) {
+      store.commit("SET_CHILD_RENDERED_COMPONENT", component);
+    },
     setRenderedComponent(store, component) {
       store.commit("SET_RENDRED_COMPONENT", component);
     },
