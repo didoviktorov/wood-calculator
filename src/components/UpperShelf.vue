@@ -449,7 +449,6 @@ export default {
       return this.validWholeShelf && outerSidesValid && childComponentValid;
     },
     isChanged() {
-      console.log("upper");
       if (
         this.shelfWidth != this.$store.state.upperShelf.width ||
         this.shelfHeight != this.$store.state.upperShelf.height ||
