@@ -6,6 +6,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    currentChildRenderedCompnent: undefined,
     lowerShelf: {
       cabinets: [],
       staticCabinets: [],
@@ -149,7 +150,23 @@ export default new Vuex.Store({
     ADD_OTHER_DETAILS(state, newDetails) {
       state.otherDetails = [];
       for (let newDetail of newDetails) {
-        let detailToAdd = Object.assign({}, newDetail);
+        let detailToAdd = {
+          title: newDetail.title,
+          count: newDetail.count,
+          width: parseInt(newDetail.width),
+          height: {
+            hasEdging: newDetail.height.hasEdging,
+            hasDoubleEdging: newDetail.height.hasDoubleEdging,
+            value: parseInt(newDetail.height.value)
+          },
+          length: {
+            hasEdging: newDetail.length.hasEdging,
+            hasDoubleEdging: newDetail.length.hasDoubleEdging,
+            value: parseInt(newDetail.length.value)
+          },
+          isValid: newDetail.isValid
+        };
+
         state.otherDetails.push(detailToAdd);
       }
     },
@@ -158,9 +175,15 @@ export default new Vuex.Store({
     },
     REMOVE_ALL_OTHER_DETAILS(state) {
       state.otherDetails = [];
+    },
+    SET_RENDRED_COMPONENT(state, component) {
+      state.currentChildRenderedCompnent = component;
     }
   },
   actions: {
+    setRenderedComponent(store, component) {
+      store.commit("SET_RENDRED_COMPONENT", component);
+    },
     removeAllOtherDetails(store) {
       store.commit("REMOVE_ALL_OTHER_DETAILS");
     },

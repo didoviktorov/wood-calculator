@@ -33,7 +33,7 @@
               :disabled="!isAllDetailsValid"
               color="success"
               class="mr-4 right-button"
-              @click="addDetailsToStore"
+              @click="addElementsToStore"
             >
               {{ translate("save") }}
             </v-btn>
@@ -244,7 +244,7 @@ export default {
 
       this.otherDetails.push(detail);
     },
-    addDetailsToStore() {
+    addElementsToStore() {
       if (this.otherDetails.length != this.$store.state.otherDetails.length) {
         this.$toasted.success(this.translate("successfullyAddedOtherDetails"), {
           action: {
@@ -255,7 +255,7 @@ export default {
             }
           }
         });
-      } else if (this.isDetailsChanged()) {
+      } else if (this.isChanged()) {
         this.$toasted.success(this.translate("successfullyChangedValues"), {
           action: {
             text: this.translate("close"),
@@ -287,7 +287,7 @@ export default {
         this.showOtherDetailsForEdit = false;
       }
     },
-    isDetailsChanged() {
+    isChanged() {
       if (this.otherDetails.length != this.$store.state.otherDetails.length) {
         return true;
       }
@@ -335,6 +335,10 @@ export default {
         if (currentDetail.title != storeDetail.title) {
           return true;
         }
+
+        if (currentDetail.count != storeDetail.count) {
+          return true;
+        }
       }
       return false;
     },
@@ -360,8 +364,26 @@ export default {
   mounted() {
     this.otherDetails = [];
     for (let detail of this.$store.state.otherDetails) {
-      this.otherDetails.push(Object.assign({}, detail));
+      let detailToAdd = {
+        title: detail.title,
+        count: detail.count,
+        width: parseInt(detail.width),
+        height: {
+          hasEdging: detail.height.hasEdging,
+          hasDoubleEdging: detail.height.hasDoubleEdging,
+          value: parseInt(detail.height.value)
+        },
+        length: {
+          hasEdging: detail.length.hasEdging,
+          hasDoubleEdging: detail.length.hasDoubleEdging,
+          value: parseInt(detail.length.value)
+        },
+        isValid: detail.isValid
+      };
+      this.otherDetails.push(detailToAdd);
     }
+
+    this.$store.dispatch("setRenderedComponent", this);
   }
 };
 </script>

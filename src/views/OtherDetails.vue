@@ -23,14 +23,13 @@ export default {
     }
   },
   beforeRouteLeave: function(to, from, next) {
+    let currentRenderedComopnent = this.$store.state
+      .currentChildRenderedCompnent;
     if (
-      this.$children[1].otherDetails &&
-      this.$children[1].isDetailsChanged &&
-      this.$children[1].isDetailsChanged() &&
-      this.$children[1].isAllDetailsValid
+      currentRenderedComopnent &&
+      currentRenderedComopnent.isChanged() &&
+      currentRenderedComopnent.isAllDetailsValid
     ) {
-      next(false);
-      let childComponent = this.$children[1];
       this.$refs.confirm
         .open(this.translate("unsavedChanges"), this.translate("saveChanges"), {
           color: "#4caf50",
@@ -38,8 +37,8 @@ export default {
           confirmText: this.translate("save")
         })
         .then(confirm => {
-          if (confirm && childComponent.addDetailsToStore) {
-            childComponent.addDetailsToStore();
+          if (confirm) {
+            currentRenderedComopnent.addElementsToStore();
           }
           next();
         });

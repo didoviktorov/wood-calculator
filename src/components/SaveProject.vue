@@ -1,5 +1,6 @@
 <template>
   <div class="my-2">
+    <confirm ref="confirm"></confirm>
     <div class="text-center">
       <v-btn color="primary" @click="showOverlayInfo">
         {{ this.translate("generateProject") }}
@@ -44,10 +45,11 @@ import { Document, Paragraph, Packer, HeadingLevel, TextRun } from "docx";
 import * as jsPDF from "jspdf";
 import { saveAs } from "file-saver";
 import { font } from "../assets/constants";
+import confirm from "@/components/Confirm.vue";
 
 export default {
   name: "SaveProject",
-  components: {},
+  components: { confirm },
   data: () => ({
     overlay: false,
     textToExport: "",
@@ -61,10 +63,36 @@ export default {
       ][literal];
     },
     showOverlayInfo() {
-      this.overlay = !this.overlay;
-
-      if (this.overlay) {
-        this.generateData();
+      let currentRenderedComopnent = this.$store.state
+        .currentChildRenderedCompnent;
+      if (
+        currentRenderedComopnent &&
+        currentRenderedComopnent.isChanged() &&
+        currentRenderedComopnent.isAllDetailsValid &&
+        !this.overlay
+      ) {
+        this.$refs.confirm
+          .open(
+            this.translate("unsavedChanges"),
+            this.translate("saveChanges"),
+            {
+              color: "#4caf50",
+              cancelText: this.translate("continueWithoutSave"),
+              confirmText: this.translate("save")
+            }
+          )
+          .then(confirm => {
+            if (confirm) {
+              currentRenderedComopnent.addElementsToStore();
+            }
+            this.overlay = true;
+            this.generateData();
+          });
+      } else {
+        this.overlay = !this.overlay;
+        if (this.overlay) {
+          this.generateData();
+        }
       }
     },
     generateHtmlText() {
@@ -669,12 +697,15 @@ export default {
         strResult += indentation + this.translate("thinEdge") + " " + lightEdge;
       }
 
-      strResult +=
-        "\r\n\r\n" +
-        indentation +
-        this.translate("totalCountOfDetails") +
-        " " +
-        totalDetailsCount;
+      if (totalDetailsCount > 0) {
+        strResult +=
+          "\r\n\r\n" +
+          indentation +
+          this.translate("totalCountOfDetails") +
+          " " +
+          totalDetailsCount;
+      }
+
       this.textToExport = strResult;
     }
   }
