@@ -1,7 +1,7 @@
 <template>
   <v-app>
-    <v-content>
-      <v-container>
+    <v-content class="wrapper">
+      <v-container fluid>
         <div
           id="pure-width-left"
           :class="{
@@ -434,8 +434,95 @@
                       >
                         {{ translate("deleteShelf") }}
                       </v-btn>
-                    </v-col> </v-row
-                  ><!-- cabinet doors dimensions -->
+                    </v-col>
+                  </v-row>
+                  <!-- cabinet dividers dimensions -->
+                  <h5>
+                    {{
+                      translate("dividerOfCabinetIndex").replace(
+                        "%index%",
+                        index + 1
+                      )
+                    }}
+                  </h5>
+                  <v-row
+                    v-for="(divider, dividerIndex) in cabinet.dividers"
+                    :key="dividerIndex + 'div'"
+                  >
+                    <v-col cols="12" md="4">
+                      <v-text-field
+                        v-model="divider.width"
+                        :rules="numberRules"
+                        :label="
+                          translate('dividerWidthIndex').replace(
+                            '%index%',
+                            dividerIndex + 1
+                          )
+                        "
+                        outlined
+                        dense
+                        required
+                        type="number"
+                      ></v-text-field>
+                    </v-col>
+
+                    <v-col cols="12" md="4">
+                      <v-text-field
+                        v-model="divider.height"
+                        :rules="numberRules"
+                        :label="
+                          translate('dividerHeightIndex').replace(
+                            '%index%',
+                            dividerIndex + 1
+                          )
+                        "
+                        outlined
+                        dense
+                        required
+                        type="number"
+                      ></v-text-field>
+                    </v-col>
+
+                    <v-col cols="12" md="4">
+                      <v-text-field
+                        v-model="divider.depth"
+                        :rules="numberRules"
+                        :label="
+                          translate('dividerDepthIndex').replace(
+                            '%index%',
+                            dividerIndex + 1
+                          )
+                        "
+                        outlined
+                        dense
+                        required
+                        type="number"
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                  <v-row align="center" justify="center">
+                    <v-col cols="6">
+                      <v-btn
+                        :disabled="!cabinet.isValid"
+                        color="info"
+                        @click="addDivider(cabinet)"
+                      >
+                        {{ translate("addDivider") }}
+                      </v-btn>
+                    </v-col>
+                    <v-col cols="6">
+                      <v-btn
+                        :disabled="
+                          cabinet.dividers.length == 0 || !cabinet.isValid
+                        "
+                        color="error"
+                        @click="removeDivider(cabinet)"
+                      >
+                        {{ translate("deleteDivider") }}
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                  <!-- cabinet doors dimensions -->
                   <h5>
                     {{
                       translate("doorsCabinetIndex").replace(
@@ -671,7 +758,8 @@ export default {
             depth: this.$store.state.upperShelf.depth
           },
           shelfs: [],
-          doors: []
+          doors: [],
+          dividers: cabinet.dividers
         };
 
         if (cabinet.doors.length > 0) {
@@ -714,6 +802,12 @@ export default {
           shelfs: cabinet.shelfs,
           doors: []
         };
+
+        if (cabinet.dividers.length > 0) {
+          for (let i = 0; i < cabinet.dividers.length; i++) {
+            this.addDivider(cabinetToChange);
+          }
+        }
 
         if (cabinet.doors.length > 0) {
           for (let i = 0; i < cabinet.doors.length; i++) {
@@ -761,8 +855,15 @@ export default {
             depth: newDepth
           },
           shelfs: [],
-          doors: cabinet.doors
+          doors: cabinet.doors,
+          dividers: []
         };
+
+        if (cabinet.dividers.length > 0) {
+          for (let i = 0; i < cabinet.dividers.length; i++) {
+            this.addDivider(cabinetToChange);
+          }
+        }
 
         if (cabinet.shelfs.length > 0) {
           for (let i = 0; i < cabinet.shelfs.length; i++) {
@@ -821,8 +922,13 @@ export default {
       this.$store.dispatch("addUpperShelfCabinets", args);
     },
     addShelf(cabinet) {
+      let shelfWidth =
+        parseInt(cabinet.innerWidth) -
+        cabinet.dividers.length * this.$store.state.staticOuterSideWidth;
+      shelfWidth = Math.floor(shelfWidth / (cabinet.dividers.length + 1));
+
       let shelfToAdd = {
-        width: parseInt(cabinet.innerWidth),
+        width: shelfWidth,
         height: this.$store.state.staticOuterSideWidth,
         depth: parseInt(cabinet.depth)
       };
@@ -831,6 +937,38 @@ export default {
     removeShelf(cabinet) {
       if (cabinet.shelfs.length > 0) {
         cabinet.shelfs.splice(cabinet.shelfs.lengt - 1, 1);
+      }
+    },
+    addDivider(cabinet) {
+      let dividerToAdd = {
+        width: this.$store.state.staticOuterSideWidth,
+        height:
+          parseInt(cabinet.height) - 2 * this.$store.state.staticOuterSideWidth,
+        depth: parseInt(cabinet.depth)
+      };
+      cabinet.dividers.push(dividerToAdd);
+
+      let shelfWidth =
+        cabinet.innerWidth -
+        cabinet.dividers.length * this.$store.state.staticOuterSideWidth;
+      shelfWidth = Math.floor(shelfWidth / (cabinet.dividers.length + 1));
+
+      for (let shelf of cabinet.shelfs) {
+        shelf.width = shelfWidth;
+      }
+    },
+    removeDivider(cabinet) {
+      if (cabinet.dividers.length > 0) {
+        cabinet.dividers.splice(cabinet.dividers.length - 1, 1);
+      }
+
+      let shelfWidth =
+        cabinet.innerWidth -
+        cabinet.dividers.length * this.$store.state.staticOuterSideWidth;
+      shelfWidth = Math.floor(shelfWidth / (cabinet.dividers.length + 1));
+
+      for (let shelf of cabinet.shelfs) {
+        shelf.width = shelfWidth;
       }
     },
     editCabinet(index) {
@@ -915,7 +1053,8 @@ export default {
             }
           ],
           shelfs: [],
-          doors: []
+          doors: [],
+          dividers: []
         };
 
         currentCabinetToAdd.isValid = true;

@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-content>
+    <v-content class="wrapper">
       <v-container fluid>
         <div
           id="pure-width-left"
@@ -1045,7 +1045,7 @@ export default {
     },
     addShelf(cabinet) {
       let shelfWidth =
-        cabinet.innerWidth -
+        parseInt(cabinet.innerWidth) -
         cabinet.dividers.length * this.$store.state.staticOuterSideWidth;
       shelfWidth = Math.floor(shelfWidth / (cabinet.dividers.length + 1));
 
