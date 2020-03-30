@@ -1,56 +1,47 @@
 <template>
-  <v-content class="save-project">
-    <v-container fluid>
-      <div class="my-2">
-        <confirm ref="confirm"></confirm>
-        <div>
+  <div class="my-2 save-project">
+    <confirm ref="confirm"></confirm>
+    <div>
+      <v-content>
+        <v-container fluid>
           <v-btn color="primary" @click="showOverlayInfo">
             {{ this.translate("generateProject") }}
           </v-btn>
-          <v-row
-            v-if="overlay"
-            align="center"
-            justify="center"
-            id="project-title"
-          >
-            <!-- Whole width region -->
-            <v-col cols="12" sm="8" md="4">
-              <v-text-field
-                v-model="projectTitle"
-                :label="translate('projectTitle')"
-                outlined
-                dense
-                required
-              ></v-text-field>
-            </v-col>
-          </v-row>
-          <div v-if="overlay" id="overlay"></div>
-          <span
-            v-if="overlay"
-            id="overlay-text"
-            v-html="generateHtmlText()"
-          ></span>
-          <div v-if="overlay" id="overlay-buttons">
-            <div class="overlay-btn">
-              <v-btn @click="showOverlayInfo" color="error" id="close-button">
-                {{ this.translate("close") }}
-              </v-btn>
-            </div>
-            <div class="overlay-btn">
-              <v-btn color="primary" @click="downloadPdfFile">
-                pdf
-              </v-btn>
-            </div>
-            <div class="overlay-btn">
-              <v-btn color="primary" @click="downloadWordFile">
-                word
-              </v-btn>
-            </div>
-          </div>
+        </v-container>
+      </v-content>
+      <v-row v-if="overlay" align="center" justify="center" id="project-title">
+        <!-- Whole width region -->
+        <v-col cols="12" sm="8" md="4">
+          <v-text-field
+            v-model="projectTitle"
+            :label="translate('projectTitle')"
+            outlined
+            dense
+            required
+          ></v-text-field>
+        </v-col>
+      </v-row>
+      <div v-if="overlay" id="overlay"></div>
+      <span v-if="overlay" id="overlay-text" v-html="generateHtmlText()"></span>
+      <div v-if="overlay" id="overlay-buttons">
+        <div class="overlay-btn">
+          <v-btn @click="showOverlayInfo" color="error" id="close-button">
+            {{ this.translate("close") }}
+          </v-btn>
+        </div>
+        <div class="overlay-btn">
+          <v-btn color="primary" @click="downloadPdfFile">
+            pdf
+          </v-btn>
+        </div>
+        <div class="overlay-btn">
+          <v-btn color="primary" @click="downloadWordFile">
+            word
+          </v-btn>
         </div>
       </div>
-    </v-container>
-  </v-content>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -235,10 +226,32 @@ export default {
       let sidesDictionary = {};
       let bottomsDictionary = {};
       let shelfsDictionary = {};
+      let dividersDictionary = {};
       let holdersDictionary = {};
       let doorsDictionary = {};
       let backsDictionary = {};
       for (let cabinet of lowerShelf.cabinets) {
+        /* dividers */
+        for (let divider of cabinet.dividers) {
+          lightEdge += divider.height;
+          let currentDimension =
+            (divider.height > divider.depth
+              ? this.translate("longEdge")
+              : divider.height == divider.depth
+              ? this.translate("longEdge")
+              : this.translate("shortEdge")) +
+            indentation +
+            divider.height +
+            "/" +
+            divider.depth;
+          if (!dividersDictionary[currentDimension]) {
+            dividersDictionary[currentDimension] = 0;
+          }
+
+          dividersDictionary[currentDimension] += 1;
+          totalDetailsCount += 1;
+        }
+
         /* sides */
         for (let side of cabinet.sides) {
           lightEdge += side.height;
@@ -392,6 +405,17 @@ export default {
           "\r\n";
       }
 
+      for (let prop in dividersDictionary) {
+        strResult +=
+          indentation +
+          prop +
+          " x " +
+          dividersDictionary[prop] +
+          " " +
+          this.translate("divider") +
+          "\r\n";
+      }
+
       for (let prop in doorsDictionary) {
         strResult +=
           indentation +
@@ -458,8 +482,30 @@ export default {
       shelfsDictionary = {};
       doorsDictionary = {};
       backsDictionary = {};
+      dividersDictionary = {};
 
       for (let cabinet of upperShelf.cabinets) {
+        /* dividers */
+        for (let divider of cabinet.dividers) {
+          lightEdge += divider.height;
+          let currentDimension =
+            (divider.height > divider.depth
+              ? this.translate("longEdge")
+              : divider.height == divider.depth
+              ? this.translate("longEdge")
+              : this.translate("shortEdge")) +
+            indentation +
+            divider.height +
+            "/" +
+            divider.depth;
+          if (!dividersDictionary[currentDimension]) {
+            dividersDictionary[currentDimension] = 0;
+          }
+
+          dividersDictionary[currentDimension] += 1;
+          totalDetailsCount += 1;
+        }
+
         /* sides */
         for (let side of cabinet.sides) {
           lightEdge += side.height;
@@ -563,6 +609,17 @@ export default {
 
         backsDictionary[currentBackDimension] += 1;
         totalDetailsCount += 1;
+      }
+
+      for (let prop in dividersDictionary) {
+        strResult +=
+          indentation +
+          prop +
+          " x " +
+          dividersDictionary[prop] +
+          " " +
+          this.translate("divider") +
+          "\r\n";
       }
 
       for (let prop in sidesDictionary) {

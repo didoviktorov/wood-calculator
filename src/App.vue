@@ -61,10 +61,22 @@
         </v-list>
       </v-menu>
     </v-app-bar>
-
+    <SaveProject />
+    <v-btn
+      v-scroll="onScroll"
+      v-show="fab"
+      fab
+      dark
+      fixed
+      bottom
+      right
+      color="primary"
+      @click="toTop"
+    >
+      <v-icon>mdi-arrow-up-bold</v-icon>
+    </v-btn>
     <v-content class="wrapper">
       <v-container fluid>
-        <SaveProject />
         <router-view />
       </v-container>
     </v-content>
@@ -82,7 +94,8 @@ export default {
   data: () => ({
     drawer: false,
     selectedLang: "BG",
-    selectedLangIndex: 0
+    selectedLangIndex: 0,
+    fab: false
   }),
   methods: {
     changeLang(lang) {
@@ -95,6 +108,14 @@ export default {
       return this.$store.state.languages.languages[
         this.$store.state.selectedLang
       ][literal];
+    },
+    onScroll(e) {
+      if (typeof window === "undefined") return;
+      const top = window.pageYOffset || e.target.scrollTop || 0;
+      this.fab = top > 20;
+    },
+    toTop() {
+      this.$vuetify.goTo(0);
     }
   }
 };
