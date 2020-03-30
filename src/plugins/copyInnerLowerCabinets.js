@@ -18,7 +18,8 @@ export default {
         },
         sides: [],
         shelfs: [],
-        doors: []
+        doors: [],
+        dividers: []
       };
       /* add sides of cabinet */
       for (let side of cabinet.sides) {
@@ -51,6 +52,17 @@ export default {
         };
 
         cabinetToAdd.doors.push(currentDoor);
+      }
+
+      /* add dividers of cabinet */
+      for (let divider of cabinet.dividers) {
+        let currentDivider = {
+          width: parseInt(divider.width),
+          height: parseInt(divider.height),
+          depth: parseInt(divider.depth)
+        };
+
+        cabinetToAdd.dividers.push(currentDivider);
       }
 
       cabinetToAdd.isValid = cabinet.isValid;
