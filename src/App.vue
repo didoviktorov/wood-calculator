@@ -1,35 +1,5 @@
 <template>
   <v-app>
-    <v-app-bar class="toolbar-container" dense fixed clipped-left app>
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>{{ translate("menu") }}</v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-menu offset-y>
-        <template v-slot:activator="{ on }">
-          <v-btn v-on="on">
-            <v-img
-              v-if="selectedLang == 'BG'"
-              src="./assets/bulgaria.png"
-            ></v-img>
-            <v-img v-else src="./assets/england.png"></v-img>
-          </v-btn>
-        </template>
-        <v-list>
-          <v-list-item-group v-model="selectedLangIndex" color="primary">
-            <v-list-item @click="changeLang('BG')" dark>
-              <v-list-item-title>
-                <img src="./assets/bulgaria.png" />
-              </v-list-item-title>
-            </v-list-item>
-            <v-list-item @click="changeLang('EN')">
-              <v-list-item-title>
-                <img src="./assets/england.png" />
-              </v-list-item-title>
-            </v-list-item>
-          </v-list-item-group>
-        </v-list>
-      </v-menu>
-    </v-app-bar>
     <v-navigation-drawer v-model="drawer" fixed clipped app>
       <v-list dense rounded>
         <v-list-item class="menu-item">
@@ -61,15 +31,47 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <SaveProject />
-    <v-content>
-      <router-view />
+    <v-app-bar dense fixed clipped-left app>
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-toolbar-title>{{ translate("menu") }}</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-menu offset-y>
+        <template v-slot:activator="{ on }">
+          <v-btn v-on="on">
+            <v-img
+              v-if="selectedLang == 'BG'"
+              src="./assets/bulgaria.png"
+            ></v-img>
+            <v-img v-else src="./assets/england.png"></v-img>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item-group v-model="selectedLangIndex" color="primary">
+            <v-list-item @click="changeLang('BG')" dark>
+              <v-list-item-title>
+                <img src="./assets/bulgaria.png" />
+              </v-list-item-title>
+            </v-list-item>
+            <v-list-item @click="changeLang('EN')">
+              <v-list-item-title>
+                <img src="./assets/england.png" />
+              </v-list-item-title>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+      </v-menu>
+    </v-app-bar>
+
+    <v-content class="wrapper">
+      <v-container fluid>
+        <SaveProject />
+        <router-view />
+      </v-container>
     </v-content>
   </v-app>
 </template>
 
 <script>
-// import Home from "./views/Home";
 import SaveProject from "./components/SaveProject";
 
 export default {

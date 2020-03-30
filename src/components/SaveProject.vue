@@ -1,43 +1,56 @@
 <template>
-  <div class="my-2">
-    <confirm ref="confirm"></confirm>
-    <div class="text-center">
-      <v-btn color="primary" @click="showOverlayInfo">
-        {{ this.translate("generateProject") }}
-      </v-btn>
-      <v-row v-if="overlay" align="center" justify="center" id="project-title">
-        <!-- Whole width region -->
-        <v-col cols="12" sm="8" md="4">
-          <v-text-field
-            v-model="projectTitle"
-            :label="translate('projectTitle')"
-            outlined
-            dense
-            required
-          ></v-text-field>
-        </v-col>
-      </v-row>
-      <div v-if="overlay" id="overlay"></div>
-      <span v-if="overlay" id="overlay-text" v-html="generateHtmlText()"></span>
-      <div v-if="overlay" id="overlay-buttons">
-        <div class="overlay-btn">
-          <v-btn @click="showOverlayInfo" color="error" id="close-button">
-            {{ this.translate("close") }}
+  <v-content class="save-project">
+    <v-container fluid>
+      <div class="my-2">
+        <confirm ref="confirm"></confirm>
+        <div>
+          <v-btn color="primary" @click="showOverlayInfo">
+            {{ this.translate("generateProject") }}
           </v-btn>
-        </div>
-        <div class="overlay-btn">
-          <v-btn color="primary" @click="downloadPdfFile">
-            pdf
-          </v-btn>
-        </div>
-        <div class="overlay-btn">
-          <v-btn color="primary" @click="downloadWordFile">
-            word
-          </v-btn>
+          <v-row
+            v-if="overlay"
+            align="center"
+            justify="center"
+            id="project-title"
+          >
+            <!-- Whole width region -->
+            <v-col cols="12" sm="8" md="4">
+              <v-text-field
+                v-model="projectTitle"
+                :label="translate('projectTitle')"
+                outlined
+                dense
+                required
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <div v-if="overlay" id="overlay"></div>
+          <span
+            v-if="overlay"
+            id="overlay-text"
+            v-html="generateHtmlText()"
+          ></span>
+          <div v-if="overlay" id="overlay-buttons">
+            <div class="overlay-btn">
+              <v-btn @click="showOverlayInfo" color="error" id="close-button">
+                {{ this.translate("close") }}
+              </v-btn>
+            </div>
+            <div class="overlay-btn">
+              <v-btn color="primary" @click="downloadPdfFile">
+                pdf
+              </v-btn>
+            </div>
+            <div class="overlay-btn">
+              <v-btn color="primary" @click="downloadWordFile">
+                word
+              </v-btn>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
+    </v-container>
+  </v-content>
 </template>
 
 <script>
@@ -713,9 +726,6 @@ export default {
 </script>
 
 <style scoped>
-.text-center {
-  padding-top: 5rem;
-}
 .overlay-btn {
   padding-bottom: 1rem;
 }

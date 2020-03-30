@@ -5,7 +5,11 @@
   padding-bottom: 0 !important;
 }
 .wrapper {
-  max-width: 95% !important;
+  /* max-width: 95% !important; */
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-left: 2rem;
+  margin-right: 2rem;
 }
 .v-radio {
   margin-right: 0.2rem !important;
@@ -65,8 +69,9 @@
   top: 1rem;
   position: inherit !important;
 }
-.v-content {
-  padding: 0 !important;
+
+.save-project {
+  padding-top: 0 !important;
 }
 
 .v-responsive__content {
