@@ -71,6 +71,26 @@ export default {
           }
         }
 
+        if (currentCabinet.dividers.length != storeCabinet.dividers.length) {
+          return true;
+        }
+
+        for (
+          let dividerIndex = 0;
+          dividerIndex < currentCabinet.dividers.length;
+          dividerIndex++
+        ) {
+          let currentDivider = currentCabinet.dividers[dividerIndex];
+          let storeDivider = storeCabinet.dividers[dividerIndex];
+          if (
+            currentDivider.depth != storeDivider.depth ||
+            currentDivider.width != storeDivider.width ||
+            currentDivider.height != storeDivider.height
+          ) {
+            return true;
+          }
+        }
+
         for (
           let sideIndex = 0;
           sideIndex < currentCabinet.sides.length;
