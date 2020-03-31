@@ -19,6 +19,7 @@ input[type="number"] {
   /* max-width: 95% !important; */
   padding-left: 0 !important;
   padding-right: 0 !important;
+  padding-top: 0 !important;
 }
 .v-radio {
   margin-right: 0.2rem !important;
