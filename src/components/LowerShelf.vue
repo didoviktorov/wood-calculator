@@ -150,7 +150,7 @@
             </v-btn>
             <v-btn
               v-if="shelfOuterSides.length > 0"
-              :disabled="!validWholeShelf"
+              :disabled="!isAllShelfOuterSidesValid()"
               color="success"
               class="mr-4 right-button"
               @click="addShelfOuterSidesToStore"

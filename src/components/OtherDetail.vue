@@ -30,7 +30,7 @@
 
             <v-btn
               v-if="otherDetails.length > 0"
-              :disabled="!isAllDetailsValid"
+              :disabled="!isAllDetailsValid()"
               color="success"
               class="mr-4 right-button"
               @click="addElementsToStore"
@@ -171,7 +171,7 @@ export default {
   components: {},
   data: () => ({
     otherDetails: [],
-    showOtherDetailsForEdit: false
+    showOtherDetailsForEdit: true
   }),
   computed: {
     numberRules() {
