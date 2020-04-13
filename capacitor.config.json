@@ -1,0 +1,8 @@
+{
+  "appId": "woodcalulator.com",
+  "appName": "wood-calculator",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "dist",
+  "cordova": {}
+}
