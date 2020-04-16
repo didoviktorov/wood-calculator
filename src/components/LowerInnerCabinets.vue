@@ -746,7 +746,7 @@ export default {
     numberRules() {
       return this.$getnumberValidationRules(
         this.$store.state.languages.languages[this.$store.state.selectedLang],
-        this.$store.state.validatoinRulesLiterals
+        this.$store.state.validationRulesLiterals
       );
     },
     isAllCabinetsValid() {

@@ -135,7 +135,7 @@ export default {
         doc.addSection({
           children: [
             new Paragraph({
-              text: "Данни за шкафове",
+              text: this.translate("shelfsData"),
               heading: HeadingLevel.HEADING_1
             }),
             paragraph
@@ -145,13 +145,14 @@ export default {
         Packer.toBlob(doc).then(blob => {
           saveAs(
             blob,
-            this.projectTitle ? this.projectTitle + ".docx" : "no_name..docx"
+            this.projectTitle ? this.projectTitle + ".docx" : "no_name.docx"
           );
         });
       }
     },
     downloadPdfFile() {
       if (this.textToExport.length) {
+        console.log("pdf");
         let pdf = new jsPDF();
 
         pdf.addFileToVFS("Roboto-Regular-normal.ttf", font);

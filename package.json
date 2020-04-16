@@ -11,6 +11,7 @@
     "@capacitor/android": "^2.0.1",
     "@capacitor/cli": "^2.0.1",
     "@capacitor/core": "^2.0.1",
+    "@capacitor/ios": "^2.0.1",
     "core-js": "^3.6.4",
     "docx": "^5.0.2",
     "file-saver": "^2.0.2",

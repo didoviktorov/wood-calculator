@@ -34,7 +34,7 @@ export default new Vuex.Store({
     cabinetDoorDiff: 7,
     languages,
     selectedLang: "BG",
-    validatoinRulesLiterals: [
+    validationRulesLiterals: [
       "required",
       "mustBeNumber",
       "greaterThan",

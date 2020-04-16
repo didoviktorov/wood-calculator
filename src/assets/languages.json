@@ -1,6 +1,7 @@
 {
   "languages": {
     "BG": {
+      "shelfsData": "Данни за шкафове",
       "menu": "МЕНЮ",
       "lowerShelfs": "Долни Шкафове",
       "upperShelfs": "Горни Шкафове",
@@ -142,6 +143,7 @@
       "continueWithoutSave": "Продължи"
     },
     "EN": {
+      "shelfsData": "Shelfs data",
       "menu": "MENU",
       "lowerShelfs": "Lower Cabinets",
       "upperShelfs": "Upper Cabinets",
