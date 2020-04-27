@@ -29,7 +29,7 @@ export default new Vuex.Store({
     calculationUnit: "calculationUnit",
     staticOuterSideWidth: 18,
     standardFeetHeightOfCabinet: 100,
-    maxNumberOfDoors: 2,
+    maxNumberOfDoors: 10,
     cabinetBackDiff: 5,
     cabinetDoorDiff: 7,
     languages,
