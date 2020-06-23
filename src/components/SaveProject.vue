@@ -34,22 +34,18 @@
             pdf
           </v-btn>
         </div>
-        <div class="overlay-btn">
-          <v-btn color="primary" @click="downloadWordFile">
-            word
-          </v-btn>
-        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { Document, Paragraph, Packer, HeadingLevel, TextRun } from "docx";
 import * as jsPDF from "jspdf";
-import { saveAs } from "file-saver";
+
 import { font } from "../assets/constants";
 import confirm from "@/components/Confirm.vue";
+
+import { Capacitor, Plugins, FilesystemDirectory } from "@capacitor/core";
 
 export default {
   name: "SaveProject",
@@ -57,7 +53,7 @@ export default {
   data: () => ({
     overlay: false,
     textToExport: "",
-    projectTitle: ""
+    projectTitle: "",
   }),
   computed: {},
   methods: {
@@ -82,10 +78,10 @@ export default {
             {
               color: "#4caf50",
               cancelText: this.translate("continueWithoutSave"),
-              confirmText: this.translate("save")
+              confirmText: this.translate("save"),
             }
           )
-          .then(confirm => {
+          .then((confirm) => {
             if (confirm) {
               currentRenderedComopnent.addElementsToStore();
             }
@@ -96,63 +92,16 @@ export default {
         this.overlay = !this.overlay;
         if (this.overlay) {
           this.generateData();
+        } else {
+          this.projectTitle = "";
         }
       }
     },
     generateHtmlText() {
       return this.textToExport.replace(/(?:\r\n|\r|\n)/g, "<br>");
     },
-    downloadWordFile() {
-      if (this.textToExport.length) {
-        let doc = new Document({
-          styles: {
-            paragraphStyles: [
-              {
-                id: "InlineTexts",
-                name: "Inline Format",
-                basedOn: "Normal",
-                next: "Normal",
-                quickFormat: true,
-                run: {
-                  size: 28
-                },
-                paragraph: {
-                  spacing: {
-                    after: 120
-                  }
-                }
-              }
-            ]
-          }
-        });
-        let lines = this.textToExport.split("\r\n");
-        let paragraph = new Paragraph({ style: "InlineTexts" });
-        for (let line of lines) {
-          let text = new TextRun(line);
-          paragraph.addChildElement(text.break());
-        }
-
-        doc.addSection({
-          children: [
-            new Paragraph({
-              text: this.translate("shelfsData"),
-              heading: HeadingLevel.HEADING_1
-            }),
-            paragraph
-          ]
-        });
-
-        Packer.toBlob(doc).then(blob => {
-          saveAs(
-            blob,
-            this.projectTitle ? this.projectTitle + ".docx" : "no_name.docx"
-          );
-        });
-      }
-    },
     downloadPdfFile() {
       if (this.textToExport.length) {
-        console.log("pdf");
         let pdf = new jsPDF();
 
         pdf.addFileToVFS("Roboto-Regular-normal.ttf", font);
@@ -173,9 +122,85 @@ export default {
           }
         }
 
-        pdf.save(
-          this.projectTitle ? this.projectTitle + ".pdf" : "no_name.pdf"
-        );
+        if (Capacitor.platform != "web") {
+          let that = this;
+          const { Filesystem } = Plugins;
+          try {
+            let blob = new Blob([pdf.output("blob")], {
+              type: "application/pdf",
+            });
+            const fileName = this.projectTitle
+              ? this.projectTitle + ".pdf"
+              : "no_name.pdf";
+
+            let reader = new FileReader();
+            reader.readAsDataURL(blob);
+
+            reader.onloadend = function() {
+              const base64data = reader.result;
+
+              try {
+                Filesystem.writeFile({
+                  path: fileName,
+                  data: base64data,
+                  directory: FilesystemDirectory.Documents,
+                }).then(() => {
+                  // Filesystem.getUri({
+                  //   directory: FilesystemDirectory.Documents,
+                  //   path: fileName,
+                  // }).then(
+                  //   (result) => {
+                  //     let path = Capacitor.convertFileSrc(result.uri);
+                  //     console.log(path);
+                  //   },
+                  //   (err) => {
+                  //     console.log(err);
+                  //   }
+                  // );
+                  that.$toasted.success(
+                    that.translate("successfullyStoredFile"),
+                    {
+                      action: {
+                        text: that.translate("close"),
+                        class: "notification-close",
+                        onClick: (e, toastObject) => {
+                          toastObject.goAway(0);
+                        },
+                      },
+                    }
+                  );
+                });
+              } catch (e) {
+                this.$toasted.error(
+                  this.translate("unsuccessfullyStoredFile"),
+                  {
+                    action: {
+                      text: this.translate("close"),
+                      class: "notification-close",
+                      onClick: (e, toastObject) => {
+                        toastObject.goAway(0);
+                      },
+                    },
+                  }
+                );
+              }
+            };
+          } catch (e) {
+            this.$toasted.error(this.translate("unsuccessfullyStoredFile"), {
+              action: {
+                text: this.translate("close"),
+                class: "notification-close",
+                onClick: (e, toastObject) => {
+                  toastObject.goAway(0);
+                },
+              },
+            });
+          }
+        } else {
+          pdf.save(
+            this.projectTitle ? this.projectTitle + ".pdf" : "no_name.pdf"
+          );
+        }
       }
     },
     generateData() {
@@ -778,8 +803,11 @@ export default {
       }
 
       this.textToExport = strResult;
-    }
-  }
+    },
+  },
+  mounted() {
+    this.projectTitle = "";
+  },
 };
 </script>
 
