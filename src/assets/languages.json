@@ -142,7 +142,8 @@
       "detailTitle": "Име",
       "unsavedChanges": "Имате незапазени промени",
       "saveChanges": "Запази всички промени?",
-      "continueWithoutSave": "Продължи"
+      "continueWithoutSave": "Продължи",
+      "verify": "провери"
     },
     "EN": {
       "shelfsData": "Shelfs data",
@@ -286,7 +287,8 @@
       "detailTitle": "Name",
       "unsavedChanges": "You have unsaved changes",
       "saveChanges": "Save all changes?",
-      "continueWithoutSave": "Continue"
+      "continueWithoutSave": "Continue",
+      "verify": "Verify"
     }
   }
 }

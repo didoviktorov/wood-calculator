@@ -39,6 +39,16 @@
             </v-btn>
 
             <v-btn
+              v-if="otherDetails.length > 0"
+              :disabled="!errorRefIndex"
+              color="success"
+              class="mr-4 right-button"
+              @click="goToErrorField"
+            >
+              {{ translate("verify") }}
+            </v-btn>
+
+            <v-btn
               :disabled="otherDetails.length == 0"
               class="right-button left-button"
               color="error"
@@ -55,7 +65,11 @@
             align="center"
             justify="center"
           >
-            <v-form v-model="detail.isValid" @submit.prevent>
+            <v-form
+              :ref="'detail' + index"
+              v-model="detail.isValid"
+              @submit.prevent
+            >
               <v-container>
                 <v-row justify="space-around">
                   <v-col cols="4" md="1">
@@ -183,6 +197,7 @@ export default {
   data: () => ({
     otherDetails: [],
     showOtherDetailsForEdit: true,
+    errorRefIndex: null,
   }),
   computed: {
     numberRules() {
@@ -196,23 +211,42 @@ export default {
     },
   },
   methods: {
+    goToErrorField() {
+      if (!this.showOtherDetailsForEdit) {
+        this.showOtherDetailsForEdit = true;
+      }
+
+      if (this.errorRefIndex) {
+        const refName = "detail" + --this.errorRefIndex;
+        let reference = this.$refs[refName][0];
+        let deatilPosition = reference.$el.offsetTop;
+        this.$vuetify.goTo(deatilPosition);
+        reference.validate();
+      }
+    },
     isAllDetailsValid() {
+      let index = 0;
       for (let detail of this.otherDetails) {
+        index++;
         let width = parseInt(detail.width);
         let height = parseInt(detail.height.value);
         let length = parseInt(detail.length.value);
         if (isNaN(width) || isNaN(height) || isNaN(length)) {
+          this.errorRefIndex = index;
           return false;
         }
 
         if (width <= 0 || height <= 0 || length <= 0) {
+          this.errorRefIndex = index;
           return false;
         }
 
         if (!detail.isValid) {
+          this.errorRefIndex = index;
           return false;
         }
       }
+      this.errorRefIndex = null;
       return true;
     },
     changeEdging(detailIndex) {
