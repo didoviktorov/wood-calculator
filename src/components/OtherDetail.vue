@@ -160,6 +160,17 @@
             </v-form>
           </v-row>
         </div>
+        <v-row
+          v-if="otherDetails.length > 0 && showOtherDetailsForEdit"
+          align="center"
+          justify="center"
+        >
+          <v-col cols="12">
+            <v-btn @click="addOtherDetails">
+              {{ translate("addDetail") }}
+            </v-btn>
+          </v-col>
+        </v-row>
       </v-container>
     </v-content>
   </v-app>
@@ -171,9 +182,9 @@ export default {
   components: {},
   data: () => ({
     otherDetails: [],
-    showOtherDetailsForEdit: true
+    showOtherDetailsForEdit: true,
   }),
-  computed: { 
+  computed: {
     numberRules() {
       return this.$getnumberValidationRules(
         this.$store.state.languages.languages[this.$store.state.selectedLang],
@@ -181,8 +192,8 @@ export default {
       );
     },
     titleValidationRules() {
-      return [v => !!v || this.translate("required")];
-    }
+      return [(v) => !!v || this.translate("required")];
+    },
   },
   methods: {
     isAllDetailsValid() {
@@ -232,14 +243,14 @@ export default {
         height: {
           hasEdging: false,
           hasDoubleEdging: false,
-          value: ""
+          value: "",
         },
         length: {
           hasEdging: false,
           hasDoubleEdging: false,
-          value: ""
+          value: "",
         },
-        isValid: false
+        isValid: false,
       };
 
       this.otherDetails.push(detail);
@@ -252,8 +263,8 @@ export default {
             class: "notification-close",
             onClick: (e, toastObject) => {
               toastObject.goAway(0);
-            }
-          }
+            },
+          },
         });
       } else if (this.isChanged()) {
         this.$toasted.success(this.translate("successfullyChangedValues"), {
@@ -262,8 +273,8 @@ export default {
             class: "notification-close",
             onClick: (e, toastObject) => {
               toastObject.goAway(0);
-            }
-          }
+            },
+          },
         });
       }
       this.$store.dispatch("addOtherDetails", this.otherDetails);
@@ -276,8 +287,8 @@ export default {
             class: "notification-close",
             onClick: (e, toastObject) => {
               toastObject.goAway(0);
-            }
-          }
+            },
+          },
         });
         this.otherDetails.splice(index, 1);
         this.$store.dispatch("removeOtherDetail", index);
@@ -352,14 +363,14 @@ export default {
               class: "notification-close",
               onClick: (e, toastObject) => {
                 toastObject.goAway(0);
-              }
-            }
+              },
+            },
           }
         );
       }
       this.otherDetails = [];
       this.$store.dispatch("removeAllOtherDetails");
-    }
+    },
   },
   mounted() {
     this.otherDetails = [];
@@ -371,20 +382,20 @@ export default {
         height: {
           hasEdging: detail.height.hasEdging,
           hasDoubleEdging: detail.height.hasDoubleEdging,
-          value: parseInt(detail.height.value)
+          value: parseInt(detail.height.value),
         },
         length: {
           hasEdging: detail.length.hasEdging,
           hasDoubleEdging: detail.length.hasDoubleEdging,
-          value: parseInt(detail.length.value)
+          value: parseInt(detail.length.value),
         },
-        isValid: detail.isValid
+        isValid: detail.isValid,
       };
       this.otherDetails.push(detailToAdd);
     }
 
     this.$store.dispatch("setRenderedComponent", this);
-  }
+  },
 };
 </script>
 
