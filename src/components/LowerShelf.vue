@@ -243,7 +243,7 @@
             v-if="allStaticWidths.length == maxNumberOfStaticCabinets"
           >
             <span class="error-holder">
-              Достигнат е максималния брой на шкафове
+              {{ translate("maxNumberOfNiches") }}
               {{ maxNumberOfStaticCabinets }}
             </span>
           </v-col>
@@ -315,7 +315,7 @@ import LowerInnerCabinets from "@/components/LowerInnerCabinets.vue";
 export default {
   name: "LowerShelf",
   components: {
-    LowerInnerCabinets
+    LowerInnerCabinets,
   },
   data: () => ({
     validWholeShelf: false,
@@ -328,7 +328,7 @@ export default {
     shelfOuterSides: [],
     allStaticWidths: [],
     maxNumberOfStaticCabinets: 5,
-    showOuterShelfSidesForEdit: false
+    showOuterShelfSidesForEdit: false,
   }),
   computed: {
     shelfObject() {
@@ -365,7 +365,7 @@ export default {
         return this.shelfOuterSides.length > 0;
       }
       return false;
-    }
+    },
   },
   methods: {
     isAllDetailsValid() {
@@ -397,8 +397,8 @@ export default {
             class: "notification-close",
             onClick: (e, toastObject) => {
               toastObject.goAway(0);
-            }
-          }
+            },
+          },
         });
       }
     },
@@ -429,8 +429,8 @@ export default {
             class: "notification-close",
             onClick: (e, toastObject) => {
               toastObject.goAway(0);
-            }
-          }
+            },
+          },
         });
       }
     },
@@ -439,7 +439,7 @@ export default {
         width: parseInt(this.getStaticOuterSideWidth),
         height: this.shelfHeight,
         depth: this.shelfDepth,
-        isValid: true
+        isValid: true,
       };
 
       this.shelfOuterSides.push(outerSideToAdd);
@@ -464,8 +464,8 @@ export default {
               class: "notification-close",
               onClick: (e, toastObject) => {
                 toastObject.goAway(0);
-              }
-            }
+              },
+            },
           });
         } else {
           for (let i = 0; i < this.shelfOuterSides.length; i++) {
@@ -485,8 +485,8 @@ export default {
                     class: "notification-close",
                     onClick: (e, toastObject) => {
                       toastObject.goAway(0);
-                    }
-                  }
+                    },
+                  },
                 }
               );
               break;
@@ -509,8 +509,8 @@ export default {
             class: "notification-close",
             onClick: (e, toastObject) => {
               toastObject.goAway(0);
-            }
-          }
+            },
+          },
         });
       }
 
@@ -553,7 +553,7 @@ export default {
     addStaticCabintes() {
       if (this.allStaticWidths.length < this.maxNumberOfStaticCabinets) {
         let currentCabinet = {
-          width: ""
+          width: "",
         };
         this.allStaticWidths.push(currentCabinet);
       }
@@ -570,8 +570,8 @@ export default {
               class: "notification-close",
               onClick: (e, toastObject) => {
                 toastObject.goAway(0);
-              }
-            }
+              },
+            },
           });
           this.$store.dispatch("removeStaticCabinet");
         }
@@ -589,8 +589,8 @@ export default {
             class: "notification-close",
             onClick: (e, toastObject) => {
               toastObject.goAway(0);
-            }
-          }
+            },
+          },
         });
       } else {
         for (let i = 0; i < this.allStaticWidths.length; i++) {
@@ -604,8 +604,8 @@ export default {
                 class: "notification-close",
                 onClick: (e, toastObject) => {
                   toastObject.goAway(0);
-                }
-              }
+                },
+              },
             });
             break;
           }
@@ -634,8 +634,8 @@ export default {
           class: "notification-close",
           onClick: (e, toastObject) => {
             toastObject.goAway(0);
-          }
-        }
+          },
+        },
       });
 
       if (this.$store.state.currentChildOfChildRenderedCompnent) {
@@ -705,12 +705,12 @@ export default {
       }
 
       return false;
-    }
+    },
   },
   mounted() {
     for (let cabinet of this.$store.state.lowerShelf.staticCabinets) {
       let currentCabinet = {
-        width: cabinet.width
+        width: cabinet.width,
       };
       this.allStaticWidths.push(currentCabinet);
     }
@@ -732,14 +732,14 @@ export default {
         width: side.width,
         height: side.height,
         depth: side.depth,
-        isValid: true
+        isValid: true,
       };
       this.shelfOuterSides.push(currentSide);
     }
 
     this.staticSidewidth = this.$store.state.staticOuterSideWidth;
     this.$store.dispatch("setRenderedComponent", this);
-  }
+  },
 };
 </script>
 

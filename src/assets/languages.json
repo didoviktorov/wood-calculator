@@ -143,7 +143,8 @@
       "unsavedChanges": "Имате незапазени промени",
       "saveChanges": "Запази всички промени?",
       "continueWithoutSave": "Продължи",
-      "verify": "провери"
+      "verify": "провери",
+      "maxNumberOfNiches": "Достигнат е максималния брой на шкафове"
     },
     "EN": {
       "shelfsData": "Shelfs data",
@@ -288,7 +289,8 @@
       "unsavedChanges": "You have unsaved changes",
       "saveChanges": "Save all changes?",
       "continueWithoutSave": "Continue",
-      "verify": "Verify"
+      "verify": "Verify",
+      "maxNumberOfNiches": "The maximum number of cabinets has been reached"
     }
   }
 }
