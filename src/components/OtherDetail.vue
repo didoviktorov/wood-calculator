@@ -40,7 +40,7 @@
 
             <v-btn
               v-if="otherDetails.length > 0"
-              :disabled="!errorRefIndex"
+              :disabled="errorRefIndex === null"
               color="success"
               class="mr-4 right-button"
               @click="goToErrorField"
@@ -212,20 +212,25 @@ export default {
   },
   methods: {
     goToErrorField() {
+      console.log("clicked");
       if (!this.showOtherDetailsForEdit) {
         this.showOtherDetailsForEdit = true;
       }
 
-      if (this.errorRefIndex) {
-        const refName = "detail" + --this.errorRefIndex;
+      if (this.errorRefIndex !== null) {
+        const refName = "detail" + this.errorRefIndex;
         let reference = this.$refs[refName][0];
-        let deatilPosition = reference.$el.offsetTop;
-        this.$vuetify.goTo(deatilPosition);
         reference.validate();
+        setTimeout(() => {
+          let detailPosition = reference.$el.getElementsByClassName(
+            "error--text"
+          )[0].offsetTop;
+          this.$vuetify.goTo(detailPosition);
+        }, 0);
       }
     },
     isAllDetailsValid() {
-      let index = 0;
+      let index = -1;
       for (let detail of this.otherDetails) {
         index++;
         let width = parseInt(detail.width);

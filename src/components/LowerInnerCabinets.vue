@@ -6,7 +6,7 @@
           id="pure-width-left"
           :class="{
             positive: getPureWidthLeft >= 0,
-            negative: isNaN(getPureWidthLeft) || getPureWidthLeft < 0
+            negative: isNaN(getPureWidthLeft) || getPureWidthLeft < 0,
           }"
         >
           <span>
@@ -136,6 +136,18 @@
               </v-btn>
             </v-col>
           </v-row>
+          <v-row align="center" justify="center">
+            <v-col class="verify-button">
+              <v-btn
+                v-if="cabinets.length > 0"
+                :disabled="errorRefIndex === null"
+                color="success"
+                @click="goToErrorField"
+              >
+                {{ translate("verify") }}
+              </v-btn>
+            </v-col>
+          </v-row>
         </v-form>
         <div v-if="openForEdit">
           <v-row
@@ -144,7 +156,11 @@
             v-for="(cabinet, index) in cabinets"
             :key="index"
           >
-            <v-form v-model="cabinet.isValid" @submit.prevent>
+            <v-form
+              :ref="'detail' + index"
+              v-model="cabinet.isValid"
+              @submit.prevent
+            >
               <v-divider />
               <h4>
                 {{ translate("cabinetIndex").replace("%index%", index + 1) }}
@@ -718,7 +734,8 @@ export default {
     validNumberOfCabinets: false,
     numberOfCabinets: 0,
     cabinets: [],
-    openForEdit: false
+    openForEdit: false,
+    errorRefIndex: null,
   }),
   computed: {
     getPureWidthLeft() {
@@ -750,11 +767,15 @@ export default {
       );
     },
     isAllCabinetsValid() {
+      let index = -1;
       for (let cabinet of this.cabinets) {
+        index++;
         if (!cabinet.isValid || !cabinet.outerWidth) {
+          this.changeErrorIndex(index);
           return false;
         }
       }
+      this.changeErrorIndex(null);
       return true;
     },
     validateCabinets() {
@@ -762,9 +783,39 @@ export default {
         return false;
       }
       return this.$validateCabinets(this.cabinets);
-    }
+    },
   },
   methods: {
+    changeErrorIndex(index) {
+      this.errorRefIndex = index;
+    },
+    goToErrorField() {
+      if (!this.openForEdit) {
+        this.openForEdit = true;
+      }
+
+      let that = this;
+      this.$nextTick(() => {
+        if (that.errorRefIndex !== null) {
+          if (!that.cabinets[that.errorRefIndex].showCabinetElements) {
+            that.cabinets[that.errorRefIndex].showCabinetElements = true;
+          }
+          const refName = "detail" + that.errorRefIndex;
+          let reference = that.$refs[refName][0];
+          reference.validate();
+          setTimeout(() => {
+            let errorField = document.getElementsByClassName("error--text")[0];
+            if (!errorField) {
+              that.goToErrorField();
+              return;
+            }
+            let detailPosition =
+              window.pageYOffset + errorField.getBoundingClientRect().top - 50;
+            that.$vuetify.goTo(detailPosition);
+          }, 0);
+        }
+      });
+    },
     isAllDetailsValid() {
       return this.isAllCabinetsValid && this.validStandardFeetHeight;
     },
@@ -784,8 +835,16 @@ export default {
       return isValid;
     },
     showHideCabinetElements(index) {
+      let isValidOnClose = this.cabinets[index].isValid;
+
       this.cabinets[index].showCabinetElements = !this.cabinets[index]
         .showCabinetElements;
+
+      if (!isValidOnClose) {
+        setTimeout(() => {
+          this.cabinets[index].isValid = false;
+        }, 0);
+      }
     },
     changeWidthCabinet(cabinet, index) {
       let newWidth = Number(cabinet.outerWidth);
@@ -804,28 +863,28 @@ export default {
           bottom: {
             width: newWidth,
             height: cabinet.bottom.height,
-            depth: cabinet.bottom.depth
+            depth: cabinet.bottom.depth,
           },
           back: {
             width: newWidth - this.$store.state.cabinetBackDiff,
-            height: cabinet.back.height
+            height: cabinet.back.height,
           },
           sides: cabinet.sides,
           upperHolders: [
             {
               width: newInnerWidth,
               height: this.$store.state.staticOuterSideWidth,
-              depth: this.$store.state.standardFeetHeightOfCabinet
+              depth: this.$store.state.standardFeetHeightOfCabinet,
             },
             {
               width: newInnerWidth,
               height: this.$store.state.staticOuterSideWidth,
-              depth: this.$store.state.standardFeetHeightOfCabinet
-            }
+              depth: this.$store.state.standardFeetHeightOfCabinet,
+            },
           ],
           shelfs: [],
           doors: [],
-          dividers: cabinet.dividers
+          dividers: cabinet.dividers,
         };
 
         if (cabinet.doors.length > 0) {
@@ -857,17 +916,17 @@ export default {
           bottom: {
             width: cabinet.outerWidth,
             height: cabinet.bottom.height,
-            depth: cabinet.bottom.depth
+            depth: cabinet.bottom.depth,
           },
           back: {
             width: cabinet.back.width,
-            height: newHeight - this.$store.state.cabinetBackDiff
+            height: newHeight - this.$store.state.cabinetBackDiff,
           },
           sides: [],
           upperHolders: cabinet.upperHolders,
           shelfs: cabinet.shelfs,
           doors: [],
-          dividers: []
+          dividers: [],
         };
 
         if (cabinet.dividers.length > 0) {
@@ -886,7 +945,7 @@ export default {
           let newSide = {
             width: this.$store.state.staticOuterSideWidth,
             height: newHeight - this.$store.state.staticOuterSideWidth,
-            depth: this.$store.state.lowerShelf.depth
+            depth: this.$store.state.lowerShelf.depth,
           };
 
           cabinetToChange.sides.push(newSide);
@@ -909,17 +968,17 @@ export default {
           bottom: {
             width: cabinet.outerWidth,
             height: cabinet.bottom.height,
-            depth: newDepth
+            depth: newDepth,
           },
           back: {
             width: cabinet.back.width,
-            height: cabinet.back.height
+            height: cabinet.back.height,
           },
           sides: [],
           upperHolders: cabinet.upperHolders,
           shelfs: [],
           dividers: [],
-          doors: cabinet.doors
+          doors: cabinet.doors,
         };
 
         if (cabinet.dividers.length > 0) {
@@ -938,7 +997,7 @@ export default {
           let newSide = {
             width: this.$store.state.staticOuterSideWidth,
             height: cabinet.sides[i].height,
-            depth: newDepth
+            depth: newDepth,
           };
 
           cabinetToChange.sides.push(newSide);
@@ -956,8 +1015,8 @@ export default {
             class: "notification-close",
             onClick: (e, toastObject) => {
               toastObject.goAway(0);
-            }
-          }
+            },
+          },
         });
       }
       this.$store.dispatch("changeInnerCabinetsFeetHeight", newHeight);
@@ -984,42 +1043,42 @@ export default {
           bottom: {
             width: "",
             height: this.$store.state.staticOuterSideWidth,
-            depth: this.$store.state.lowerShelf.depth
+            depth: this.$store.state.lowerShelf.depth,
           },
           back: {
             width: "",
-            height: heightOfCabinets - backDiff
+            height: heightOfCabinets - backDiff,
           },
           sides: [
             {
               width: this.$store.state.staticOuterSideWidth,
               height: cabinetsSidesHeight,
-              depth: this.$store.state.lowerShelf.depth
+              depth: this.$store.state.lowerShelf.depth,
             },
             {
               width: this.$store.state.staticOuterSideWidth,
               height: cabinetsSidesHeight,
-              depth: this.$store.state.lowerShelf.depth
-            }
+              depth: this.$store.state.lowerShelf.depth,
+            },
           ],
           upperHolders: [
             {
               width: "",
               height: this.$store.state.staticOuterSideWidth,
-              depth: this.$store.state.standardFeetHeightOfCabinet
+              depth: this.$store.state.standardFeetHeightOfCabinet,
             },
             {
               width: "",
               height: this.$store.state.staticOuterSideWidth,
-              depth: this.$store.state.standardFeetHeightOfCabinet
-            }
+              depth: this.$store.state.standardFeetHeightOfCabinet,
+            },
           ],
           shelfs: [],
           doors: [],
-          dividers: []
+          dividers: [],
         };
 
-        currentCabinetToAdd.isValid = true;
+        currentCabinetToAdd.isValid = false;
         currentCabinetToAdd.isEdited = false;
 
         this.cabinets.push(currentCabinetToAdd);
@@ -1035,8 +1094,8 @@ export default {
             class: "notification-close",
             onClick: (e, toastObject) => {
               toastObject.goAway(0);
-            }
-          }
+            },
+          },
         });
 
         this.$store.dispatch("removeAllLowerInnerCabinets");
@@ -1052,7 +1111,7 @@ export default {
       let shelfToAdd = {
         width: shelfWidth,
         height: this.$store.state.staticOuterSideWidth,
-        depth: parseInt(cabinet.depth)
+        depth: parseInt(cabinet.depth),
       };
       cabinet.shelfs.push(shelfToAdd);
     },
@@ -1066,7 +1125,7 @@ export default {
         width: this.$store.state.staticOuterSideWidth,
         height:
           parseInt(cabinet.height) - 2 * this.$store.state.staticOuterSideWidth,
-        depth: parseInt(cabinet.depth)
+        depth: parseInt(cabinet.depth),
       };
       cabinet.dividers.push(dividerToAdd);
 
@@ -1107,7 +1166,7 @@ export default {
       let doorToAdd = {
         width: availableWidth - diff,
         height: cabinet.height - diff,
-        depth: this.$store.state.staticOuterSideWidth
+        depth: this.$store.state.staticOuterSideWidth,
       };
 
       cabinet.doors.push(doorToAdd);
@@ -1127,7 +1186,7 @@ export default {
     addInnerCabinetsToStore() {
       let args = {
         cabinets: this.cabinets,
-        copyCabinet: this.$getCabinetInstance
+        copyCabinet: this.$getCabinetInstance,
       };
       let hasChanged = this.$isCabinetsChanged(
         this.cabinets,
@@ -1143,8 +1202,8 @@ export default {
             class: "notification-close",
             onClick: (e, toastObject) => {
               toastObject.goAway(0);
-            }
-          }
+            },
+          },
         });
       } else if (hasChanged) {
         this.$toasted.success(this.translate("successfullyChangedValues"), {
@@ -1153,8 +1212,8 @@ export default {
             class: "notification-close",
             onClick: (e, toastObject) => {
               toastObject.goAway(0);
-            }
-          }
+            },
+          },
         });
       }
 
@@ -1177,8 +1236,8 @@ export default {
             class: "notification-close",
             onClick: (e, toastObject) => {
               toastObject.goAway(0);
-            }
-          }
+            },
+          },
         });
       } else if (hasChanged) {
         this.$toasted.success(this.translate("successfullyChangedValues"), {
@@ -1187,14 +1246,14 @@ export default {
             class: "notification-close",
             onClick: (e, toastObject) => {
               toastObject.goAway(0);
-            }
-          }
+            },
+          },
         });
       }
       cabinetToEdit.isEdited = true;
       let params = {
         editedCabinet: cabinetToEdit,
-        cabinetIndex: index
+        cabinetIndex: index,
       };
 
       this.$store.dispatch("saveCabinetLowerShelfCabinets", params);
@@ -1205,7 +1264,7 @@ export default {
     addElementsToStore() {
       let args = {
         cabinets: this.cabinets,
-        copyCabinet: this.$getCabinetInstance
+        copyCabinet: this.$getCabinetInstance,
       };
       this.$store.dispatch("addLowerShelfCabinets", args);
       this.$store.dispatch(
@@ -1224,7 +1283,7 @@ export default {
         this.$store.state.standardFeetHeightOfCabinet;
 
       return cabinetsChanged || feetHeightChanged;
-    }
+    },
   },
   mounted() {
     this.standardFeetHeight = this.$store.state.standardFeetHeightOfCabinet;
@@ -1235,7 +1294,7 @@ export default {
 
     this.numberOfCabinets = this.cabinets.length;
     this.$store.dispatch("setChildRenderedComponent", this);
-  }
+  },
 };
 </script>
 
