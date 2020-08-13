@@ -1022,6 +1022,9 @@ export default {
       this.$store.dispatch("changeInnerCabinetsFeetHeight", newHeight);
     },
     addInnerCabinets() {
+      if (this.openForEdit) {
+        this.openForEdit = false;
+      }
       this.cabinets = [];
       let currentNumerOfCabinets = parseInt(this.numberOfCabinets);
 
@@ -1085,6 +1088,9 @@ export default {
       }
     },
     removeAllCabinets() {
+      if (this.openForEdit) {
+        this.openForEdit = false;
+      }
       if (this.cabinets.length > 0) {
         this.cabinets = [];
         this.numberOfCabinets = 0;

@@ -1070,6 +1070,9 @@ export default {
       this.$store.dispatch("saveCabinetUpperShelfCabinets", params);
     },
     addCabinets() {
+      if (this.openForEdit) {
+        this.openForEdit = false;
+      }
       this.cabinets = [];
 
       let currentNumerOfCabinets = parseInt(this.numberOfCabinets);
@@ -1124,6 +1127,9 @@ export default {
       }
     },
     removeAllCabinets() {
+      if (this.openForEdit) {
+        this.openForEdit = false;
+      }
       if (this.cabinets.length > 0) {
         this.$toasted.error(this.translate("successfullyDeletedCabinets"), {
           action: {
