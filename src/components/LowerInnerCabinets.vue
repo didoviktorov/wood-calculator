@@ -160,6 +160,7 @@
               :ref="'detail' + index"
               v-model="cabinet.isValid"
               @submit.prevent
+              class="cabinet-wrapper"
             >
               <v-divider />
               <h4>
@@ -804,7 +805,9 @@ export default {
           let reference = that.$refs[refName][0];
           reference.validate();
           setTimeout(() => {
-            let errorField = document.getElementsByClassName("error--text")[0];
+            let errorField = document
+              .getElementsByClassName("cabinet-wrapper")
+              [that.errorRefIndex].getElementsByClassName("error--text")[0];
             if (!errorField) {
               that.goToErrorField();
               return;
