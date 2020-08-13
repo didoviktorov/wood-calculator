@@ -6,7 +6,7 @@
           id="pure-width-left"
           :class="{
             positive: getPureWidthLeft >= 0,
-            negative: isNaN(getPureWidthLeft) || getPureWidthLeft < 0
+            negative: isNaN(getPureWidthLeft) || getPureWidthLeft < 0,
           }"
         >
           <span>
@@ -85,7 +85,8 @@
                 :disabled="
                   !isAllCabinetsValid ||
                     cabinets.length == 0 ||
-                    !validateCabinets
+                    !validateCabinets ||
+                    errorRefIndex !== null
                 "
                 @click="addCabinetsToStore"
                 color="success"
@@ -103,6 +104,18 @@
               </v-btn>
             </v-col>
           </v-row>
+          <v-row align="center" justify="center">
+            <v-col class="verify-button">
+              <v-btn
+                v-if="cabinets.length > 0"
+                :disabled="errorRefIndex === null"
+                color="success"
+                @click="goToErrorField"
+              >
+                {{ translate("verify") }}
+              </v-btn>
+            </v-col>
+          </v-row>
         </v-form>
         <div v-if="openForEdit">
           <v-row
@@ -111,7 +124,11 @@
             v-for="(cabinet, index) in cabinets"
             :key="index"
           >
-            <v-form v-model="cabinet.isValid" @submit.prevent>
+            <v-form
+              :ref="'detail' + index"
+              v-model="cabinet.isValid"
+              @submit.prevent
+            >
               <v-divider />
               <h4>
                 {{ translate("cabinetIndex").replace("%index%", index + 1) }}
@@ -664,7 +681,8 @@ export default {
     validNumberOfCabinets: false,
     numberOfCabinets: 0,
     cabinets: [],
-    openForEdit: false
+    openForEdit: false,
+    errorRefIndex: null,
   }),
   computed: {
     getPureWidthLeft() {
@@ -695,18 +713,52 @@ export default {
       );
     },
     isAllCabinetsValid() {
+      let index = -1;
       for (let cabinet of this.cabinets) {
+        index++;
         if (!cabinet.isValid || !cabinet.outerWidth) {
+          this.changeErrorIndex(index);
           return false;
         }
       }
+      this.changeErrorIndex(null);
       return true;
     },
     validateCabinets() {
       return this.$validateCabinets(this.cabinets);
-    }
+    },
   },
   methods: {
+    changeErrorIndex(index) {
+      this.errorRefIndex = index;
+    },
+    goToErrorField() {
+      if (!this.openForEdit) {
+        this.openForEdit = true;
+      }
+
+      let that = this;
+      this.$nextTick(() => {
+        if (that.errorRefIndex !== null) {
+          if (!that.cabinets[that.errorRefIndex].showCabinetElements) {
+            that.cabinets[that.errorRefIndex].showCabinetElements = true;
+          }
+          const refName = "detail" + that.errorRefIndex;
+          let reference = that.$refs[refName][0];
+          reference.validate();
+          setTimeout(() => {
+            let errorField = document.getElementsByClassName("error--text")[0];
+            if (!errorField) {
+              that.goToErrorField();
+              return;
+            }
+            let detailPosition =
+              window.pageYOffset + errorField.getBoundingClientRect().top - 50;
+            that.$vuetify.goTo(detailPosition);
+          }, 0);
+        }
+      });
+    },
     translate(literal) {
       return this.$store.state.languages.languages[
         this.$store.state.selectedLang
@@ -723,8 +775,16 @@ export default {
       return isValid;
     },
     showHideCabinetElements(index) {
+      let isValidOnClose = this.cabinets[index].isValid;
+
       this.cabinets[index].showCabinetElements = !this.cabinets[index]
         .showCabinetElements;
+
+      if (!isValidOnClose) {
+        setTimeout(() => {
+          this.cabinets[index].isValid = false;
+        }, 0);
+      }
     },
     openForEditHandler() {
       this.openForEdit = !this.openForEdit;
@@ -745,21 +805,21 @@ export default {
           bottom: {
             width: newWidth - this.$store.state.staticOuterSideWidth * 2,
             height: cabinet.bottom.height,
-            depth: cabinet.bottom.depth
+            depth: cabinet.bottom.depth,
           },
           back: {
             width: newWidth - this.$store.state.cabinetBackDiff,
-            height: cabinet.back.height
+            height: cabinet.back.height,
           },
           sides: cabinet.sides,
           ceil: {
             width: newWidth - this.$store.state.staticOuterSideWidth * 2,
             height: this.$store.state.staticOuterSideWidth,
-            depth: this.$store.state.upperShelf.depth
+            depth: this.$store.state.upperShelf.depth,
           },
           shelfs: [],
           doors: [],
-          dividers: cabinet.dividers
+          dividers: cabinet.dividers,
         };
 
         if (cabinet.doors.length > 0) {
@@ -791,16 +851,16 @@ export default {
           bottom: {
             width: cabinet.outerWidth,
             height: cabinet.bottom.height,
-            depth: cabinet.bottom.depth
+            depth: cabinet.bottom.depth,
           },
           ceil: cabinet.ceil,
           back: {
             width: cabinet.back.width,
-            height: newHeight - this.$store.state.cabinetBackDiff
+            height: newHeight - this.$store.state.cabinetBackDiff,
           },
           sides: [],
           shelfs: cabinet.shelfs,
-          doors: []
+          doors: [],
         };
 
         if (cabinet.dividers.length > 0) {
@@ -819,7 +879,7 @@ export default {
           let newSide = {
             width: this.$store.state.staticOuterSideWidth,
             height: newHeight,
-            depth: this.$store.state.upperShelf.depth
+            depth: this.$store.state.upperShelf.depth,
           };
 
           cabinetToChange.sides.push(newSide);
@@ -842,21 +902,21 @@ export default {
           bottom: {
             width: cabinet.outerWidth,
             height: cabinet.bottom.height,
-            depth: newDepth
+            depth: newDepth,
           },
           back: {
             width: cabinet.back.width,
-            height: cabinet.back.height
+            height: cabinet.back.height,
           },
           sides: [],
           ceil: {
             width: cabinet.ceil.width,
             height: this.$store.state.staticOuterSideWidth,
-            depth: newDepth
+            depth: newDepth,
           },
           shelfs: [],
           doors: cabinet.doors,
-          dividers: []
+          dividers: [],
         };
 
         if (cabinet.dividers.length > 0) {
@@ -875,7 +935,7 @@ export default {
           let newSide = {
             width: this.$store.state.staticOuterSideWidth,
             height: cabinet.sides[i].height,
-            depth: newDepth
+            depth: newDepth,
           };
 
           cabinetToChange.sides.push(newSide);
@@ -887,7 +947,7 @@ export default {
     addCabinetsToStore() {
       let args = {
         cabinets: this.cabinets,
-        copyCabinet: this.$getCabinetInstance
+        copyCabinet: this.$getCabinetInstance,
       };
 
       let hasChanged = this.$isCabinetsChanged(
@@ -905,8 +965,8 @@ export default {
             class: "notification-close",
             onClick: (e, toastObject) => {
               toastObject.goAway(0);
-            }
-          }
+            },
+          },
         });
       } else if (hasChanged) {
         this.$toasted.success(this.translate("successfullyChangedValues"), {
@@ -915,8 +975,8 @@ export default {
             class: "notification-close",
             onClick: (e, toastObject) => {
               toastObject.goAway(0);
-            }
-          }
+            },
+          },
         });
       }
       this.$store.dispatch("addUpperShelfCabinets", args);
@@ -930,7 +990,7 @@ export default {
       let shelfToAdd = {
         width: shelfWidth,
         height: this.$store.state.staticOuterSideWidth,
-        depth: parseInt(cabinet.depth)
+        depth: parseInt(cabinet.depth),
       };
       cabinet.shelfs.push(shelfToAdd);
     },
@@ -944,7 +1004,7 @@ export default {
         width: this.$store.state.staticOuterSideWidth,
         height:
           parseInt(cabinet.height) - 2 * this.$store.state.staticOuterSideWidth,
-        depth: parseInt(cabinet.depth)
+        depth: parseInt(cabinet.depth),
       };
       cabinet.dividers.push(dividerToAdd);
 
@@ -987,8 +1047,8 @@ export default {
             class: "notification-close",
             onClick: (e, toastObject) => {
               toastObject.goAway(0);
-            }
-          }
+            },
+          },
         });
       } else if (hasChanged) {
         this.$toasted.success(this.translate("successfullyChangedValues"), {
@@ -997,15 +1057,15 @@ export default {
             class: "notification-close",
             onClick: (e, toastObject) => {
               toastObject.goAway(0);
-            }
-          }
+            },
+          },
         });
       }
       cabinetToEdit.isEdited = true;
       cabinetToEdit.isEdited = true;
       let params = {
         editedCabinet: cabinetToEdit,
-        cabinetIndex: index
+        cabinetIndex: index,
       };
       this.$store.dispatch("saveCabinetUpperShelfCabinets", params);
     },
@@ -1029,35 +1089,35 @@ export default {
           bottom: {
             width: "",
             height: this.$store.state.staticOuterSideWidth,
-            depth: this.$store.state.upperShelf.depth
+            depth: this.$store.state.upperShelf.depth,
           },
           back: {
             width: "",
-            height: heightOfCabinets - backDiff
+            height: heightOfCabinets - backDiff,
           },
           ceil: {
             width: "",
             height: this.$store.state.staticOuterSideWidth,
-            depth: this.$store.state.upperShelf.depth
+            depth: this.$store.state.upperShelf.depth,
           },
           sides: [
             {
               width: this.$store.state.staticOuterSideWidth,
               height: cabinetsSidesHeight,
-              depth: this.$store.state.upperShelf.depth
+              depth: this.$store.state.upperShelf.depth,
             },
             {
               width: this.$store.state.staticOuterSideWidth,
               height: cabinetsSidesHeight,
-              depth: this.$store.state.upperShelf.depth
-            }
+              depth: this.$store.state.upperShelf.depth,
+            },
           ],
           shelfs: [],
           doors: [],
-          dividers: []
+          dividers: [],
         };
 
-        currentCabinetToAdd.isValid = true;
+        currentCabinetToAdd.isValid = false;
         currentCabinetToAdd.isEdited = false;
 
         this.cabinets.push(currentCabinetToAdd);
@@ -1071,8 +1131,8 @@ export default {
             class: "notification-close",
             onClick: (e, toastObject) => {
               toastObject.goAway(0);
-            }
-          }
+            },
+          },
         });
         this.cabinets = [];
         this.numberOfCabinets = 0;
@@ -1093,7 +1153,7 @@ export default {
       let doorToAdd = {
         width: availableWidth - diff,
         height: cabinet.height - diff,
-        depth: this.$store.state.staticOuterSideWidth
+        depth: this.$store.state.staticOuterSideWidth,
       };
 
       cabinet.doors.push(doorToAdd);
@@ -1116,7 +1176,7 @@ export default {
     addElementsToStore() {
       let args = {
         cabinets: this.cabinets,
-        copyCabinet: this.$getCabinetInstance
+        copyCabinet: this.$getCabinetInstance,
       };
       this.$store.dispatch("addUpperShelfCabinets", args);
     },
@@ -1128,7 +1188,7 @@ export default {
       );
 
       return cabinetsChanged;
-    }
+    },
   },
   mounted() {
     for (let cabinet of this.$store.state.upperShelf.cabinets) {
@@ -1137,7 +1197,7 @@ export default {
 
     this.numberOfCabinets = this.cabinets.length;
     this.$store.dispatch("setChildRenderedComponent", this);
-  }
+  },
 };
 </script>
 

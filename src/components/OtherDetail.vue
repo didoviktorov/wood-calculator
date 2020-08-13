@@ -212,7 +212,6 @@ export default {
   },
   methods: {
     goToErrorField() {
-      console.log("clicked");
       if (!this.showOtherDetailsForEdit) {
         this.showOtherDetailsForEdit = true;
       }
