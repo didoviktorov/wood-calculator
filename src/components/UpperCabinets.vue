@@ -233,16 +233,6 @@ export default {
         }
       });
     },
-    isValidNumber(number) {
-      let isValid = true;
-      for (let func of this.numberRules) {
-        if (typeof func(number) == "string") {
-          return false;
-        }
-      }
-
-      return isValid;
-    },
     openForEditHandler() {
       this.openForEdit = !this.openForEdit;
     },
