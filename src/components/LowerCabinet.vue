@@ -515,13 +515,7 @@ export default {
       );
     },
     getCabinetProps() {
-      let propsObject = JSON.parse(JSON.stringify(this.cabinet));
-      delete propsObject.showCabinetElements;
-      delete propsObject.isEdited;
-      delete propsObject.isValid;
-      delete propsObject.innerWidth;
-
-      return propsObject;
+      return this.$getCabinetProps(this.cabinet);
     },
   },
   watch: {
