@@ -1,7 +1,7 @@
 <template>
   <div>
     <h4>
-      {{ translate("cabinetIndex").replace("%index%", index + 1) }}
+      {{ $translate("cabinetIndex").replace("%index%", index + 1) }}
     </h4>
     <v-container>
       <!-- cabinet dimensions -->
@@ -10,7 +10,7 @@
           <v-text-field
             v-model.lazy="cabinet.outerWidth"
             :rules="numberRules"
-            :label="translate('width')"
+            :label="$translate('width')"
             outlined
             dense
             required
@@ -23,7 +23,7 @@
           <v-text-field
             v-model.lazy="cabinet.height"
             :rules="numberRules"
-            :label="translate('height')"
+            :label="$translate('height')"
             outlined
             dense
             required
@@ -36,7 +36,7 @@
           <v-text-field
             v-model.lazy="cabinet.depth"
             :rules="numberRules"
-            :label="translate('depth')"
+            :label="$translate('depth')"
             outlined
             dense
             required
@@ -48,7 +48,7 @@
 
       <div v-if="cabinet.showCabinetElements">
         <h5>
-          {{ translate("bottomCabinetIndex").replace("%index%", index + 1) }}
+          {{ $translate("bottomCabinetIndex").replace("%index%", index + 1) }}
         </h5>
         <!-- cabinet bottom dimensions -->
         <v-row>
@@ -56,7 +56,7 @@
             <v-text-field
               v-model="cabinet.bottom.width"
               :rules="numberRules"
-              :label="translate('bottomWidth')"
+              :label="$translate('bottomWidth')"
               outlined
               dense
               required
@@ -68,7 +68,7 @@
             <v-text-field
               v-model="cabinet.bottom.height"
               :rules="numberRules"
-              :label="translate('bottomHeight')"
+              :label="$translate('bottomHeight')"
               outlined
               dense
               required
@@ -80,7 +80,7 @@
             <v-text-field
               v-model="cabinet.bottom.depth"
               :rules="numberRules"
-              :label="translate('bottomDepth')"
+              :label="$translate('bottomDepth')"
               outlined
               dense
               required
@@ -89,7 +89,7 @@
           </v-col>
         </v-row>
         <h5>
-          {{ translate("cabinetBackIndex").replace("%index%", index + 1) }}
+          {{ $translate("cabinetBackIndex").replace("%index%", index + 1) }}
         </h5>
         <!-- cabinet back dimensions -->
         <v-row>
@@ -97,7 +97,7 @@
             <v-text-field
               v-model="cabinet.back.width"
               :rules="numberRules"
-              :label="translate('cabinetBackWidth')"
+              :label="$translate('cabinetBackWidth')"
               outlined
               dense
               required
@@ -109,7 +109,7 @@
             <v-text-field
               v-model="cabinet.back.height"
               :rules="numberRules"
-              :label="translate('cabinetBackHeight')"
+              :label="$translate('cabinetBackHeight')"
               outlined
               dense
               required
@@ -119,7 +119,7 @@
         </v-row>
         <!-- cabinet sides dimensions -->
         <h5>
-          {{ translate("cabinetSidesIndex").replace("%index%", index + 1) }}
+          {{ $translate("cabinetSidesIndex").replace("%index%", index + 1) }}
         </h5>
         <v-row
           v-for="(side, sideIndex) in cabinet.sides"
@@ -130,7 +130,7 @@
               v-model="side.width"
               :rules="numberRules"
               :label="
-                translate('sideWidthIndex').replace('%index%', sideIndex + 1)
+                $translate('sideWidthIndex').replace('%index%', sideIndex + 1)
               "
               outlined
               dense
@@ -144,7 +144,7 @@
               v-model="side.height"
               :rules="numberRules"
               :label="
-                translate('sideHeightIndex').replace('%index%', sideIndex + 1)
+                $translate('sideHeightIndex').replace('%index%', sideIndex + 1)
               "
               outlined
               dense
@@ -158,7 +158,7 @@
               v-model="side.depth"
               :rules="numberRules"
               :label="
-                translate('sideDepthIndex').replace('%index%', sideIndex + 1)
+                $translate('sideDepthIndex').replace('%index%', sideIndex + 1)
               "
               outlined
               dense
@@ -169,7 +169,9 @@
         </v-row>
         <!-- cabinet upper holders dimensions -->
         <h5>
-          {{ translate("aperturesCabinetIndex").replace("%index%", index + 1) }}
+          {{
+            $translate("aperturesCabinetIndex").replace("%index%", index + 1)
+          }}
         </h5>
         <v-row
           v-for="(holder, holderIndex) in cabinet.upperHolders"
@@ -180,7 +182,7 @@
               v-model="holder.width"
               :rules="numberRules"
               :label="
-                translate('apertureWidthIndex').replace(
+                $translate('apertureWidthIndex').replace(
                   '%index%',
                   holderIndex + 1
                 )
@@ -197,7 +199,7 @@
               v-model="holder.height"
               :rules="numberRules"
               :label="
-                translate('apertureHeightIndex').replace(
+                $translate('apertureHeightIndex').replace(
                   '%index%',
                   holderIndex + 1
                 )
@@ -214,7 +216,7 @@
               v-model="holder.depth"
               :rules="numberRules"
               :label="
-                translate('apertureDepthIndex').replace(
+                $translate('apertureDepthIndex').replace(
                   '%index%',
                   holderIndex + 1
                 )
@@ -228,7 +230,7 @@
         </v-row>
         <!-- cabinet shelfs dimensions -->
         <h5>
-          {{ translate("shelfOfCabinetIndex").replace("%index%", index + 1) }}
+          {{ $translate("shelfOfCabinetIndex").replace("%index%", index + 1) }}
         </h5>
         <v-row
           v-for="(shelf, shelfIndex) in cabinet.shelfs"
@@ -239,7 +241,7 @@
               v-model="shelf.width"
               :rules="numberRules"
               :label="
-                translate('shelfWidthIndex').replace('%index%', shelfIndex + 1)
+                $translate('shelfWidthIndex').replace('%index%', shelfIndex + 1)
               "
               outlined
               dense
@@ -253,7 +255,10 @@
               v-model="shelf.height"
               :rules="numberRules"
               :label="
-                translate('shelfHeightIndex').replace('%index%', shelfIndex + 1)
+                $translate('shelfHeightIndex').replace(
+                  '%index%',
+                  shelfIndex + 1
+                )
               "
               outlined
               dense
@@ -267,7 +272,7 @@
               v-model="shelf.depth"
               :rules="numberRules"
               :label="
-                translate('shelfDepthIndex').replace('%index%', shelfIndex + 1)
+                $translate('shelfDepthIndex').replace('%index%', shelfIndex + 1)
               "
               outlined
               dense
@@ -283,7 +288,7 @@
               color="info"
               @click="$addShelf(cabinet)"
             >
-              {{ translate("addShelf") }}
+              {{ $translate("addShelf") }}
             </v-btn>
           </v-col>
           <v-col cols="6">
@@ -292,13 +297,15 @@
               color="error"
               @click="$removeShelf(cabinet)"
             >
-              {{ translate("deleteShelf") }}
+              {{ $translate("deleteShelf") }}
             </v-btn>
           </v-col>
         </v-row>
         <!-- cabinet dividers dimensions -->
         <h5>
-          {{ translate("dividerOfCabinetIndex").replace("%index%", index + 1) }}
+          {{
+            $translate("dividerOfCabinetIndex").replace("%index%", index + 1)
+          }}
         </h5>
         <v-row
           v-for="(divider, dividerIndex) in cabinet.dividers"
@@ -309,7 +316,7 @@
               v-model="divider.width"
               :rules="numberRules"
               :label="
-                translate('dividerWidthIndex').replace(
+                $translate('dividerWidthIndex').replace(
                   '%index%',
                   dividerIndex + 1
                 )
@@ -326,7 +333,7 @@
               v-model="divider.height"
               :rules="numberRules"
               :label="
-                translate('dividerHeightIndex').replace(
+                $translate('dividerHeightIndex').replace(
                   '%index%',
                   dividerIndex + 1
                 )
@@ -343,7 +350,7 @@
               v-model="divider.depth"
               :rules="numberRules"
               :label="
-                translate('dividerDepthIndex').replace(
+                $translate('dividerDepthIndex').replace(
                   '%index%',
                   dividerIndex + 1
                 )
@@ -362,7 +369,7 @@
               color="info"
               @click="$addDivider(cabinet)"
             >
-              {{ translate("addDivider") }}
+              {{ $translate("addDivider") }}
             </v-btn>
           </v-col>
           <v-col cols="12" md="6">
@@ -371,13 +378,13 @@
               color="error"
               @click="$removeDivider(cabinet)"
             >
-              {{ translate("deleteDivider") }}
+              {{ $translate("deleteDivider") }}
             </v-btn>
           </v-col>
         </v-row>
         <!-- cabinet doors dimensions -->
         <h5>
-          {{ translate("doorsCabinetIndex").replace("%index%", index + 1) }}
+          {{ $translate("doorsCabinetIndex").replace("%index%", index + 1) }}
         </h5>
         <v-row
           v-for="(door, doorIndex) in cabinet.doors"
@@ -388,7 +395,7 @@
               v-model="door.width"
               :rules="numberRules"
               :label="
-                translate('doorWidthIndex').replace('%index%', doorIndex + 1)
+                $translate('doorWidthIndex').replace('%index%', doorIndex + 1)
               "
               outlined
               dense
@@ -402,7 +409,7 @@
               v-model="door.height"
               :rules="numberRules"
               :label="
-                translate('doorHeightIndex').replace('%index%', doorIndex + 1)
+                $translate('doorHeightIndex').replace('%index%', doorIndex + 1)
               "
               outlined
               dense
@@ -416,7 +423,7 @@
               v-model="door.depth"
               :rules="numberRules"
               :label="
-                translate('doorDepthIndex').replace('%index%', doorIndex + 1)
+                $translate('doorDepthIndex').replace('%index%', doorIndex + 1)
               "
               outlined
               dense
@@ -435,7 +442,7 @@
               color="info"
               @click="$addDoor(cabinet)"
             >
-              {{ translate("addDoor") }}
+              {{ $translate("addDoor") }}
             </v-btn>
           </v-col>
           <v-col cols="6">
@@ -444,7 +451,7 @@
               color="error"
               @click="$removeDoor(cabinet)"
             >
-              {{ translate("deleteDoor") }}
+              {{ $translate("deleteDoor") }}
             </v-btn>
           </v-col>
         </v-row>
@@ -455,7 +462,7 @@
               color="success"
               @click="editCabinet"
             >
-              {{ translate("saveCabinet") }}
+              {{ $translate("saveCabinet") }}
             </v-btn>
           </v-col>
         </v-row>
@@ -702,11 +709,6 @@ export default {
 
         this.$emit("changeCabinet", cabinetToChange);
       }
-    },
-    translate(literal) {
-      return this.$store.state.languages.languages[
-        this.$store.state.selectedLang
-      ][literal];
     },
   },
 };

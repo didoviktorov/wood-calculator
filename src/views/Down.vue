@@ -13,14 +13,7 @@ export default {
   name: "Down",
   components: {
     LowerShelf,
-    confirm
-  },
-  methods: {
-    translate(literal) {
-      return this.$store.state.languages.languages[
-        this.$store.state.selectedLang
-      ][literal];
-    }
+    confirm,
   },
   beforeRouteLeave: function(to, from, next) {
     let currentRenderedComopnent = this.$store.state
@@ -31,12 +24,16 @@ export default {
       currentRenderedComopnent.isAllDetailsValid()
     ) {
       this.$refs.confirm
-        .open(this.translate("unsavedChanges"), this.translate("saveChanges"), {
-          color: "#4caf50",
-          cancelText: this.translate("continueWithoutSave"),
-          confirmText: this.translate("save")
-        })
-        .then(confirm => {
+        .open(
+          this.$translate("unsavedChanges"),
+          this.$translate("saveChanges"),
+          {
+            color: "#4caf50",
+            cancelText: this.$translate("continueWithoutSave"),
+            confirmText: this.$translate("save"),
+          }
+        )
+        .then((confirm) => {
           if (confirm) {
             currentRenderedComopnent.addElementsToStore();
           }
@@ -45,6 +42,6 @@ export default {
     } else {
       next();
     }
-  }
+  },
 };
 </script>
