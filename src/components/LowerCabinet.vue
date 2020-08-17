@@ -476,7 +476,9 @@
               fab
               dark
               small
-              @click="showHideCabinetElements"
+              @click="
+                cabinet.showCabinetElements = !cabinet.showCabinetElements
+              "
             >
               <v-icon>{{
                 cabinet.showCabinetElements ? "mdi-menu-up" : "mdi-menu-down"
@@ -530,9 +532,6 @@ export default {
   methods: {
     editCabinet() {
       this.$emit("edited", this.index);
-    },
-    showHideCabinetElements() {
-      this.cabinet.showCabinetElements = !this.cabinet.showCabinetElements;
     },
     isValidNumber(number) {
       let isValid = true;
