@@ -263,7 +263,7 @@
             <v-btn
               :disabled="!cabinet.isValid"
               color="info"
-              @click="addShelf(cabinet)"
+              @click="$addShelf(cabinet)"
             >
               {{ translate("addShelf") }}
             </v-btn>
@@ -272,7 +272,7 @@
             <v-btn
               :disabled="cabinet.shelfs.length == 0 || !cabinet.isValid"
               color="error"
-              @click="removeShelf(cabinet)"
+              @click="$removeShelf(cabinet)"
             >
               {{ translate("deleteShelf") }}
             </v-btn>
@@ -342,7 +342,7 @@
             <v-btn
               :disabled="!cabinet.isValid"
               color="info"
-              @click="addDivider(cabinet)"
+              @click="$addDivider(cabinet)"
             >
               {{ translate("addDivider") }}
             </v-btn>
@@ -351,7 +351,7 @@
             <v-btn
               :disabled="cabinet.dividers.length == 0 || !cabinet.isValid"
               color="error"
-              @click="removeDivider(cabinet)"
+              @click="$removeDivider(cabinet)"
             >
               {{ translate("deleteDivider") }}
             </v-btn>
@@ -415,7 +415,7 @@
                   cabinet.doors.length == $store.state.maxNumberOfDoors
               "
               color="info"
-              @click="addDoor(cabinet)"
+              @click="$addDoor(cabinet)"
             >
               {{ translate("addDoor") }}
             </v-btn>
@@ -424,7 +424,7 @@
             <v-btn
               :disabled="cabinet.doors.length == 0 || !cabinet.isValid"
               color="error"
-              @click="removeDoor(cabinet)"
+              @click="$removeDoor(cabinet)"
             >
               {{ translate("deleteDoor") }}
             </v-btn>
@@ -512,87 +512,6 @@ export default {
     editCabinet() {
       this.$emit("edited", this.index);
     },
-    addDoor(cabinet) {
-      let numberOfDoors = cabinet.doors.length + 1;
-      let availableWidth = Math.round(
-        parseInt(cabinet.outerWidth) / numberOfDoors
-      );
-
-      const diff = this.$store.state.cabinetDoorDiff;
-      for (let door of cabinet.doors) {
-        door.width = availableWidth - diff;
-      }
-
-      let doorToAdd = {
-        width: availableWidth - diff,
-        height: cabinet.height - diff,
-        depth: this.$store.state.staticOuterSideWidth,
-      };
-
-      cabinet.doors.push(doorToAdd);
-    },
-    removeDoor(cabinet) {
-      cabinet.doors.splice(cabinet.doors.length - 1, 1);
-      if (cabinet.doors.length > 0) {
-        const diff = 7;
-        let availableWidth = Math.round(
-          parseInt(cabinet.outerWidth) / cabinet.doors.length
-        );
-        for (let door of cabinet.doors) {
-          door.width = availableWidth - diff;
-        }
-      }
-    },
-    addDivider(cabinet) {
-      let dividerToAdd = {
-        width: this.$store.state.staticOuterSideWidth,
-        height:
-          parseInt(cabinet.height) - 2 * this.$store.state.staticOuterSideWidth,
-        depth: parseInt(cabinet.depth),
-      };
-      cabinet.dividers.push(dividerToAdd);
-
-      let shelfWidth =
-        cabinet.innerWidth -
-        cabinet.dividers.length * this.$store.state.staticOuterSideWidth;
-      shelfWidth = Math.floor(shelfWidth / (cabinet.dividers.length + 1));
-
-      for (let shelf of cabinet.shelfs) {
-        shelf.width = shelfWidth;
-      }
-    },
-    removeDivider(cabinet) {
-      if (cabinet.dividers.length > 0) {
-        cabinet.dividers.splice(cabinet.dividers.length - 1, 1);
-      }
-
-      let shelfWidth =
-        cabinet.innerWidth -
-        cabinet.dividers.length * this.$store.state.staticOuterSideWidth;
-      shelfWidth = Math.floor(shelfWidth / (cabinet.dividers.length + 1));
-
-      for (let shelf of cabinet.shelfs) {
-        shelf.width = shelfWidth;
-      }
-    },
-    addShelf(cabinet) {
-      let shelfWidth =
-        parseInt(cabinet.innerWidth) -
-        cabinet.dividers.length * this.$store.state.staticOuterSideWidth;
-      shelfWidth = Math.floor(shelfWidth / (cabinet.dividers.length + 1));
-
-      let shelfToAdd = {
-        width: shelfWidth,
-        height: this.$store.state.staticOuterSideWidth,
-        depth: parseInt(cabinet.depth),
-      };
-      cabinet.shelfs.push(shelfToAdd);
-    },
-    removeShelf(cabinet) {
-      if (cabinet.shelfs.length > 0) {
-        cabinet.shelfs.splice(cabinet.shelfs.length - 1, 1);
-      }
-    },
     showHideCabinetElements() {
       this.cabinet.showCabinetElements = !this.cabinet.showCabinetElements;
     },
@@ -641,13 +560,13 @@ export default {
 
         if (cabinet.doors.length > 0) {
           for (let i = 0; i < cabinet.doors.length; i++) {
-            this.addDoor(cabinetToChange);
+            this.$addDoor(cabinetToChange);
           }
         }
 
         if (cabinet.shelfs.length > 0) {
           for (let i = 0; i < cabinet.shelfs.length; i++) {
-            this.addShelf(cabinetToChange);
+            this.$addShelf(cabinetToChange);
           }
         }
 
@@ -683,13 +602,13 @@ export default {
 
         if (cabinet.dividers.length > 0) {
           for (let i = 0; i < cabinet.dividers.length; i++) {
-            this.addDivider(cabinetToChange);
+            this.$addDivider(cabinetToChange);
           }
         }
 
         if (cabinet.doors.length > 0) {
           for (let i = 0; i < cabinet.doors.length; i++) {
-            this.addDoor(cabinetToChange);
+            this.$addDoor(cabinetToChange);
           }
         }
 
@@ -739,13 +658,13 @@ export default {
 
         if (cabinet.dividers.length > 0) {
           for (let i = 0; i < cabinet.dividers.length; i++) {
-            this.addDivider(cabinetToChange);
+            this.$addDivider(cabinetToChange);
           }
         }
 
         if (cabinet.shelfs.length > 0) {
           for (let i = 0; i < cabinet.shelfs.length; i++) {
-            this.addShelf(cabinetToChange);
+            this.$addShelf(cabinetToChange);
           }
         }
 

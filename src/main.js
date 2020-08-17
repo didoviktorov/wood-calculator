@@ -7,6 +7,7 @@ import vuetify from "./plugins/vuetify";
 import numberRules from "./plugins/numberValidationRules";
 import lowerCabinetInstance from "./plugins/copyInnerLowerCabinets";
 import validateCabinets from "./plugins/validateCabinets";
+import simpleCabinetOperations from "./plugins/simpleCabinetOperations";
 import isCabinetsChanged from "./plugins/isCabinetsChanged";
 
 import Toasted from "vue-toasted";
@@ -16,7 +17,7 @@ let options = {
   duration: 3000,
   closeOnSwipe: true,
   singleton: true,
-  containerClass: "notification"
+  containerClass: "notification",
 };
 
 Vue.use(Toasted, options);
@@ -31,9 +32,11 @@ Vue.use(lowerCabinetInstance);
 
 Vue.use(validateCabinets);
 
+Vue.use(simpleCabinetOperations);
+
 new Vue({
   router,
   store,
   vuetify,
-  render: h => h(App)
+  render: (h) => h(App),
 }).$mount("#app");

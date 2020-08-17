@@ -220,8 +220,8 @@ export default {
           that.$refs.cabinetForm.validate();
           setTimeout(() => {
             let errorField = document
-              .getElementsByClassName("cabinet-wrapper")
-              [that.errorRefIndex].getElementsByClassName("error--text")[0];
+              .getElementsByClassName("cabinet-wrapper")[0]
+              .getElementsByClassName("error--text")[0];
             if (!errorField) {
               that.goToErrorField();
               return;
@@ -248,22 +248,9 @@ export default {
 
       return isValid;
     },
-    showHideCabinetElements(index) {
-      let isValidOnClose = this.cabinets[index].isValid;
-
-      this.cabinets[index].showCabinetElements = !this.cabinets[index]
-        .showCabinetElements;
-
-      if (!isValidOnClose) {
-        setTimeout(() => {
-          this.cabinets[index].isValid = false;
-        }, 0);
-      }
-    },
     openForEditHandler() {
       this.openForEdit = !this.openForEdit;
     },
-
     addCabinetsToStore() {
       let args = {
         cabinets: this.cabinets,
