@@ -8,6 +8,7 @@ import numberRules from "./plugins/numberValidationRules";
 import lowerCabinetInstance from "./plugins/copyInnerLowerCabinets";
 import validateCabinets from "./plugins/validateCabinets";
 import simpleCabinetOperations from "./plugins/simpleCabinetOperations";
+import utils from "./plugins/utils";
 import isCabinetsChanged from "./plugins/isCabinetsChanged";
 
 import Toasted from "vue-toasted";
@@ -33,6 +34,8 @@ Vue.use(lowerCabinetInstance);
 Vue.use(validateCabinets);
 
 Vue.use(simpleCabinetOperations);
+
+Vue.use(utils);
 
 new Vue({
   router,

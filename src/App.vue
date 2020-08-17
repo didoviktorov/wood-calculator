@@ -6,7 +6,7 @@
           <v-list-item-content>
             <v-list-item-title>
               <router-link class="navigation-link" to="/">{{
-                translate("lowerShelfs")
+                $translate("lowerShelfs")
               }}</router-link>
             </v-list-item-title>
           </v-list-item-content>
@@ -15,7 +15,7 @@
           <v-list-item-content>
             <v-list-item-title>
               <router-link class="navigation-link" to="/upper">{{
-                translate("upperShelfs")
+                $translate("upperShelfs")
               }}</router-link>
             </v-list-item-title>
           </v-list-item-content>
@@ -24,7 +24,7 @@
           <v-list-item-content>
             <v-list-item-title>
               <router-link class="navigation-link" to="/other">{{
-                translate("otherDetails")
+                $translate("otherDetails")
               }}</router-link>
             </v-list-item-title>
           </v-list-item-content>
@@ -33,7 +33,7 @@
     </v-navigation-drawer>
     <v-app-bar dense fixed clipped-left app>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>{{ translate("menu") }}</v-toolbar-title>
+      <v-toolbar-title>{{ $translate("menu") }}</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-menu offset-y>
         <template v-slot:activator="{ on }">
@@ -95,7 +95,7 @@ export default {
     drawer: false,
     selectedLang: "BG",
     selectedLangIndex: 0,
-    fab: false
+    fab: false,
   }),
   methods: {
     changeLang(lang) {
@@ -104,11 +104,6 @@ export default {
         this.$store.dispatch("changeLanguage", lang);
       }
     },
-    translate(literal) {
-      return this.$store.state.languages.languages[
-        this.$store.state.selectedLang
-      ][literal];
-    },
     onScroll(e) {
       if (typeof window === "undefined") return;
       const top = window.pageYOffset || e.target.scrollTop || 0;
@@ -116,8 +111,8 @@ export default {
     },
     toTop() {
       this.$vuetify.goTo(0);
-    }
-  }
+    },
+  },
 };
 </script>
 
