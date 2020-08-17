@@ -4,12 +4,12 @@
       <v-container class="wrapper" fluid>
         <v-row align="center" justify="center">
           <v-col cols="12">
-            <h1>{{ translate("upperShelfs").toUpperCase() }}</h1>
+            <h1>{{ $translate("upperShelfs").toUpperCase() }}</h1>
           </v-col>
         </v-row>
         <v-divider />
         <div class="header-section">
-          <h3>{{ translate("allUpperCabinetsValues") }}</h3>
+          <h3>{{ $translate("allUpperCabinetsValues") }}</h3>
         </div>
         <v-form v-model="validWholeShelf" @submit.prevent>
           <v-row align="center" justify="center">
@@ -18,9 +18,9 @@
               <v-text-field
                 v-model="shelfWidth"
                 :label="
-                  translate('totalWidthOfTopRow') +
+                  $translate('totalWidthOfTopRow') +
                     ' ' +
-                    translate(calculationUnit)
+                    $translate(calculationUnit)
                 "
                 :rules="numberRules"
                 outlined
@@ -34,9 +34,9 @@
               <v-text-field
                 v-model="shelfHeight"
                 :label="
-                  translate('totalHeightOfTopRow') +
+                  $translate('totalHeightOfTopRow') +
                     ' ' +
-                    translate(calculationUnit)
+                    $translate(calculationUnit)
                 "
                 :rules="numberRules"
                 outlined
@@ -50,9 +50,9 @@
               <v-text-field
                 v-model="shelfDepth"
                 :label="
-                  translate('totalDepthOfTopRow') +
+                  $translate('totalDepthOfTopRow') +
                     ' ' +
-                    translate(calculationUnit)
+                    $translate(calculationUnit)
                 "
                 :rules="numberRules"
                 outlined
@@ -67,7 +67,7 @@
                 color="success"
                 @click="changeTheWholeShelfProperties"
               >
-                {{ translate("save") }}
+                {{ $translate("save") }}
               </v-btn>
             </v-col>
           </v-row>
@@ -75,7 +75,7 @@
         <!-- Shelf outer sides region -->
         <v-divider />
         <div class="header-section">
-          <h3>{{ translate("outherSidesUpperRowCabinets") }}</h3>
+          <h3>{{ $translate("outherSidesUpperRowCabinets") }}</h3>
         </div>
         <div
           v-if="
@@ -96,7 +96,7 @@
               class="left-button"
               @click="addShelfOuterSides"
             >
-              {{ translate("addSides") }}
+              {{ $translate("addSides") }}
             </v-btn>
             <v-btn
               :disabled="shelfOuterSides.length == 0"
@@ -105,8 +105,8 @@
             >
               {{
                 showOuterShelfSidesForEdit
-                  ? translate("hideSides")
-                  : translate("editSides")
+                  ? $translate("hideSides")
+                  : $translate("editSides")
               }}
             </v-btn>
             <v-btn
@@ -116,7 +116,7 @@
               class="mr-4 right-button"
               @click="addShelfOuterSidesToStore"
             >
-              {{ translate("save") }}
+              {{ $translate("save") }}
             </v-btn>
           </v-col>
         </v-row>
@@ -134,7 +134,7 @@
                     <v-text-field
                       v-model="side.width"
                       :rules="numberRules"
-                      :label="translate('width')"
+                      :label="$translate('width')"
                       outlined
                       dense
                       required
@@ -146,7 +146,7 @@
                     <v-text-field
                       v-model="side.height"
                       :rules="numberRules"
-                      :label="translate('height')"
+                      :label="$translate('height')"
                       outlined
                       dense
                       required
@@ -158,7 +158,7 @@
                     <v-text-field
                       v-model="side.depth"
                       :rules="numberRules"
-                      :label="translate('depth')"
+                      :label="$translate('depth')"
                       outlined
                       dense
                       required
@@ -196,7 +196,7 @@ import UpperCabinets from "@/components/UpperCabinets.vue";
 
 export default {
   components: {
-    UpperCabinets
+    UpperCabinets,
   },
   data: () => ({
     validWholeShelf: false,
@@ -204,7 +204,7 @@ export default {
     shelfHeight: "",
     shelfDepth: "",
     shelfOuterSides: [],
-    showOuterShelfSidesForEdit: false
+    showOuterShelfSidesForEdit: false,
   }),
   computed: {
     shelfObject() {
@@ -241,14 +241,9 @@ export default {
     },
     getStaticOuterSideWidth() {
       return this.$store.state.staticOuterSideWidth;
-    }
+    },
   },
   methods: {
-    translate(literal) {
-      return this.$store.state.languages.languages[
-        this.$store.state.selectedLang
-      ][literal];
-    },
     isAllShelfOuterSidesValid() {
       for (let side of this.shelfOuterSides) {
         if (!side.isValid) {
@@ -263,15 +258,18 @@ export default {
           this.shelfOuterSides.length !=
           this.$store.state.upperShelf.outerSides.length
         ) {
-          this.$toasted.success(this.translate("successfullyAddedOuterSides"), {
-            action: {
-              text: this.translate("close"),
-              class: "notification-close",
-              onClick: (e, toastObject) => {
-                toastObject.goAway(0);
-              }
+          this.$toasted.success(
+            this.$translate("successfullyAddedOuterSides"),
+            {
+              action: {
+                text: this.$translate("close"),
+                class: "notification-close",
+                onClick: (e, toastObject) => {
+                  toastObject.goAway(0);
+                },
+              },
             }
-          });
+          );
         } else {
           for (let i = 0; i < this.shelfOuterSides.length; i++) {
             if (
@@ -283,15 +281,15 @@ export default {
                 this.$store.state.upperShelf.outerSides[i].depth
             ) {
               this.$toasted.success(
-                this.translate("successfullyChangedValues"),
+                this.$translate("successfullyChangedValues"),
                 {
                   action: {
-                    text: this.translate("close"),
+                    text: this.$translate("close"),
                     class: "notification-close",
                     onClick: (e, toastObject) => {
                       toastObject.goAway(0);
-                    }
-                  }
+                    },
+                  },
                 }
               );
               break;
@@ -308,14 +306,14 @@ export default {
       if (index >= 0 && index < this.shelfOuterSides.length) {
         this.shelfOuterSides.splice(index, 1);
         this.$store.dispatch("removeUpperShelfOuterSide", index);
-        this.$toasted.error(this.translate("successfullyDeletedOuterSide"), {
+        this.$toasted.error(this.$translate("successfullyDeletedOuterSide"), {
           action: {
-            text: this.translate("close"),
+            text: this.$translate("close"),
             class: "notification-close",
             onClick: (e, toastObject) => {
               toastObject.goAway(0);
-            }
-          }
+            },
+          },
         });
       }
 
@@ -326,28 +324,28 @@ export default {
     getShelfOuterSidesAddedMessage() {
       let message =
         this.shelfOuterSides.length == 1
-          ? this.translate("sideWillBeAdded")
-          : this.translate("sidesWillBeAdded");
+          ? this.$translate("sideWillBeAdded")
+          : this.$translate("sidesWillBeAdded");
 
       message = message.replace("%count%", this.shelfOuterSides.length);
       message = message.replace(
         "%width%",
-        this.translate("width").toLowerCase()
+        this.$translate("width").toLowerCase()
       );
       message = message.replace("%widthNumber%", this.getStaticOuterSideWidth);
       message = message.replace(
         "%height%",
-        this.translate("height").toLowerCase()
+        this.$translate("height").toLowerCase()
       );
       message = message.replace("%heightNumber%", this.shelfHeight);
       message = message.replace(
         "%depth%",
-        this.translate("depth").toLowerCase()
+        this.$translate("depth").toLowerCase()
       );
       message = message.replace("%depthNumber%", this.shelfDepth);
       message = message.replace(
         /(%calculationUnit%)+/g,
-        this.translate(this.calculationUnit)
+        this.$translate(this.calculationUnit)
       );
 
       return message;
@@ -360,7 +358,7 @@ export default {
         width: parseInt(this.getStaticOuterSideWidth),
         height: this.shelfHeight,
         depth: this.shelfDepth,
-        isValid: true
+        isValid: true,
       };
 
       this.shelfOuterSides.push(outerSideToAdd);
@@ -387,14 +385,14 @@ export default {
 
       if (riseNotification) {
         if (riseNotification) {
-          this.$toasted.success(this.translate("successfullyStoredValues"), {
+          this.$toasted.success(this.$translate("successfullyStoredValues"), {
             action: {
-              text: this.translate("close"),
+              text: this.$translate("close"),
               class: "notification-close",
               onClick: (e, toastObject) => {
                 toastObject.goAway(0);
-              }
-            }
+              },
+            },
           });
         }
       }
@@ -420,14 +418,14 @@ export default {
         parseInt(this.shelfDepth, 10)
       );
 
-      this.$toasted.success(this.translate("successfullyStoredValues"), {
+      this.$toasted.success(this.$translate("successfullyStoredValues"), {
         action: {
-          text: this.translate("close"),
+          text: this.$translate("close"),
           class: "notification-close",
           onClick: (e, toastObject) => {
             toastObject.goAway(0);
-          }
-        }
+          },
+        },
       });
 
       if (this.$store.state.currentChildOfChildRenderedCompnent) {
@@ -489,7 +487,7 @@ export default {
       }
 
       return false;
-    }
+    },
   },
   mounted() {
     if (this.$store.state.upperShelf.width > 0) {
@@ -509,13 +507,13 @@ export default {
         width: side.width,
         height: side.height,
         depth: side.depth,
-        isValid: true
+        isValid: true,
       };
       this.shelfOuterSides.push(currentSide);
     }
 
     this.$store.dispatch("setRenderedComponent", this);
-  }
+  },
 };
 </script>
 

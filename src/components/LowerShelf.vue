@@ -5,13 +5,13 @@
         <v-row align="center" justify="center">
           <v-col cols="12">
             <div>
-              <h1>{{ translate("lowerCabinets").toUpperCase() }}</h1>
+              <h1>{{ $translate("lowerCabinets").toUpperCase() }}</h1>
             </div>
           </v-col>
         </v-row>
         <v-divider />
         <div class="header-section">
-          <h3>{{ translate("changeStandartWidthOfSides") }}</h3>
+          <h3>{{ $translate("changeStandartWidthOfSides") }}</h3>
         </div>
         <v-form v-model="validStaticSideWidth" @submit.prevent>
           <v-row align="center" justify="center">
@@ -25,8 +25,8 @@
               <v-text-field
                 v-model="staticSidewidth"
                 :label="
-                  translate('standartWidthOfSidesIn') +
-                    translate(calculationUnit)
+                  $translate('standartWidthOfSidesIn') +
+                    $translate(calculationUnit)
                 "
                 :rules="numberRules"
                 outlined
@@ -41,14 +41,14 @@
                 color="success"
                 @click="changeStaticSidewidth"
               >
-                {{ translate("save") }}
+                {{ $translate("save") }}
               </v-btn>
             </v-col>
           </v-row>
         </v-form>
         <v-divider />
         <div class="header-section">
-          <h3>{{ translate("valueOfLowerRowOfCabinets") }}</h3>
+          <h3>{{ $translate("valueOfLowerRowOfCabinets") }}</h3>
         </div>
         <v-form v-model="validWholeShelf" @submit.prevent>
           <v-row align="center" justify="center">
@@ -57,9 +57,9 @@
               <v-text-field
                 v-model="shelfWidth"
                 :label="
-                  translate('totalWidthOfLowerRow') +
+                  $translate('totalWidthOfLowerRow') +
                     ' ' +
-                    translate(calculationUnit)
+                    $translate(calculationUnit)
                 "
                 :rules="numberRules"
                 outlined
@@ -73,9 +73,9 @@
               <v-text-field
                 v-model="shelfHeight"
                 :label="
-                  translate('totalHeightOfLowerRow') +
+                  $translate('totalHeightOfLowerRow') +
                     ' ' +
-                    translate(calculationUnit)
+                    $translate(calculationUnit)
                 "
                 :rules="numberRules"
                 outlined
@@ -89,9 +89,9 @@
               <v-text-field
                 v-model="shelfDepth"
                 :label="
-                  translate('totalDepthOfLowerRow') +
+                  $translate('totalDepthOfLowerRow') +
                     ' ' +
-                    translate(calculationUnit)
+                    $translate(calculationUnit)
                 "
                 :rules="numberRules"
                 outlined
@@ -106,7 +106,7 @@
                 color="success"
                 @click="changeTheWholeShelfProperties"
               >
-                {{ translate("save") }}
+                {{ $translate("save") }}
               </v-btn>
             </v-col>
           </v-row>
@@ -114,7 +114,7 @@
         <!-- Shelf outer sides region -->
         <v-divider />
         <div class="header-section">
-          <h3>{{ translate("valuesOfLowerRowOuterSides") }}</h3>
+          <h3>{{ $translate("valuesOfLowerRowOuterSides") }}</h3>
         </div>
         <div
           v-if="
@@ -135,7 +135,7 @@
               class="left-button"
               @click="addShelfOuterSides"
             >
-              {{ translate("addSides") }}
+              {{ $translate("addSides") }}
             </v-btn>
             <v-btn
               :disabled="shelfOuterSides.length == 0"
@@ -144,8 +144,8 @@
             >
               {{
                 showOuterShelfSidesForEdit
-                  ? translate("hideSides")
-                  : translate("editSides")
+                  ? $translate("hideSides")
+                  : $translate("editSides")
               }}
             </v-btn>
             <v-btn
@@ -155,7 +155,7 @@
               class="mr-4 right-button"
               @click="addShelfOuterSidesToStore"
             >
-              {{ translate("save") }}
+              {{ $translate("save") }}
             </v-btn>
           </v-col>
         </v-row>
@@ -173,7 +173,7 @@
                     <v-text-field
                       v-model="side.width"
                       :rules="numberRules"
-                      :label="translate('width')"
+                      :label="$translate('width')"
                       outlined
                       dense
                       required
@@ -185,7 +185,7 @@
                     <v-text-field
                       v-model="side.height"
                       :rules="numberRules"
-                      :label="translate('height')"
+                      :label="$translate('height')"
                       outlined
                       dense
                       required
@@ -197,7 +197,7 @@
                     <v-text-field
                       v-model="side.depth"
                       :rules="numberRules"
-                      :label="translate('depth')"
+                      :label="$translate('depth')"
                       outlined
                       dense
                       required
@@ -226,13 +226,13 @@
         </div>
         <v-divider />
         <div class="header-section">
-          <h3>{{ translate("nicheAppliancesValues") }}</h3>
+          <h3>{{ $translate("nicheAppliancesValues") }}</h3>
         </div>
         <!-- Static cabinets region -->
         <v-row align="center" justify="center">
           <v-col cols="12">
             {{
-              translate("countOfNiches").replace(
+              $translate("countOfNiches").replace(
                 "%count%",
                 allStaticWidths.length
               )
@@ -243,7 +243,7 @@
             v-if="allStaticWidths.length == maxNumberOfStaticCabinets"
           >
             <span class="error-holder">
-              {{ translate("maxNumberOfNiches") }}
+              {{ $translate("maxNumberOfNiches") }}
               {{ maxNumberOfStaticCabinets }}
             </span>
           </v-col>
@@ -258,14 +258,14 @@
               class="left-button"
               @click="addStaticCabintes"
             >
-              {{ translate("add") }}
+              {{ $translate("add") }}
             </v-btn>
             <v-btn
               :disabled="allStaticWidths.length == 0"
               class="right-button"
               @click="removeStaticCabintes"
             >
-              {{ translate("remove") }}
+              {{ $translate("remove") }}
             </v-btn>
           </v-col>
         </v-row>
@@ -282,8 +282,8 @@
                   :key="index"
                   v-model="item.width"
                   :label="
-                    translate('nicheWidthIn').replace('%index%', index + 1) +
-                      translate(calculationUnit)
+                    $translate('nicheWidthIn').replace('%index%', index + 1) +
+                      $translate(calculationUnit)
                   "
                   outlined
                   dense
@@ -298,7 +298,7 @@
                 class="mr-4"
                 @click="addStaticWidth"
               >
-                {{ translate("save") }}
+                {{ $translate("save") }}
               </v-btn>
             </v-form>
           </v-col>
@@ -381,19 +381,14 @@ export default {
         childComponentValid
       );
     },
-    translate(literal) {
-      return this.$store.state.languages.languages[
-        this.$store.state.selectedLang
-      ][literal];
-    },
     changeStaticSidewidth() {
       let newWidth = parseInt(this.staticSidewidth);
       if (newWidth != this.$store.state.staticOuterSideWidth) {
         this.$store.dispatch("changeStaticsidewidth", newWidth);
 
-        this.$toasted.success(this.translate("successfullSideWidthChange"), {
+        this.$toasted.success(this.$translate("successfullSideWidthChange"), {
           action: {
-            text: this.translate("close"),
+            text: this.$translate("close"),
             class: "notification-close",
             onClick: (e, toastObject) => {
               toastObject.goAway(0);
@@ -423,9 +418,9 @@ export default {
       }
 
       if (riseNotification) {
-        this.$toasted.success(this.translate("successfullyStoredValues"), {
+        this.$toasted.success(this.$translate("successfullyStoredValues"), {
           action: {
-            text: this.translate("close"),
+            text: this.$translate("close"),
             class: "notification-close",
             onClick: (e, toastObject) => {
               toastObject.goAway(0);
@@ -458,15 +453,18 @@ export default {
           this.shelfOuterSides.length !=
           this.$store.state.lowerShelf.outerSides.length
         ) {
-          this.$toasted.success(this.translate("successfullyAddedOuterSides"), {
-            action: {
-              text: this.translate("close"),
-              class: "notification-close",
-              onClick: (e, toastObject) => {
-                toastObject.goAway(0);
+          this.$toasted.success(
+            this.$translate("successfullyAddedOuterSides"),
+            {
+              action: {
+                text: this.$translate("close"),
+                class: "notification-close",
+                onClick: (e, toastObject) => {
+                  toastObject.goAway(0);
+                },
               },
-            },
-          });
+            }
+          );
         } else {
           for (let i = 0; i < this.shelfOuterSides.length; i++) {
             if (
@@ -478,10 +476,10 @@ export default {
                 this.$store.state.lowerShelf.outerSides[i].depth
             ) {
               this.$toasted.success(
-                this.translate("successfullyChangedValues"),
+                this.$translate("successfullyChangedValues"),
                 {
                   action: {
-                    text: this.translate("close"),
+                    text: this.$translate("close"),
                     class: "notification-close",
                     onClick: (e, toastObject) => {
                       toastObject.goAway(0);
@@ -503,9 +501,9 @@ export default {
       if (index >= 0 && index < this.shelfOuterSides.length) {
         this.shelfOuterSides.splice(index, 1);
         this.$store.dispatch("removeShelfOuterSide", index);
-        this.$toasted.error(this.translate("successfullyDeletedOuterSide"), {
+        this.$toasted.error(this.$translate("successfullyDeletedOuterSide"), {
           action: {
-            text: this.translate("close"),
+            text: this.$translate("close"),
             class: "notification-close",
             onClick: (e, toastObject) => {
               toastObject.goAway(0);
@@ -521,28 +519,28 @@ export default {
     getShelfOuterSidesAddedMessage() {
       let message =
         this.shelfOuterSides.length == 1
-          ? this.translate("sideWillBeAdded")
-          : this.translate("sidesWillBeAdded");
+          ? this.$translate("sideWillBeAdded")
+          : this.$translate("sidesWillBeAdded");
 
       message = message.replace("%count%", this.shelfOuterSides.length);
       message = message.replace(
         "%width%",
-        this.translate("width").toLowerCase()
+        this.$translate("width").toLowerCase()
       );
       message = message.replace("%widthNumber%", this.getStaticOuterSideWidth);
       message = message.replace(
         "%height%",
-        this.translate("height").toLowerCase()
+        this.$translate("height").toLowerCase()
       );
       message = message.replace("%heightNumber%", this.shelfHeight);
       message = message.replace(
         "%depth%",
-        this.translate("depth").toLowerCase()
+        this.$translate("depth").toLowerCase()
       );
       message = message.replace("%depthNumber%", this.shelfDepth);
       message = message.replace(
         /(%calculationUnit%)+/g,
-        this.translate(this.calculationUnit)
+        this.$translate(this.calculationUnit)
       );
 
       return message;
@@ -564,9 +562,9 @@ export default {
           this.allStaticWidths.length ==
           this.$store.state.lowerShelf.staticCabinets.length
         ) {
-          this.$toasted.error(this.translate("successfullyDeletedNiche"), {
+          this.$toasted.error(this.$translate("successfullyDeletedNiche"), {
             action: {
-              text: this.translate("close"),
+              text: this.$translate("close"),
               class: "notification-close",
               onClick: (e, toastObject) => {
                 toastObject.goAway(0);
@@ -583,30 +581,36 @@ export default {
         this.allStaticWidths.length !=
         this.$store.state.lowerShelf.staticCabinets.length
       ) {
-        this.$toasted.success(this.translate("successfullyAddedStaticWidths"), {
-          action: {
-            text: this.translate("close"),
-            class: "notification-close",
-            onClick: (e, toastObject) => {
-              toastObject.goAway(0);
+        this.$toasted.success(
+          this.$translate("successfullyAddedStaticWidths"),
+          {
+            action: {
+              text: this.$translate("close"),
+              class: "notification-close",
+              onClick: (e, toastObject) => {
+                toastObject.goAway(0);
+              },
             },
-          },
-        });
+          }
+        );
       } else {
         for (let i = 0; i < this.allStaticWidths.length; i++) {
           if (
             parseInt(this.allStaticWidths[i].width) !=
             this.$store.state.lowerShelf.staticCabinets[i].width
           ) {
-            this.$toasted.success(this.translate("successfullyChangedValues"), {
-              action: {
-                text: this.translate("close"),
-                class: "notification-close",
-                onClick: (e, toastObject) => {
-                  toastObject.goAway(0);
+            this.$toasted.success(
+              this.$translate("successfullyChangedValues"),
+              {
+                action: {
+                  text: this.$translate("close"),
+                  class: "notification-close",
+                  onClick: (e, toastObject) => {
+                    toastObject.goAway(0);
+                  },
                 },
-              },
-            });
+              }
+            );
             break;
           }
         }
@@ -628,9 +632,9 @@ export default {
       for (let side of this.shelfOuterSides) {
         this.$store.dispatch("addShelfOuterSide", side);
       }
-      this.$toasted.success(this.translate("successfullyStoredValues"), {
+      this.$toasted.success(this.$translate("successfullyStoredValues"), {
         action: {
-          text: this.translate("close"),
+          text: this.$translate("close"),
           class: "notification-close",
           onClick: (e, toastObject) => {
             toastObject.goAway(0);

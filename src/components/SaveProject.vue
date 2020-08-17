@@ -5,7 +5,7 @@
       <v-content>
         <v-container fluid>
           <v-btn color="primary" @click="showOverlayInfo">
-            {{ this.translate("generateProject") }}
+            {{ this.$translate("generateProject") }}
           </v-btn>
         </v-container>
       </v-content>
@@ -14,7 +14,7 @@
         <v-col cols="12" sm="8" md="4">
           <v-text-field
             v-model="projectTitle"
-            :label="translate('projectTitle')"
+            :label="$translate('projectTitle')"
             outlined
             dense
             required
@@ -26,7 +26,7 @@
       <div v-if="overlay" id="overlay-buttons">
         <div class="overlay-btn">
           <v-btn @click="showOverlayInfo" color="error" id="close-button">
-            {{ this.translate("close") }}
+            {{ this.$translate("close") }}
           </v-btn>
         </div>
         <div class="overlay-btn">
@@ -57,11 +57,6 @@ export default {
   }),
   computed: {},
   methods: {
-    translate(literal) {
-      return this.$store.state.languages.languages[
-        this.$store.state.selectedLang
-      ][literal];
-    },
     showOverlayInfo() {
       let currentRenderedComopnent = this.$store.state
         .currentChildRenderedCompnent;
@@ -73,12 +68,12 @@ export default {
       ) {
         this.$refs.confirm
           .open(
-            this.translate("unsavedChanges"),
-            this.translate("saveChanges"),
+            this.$translate("unsavedChanges"),
+            this.$translate("saveChanges"),
             {
               color: "#4caf50",
-              cancelText: this.translate("continueWithoutSave"),
-              confirmText: this.translate("save"),
+              cancelText: this.$translate("continueWithoutSave"),
+              confirmText: this.$translate("save"),
             }
           )
           .then((confirm) => {
@@ -158,10 +153,10 @@ export default {
                   //   }
                   // );
                   that.$toasted.success(
-                    that.translate("successfullyStoredFile"),
+                    that.$translate("successfullyStoredFile"),
                     {
                       action: {
-                        text: that.translate("close"),
+                        text: that.$translate("close"),
                         class: "notification-close",
                         onClick: (e, toastObject) => {
                           toastObject.goAway(0);
@@ -172,10 +167,10 @@ export default {
                 });
               } catch (e) {
                 this.$toasted.error(
-                  this.translate("unsuccessfullyStoredFile"),
+                  this.$translate("unsuccessfullyStoredFile"),
                   {
                     action: {
-                      text: this.translate("close"),
+                      text: this.$translate("close"),
                       class: "notification-close",
                       onClick: (e, toastObject) => {
                         toastObject.goAway(0);
@@ -186,9 +181,9 @@ export default {
               }
             };
           } catch (e) {
-            this.$toasted.error(this.translate("unsuccessfullyStoredFile"), {
+            this.$toasted.error(this.$translate("unsuccessfullyStoredFile"), {
               action: {
-                text: this.translate("close"),
+                text: this.$translate("close"),
                 class: "notification-close",
                 onClick: (e, toastObject) => {
                   toastObject.goAway(0);
@@ -207,9 +202,9 @@ export default {
       let lowerShelf = this.$store.state.lowerShelf;
       let strResult = "";
       if (lowerShelf.cabinets.length) {
-        strResult += this.translate("lowerCabinets") + "\r\n";
+        strResult += this.$translate("lowerCabinets") + "\r\n";
         strResult +=
-          this.translate("countOfLowerCabinets") +
+          this.$translate("countOfLowerCabinets") +
           " " +
           lowerShelf.cabinets.length +
           "\r\n\r\n";
@@ -224,8 +219,8 @@ export default {
         lightEdge += outerSide.height;
         let currentDimension =
           (outerSide.height > outerSide.depth
-            ? this.translate("longEdge")
-            : this.translate("shortEdge")) +
+            ? this.$translate("longEdge")
+            : this.$translate("shortEdge")) +
           indentation +
           outerSide.height +
           "/" +
@@ -245,7 +240,7 @@ export default {
           " x " +
           outerSidesDictionary[prop] +
           " " +
-          this.translate("outerSides") +
+          this.$translate("outerSides") +
           "\r\n";
       }
 
@@ -262,10 +257,10 @@ export default {
           lightEdge += divider.height;
           let currentDimension =
             (divider.height > divider.depth
-              ? this.translate("longEdge")
+              ? this.$translate("longEdge")
               : divider.height == divider.depth
-              ? this.translate("longEdge")
-              : this.translate("shortEdge")) +
+              ? this.$translate("longEdge")
+              : this.$translate("shortEdge")) +
             indentation +
             divider.height +
             "/" +
@@ -283,10 +278,10 @@ export default {
           lightEdge += side.height;
           let currentDimension =
             (side.height > side.depth
-              ? this.translate("longEdge")
+              ? this.$translate("longEdge")
               : side.height == side.depth
-              ? this.translate("longEdge")
-              : this.translate("shortEdge")) +
+              ? this.$translate("longEdge")
+              : this.$translate("shortEdge")) +
             indentation +
             side.height +
             "/" +
@@ -303,10 +298,10 @@ export default {
         lightEdge += cabinet.bottom.width;
         let currentBottomDimension =
           (cabinet.bottom.width > cabinet.bottom.depth
-            ? this.translate("longEdge")
+            ? this.$translate("longEdge")
             : cabinet.bottom.width == cabinet.bottom.depth
-            ? this.translate("longEdge")
-            : this.translate("shortEdge")) +
+            ? this.$translate("longEdge")
+            : this.$translate("shortEdge")) +
           indentation +
           cabinet.bottom.width +
           "/" +
@@ -323,10 +318,10 @@ export default {
           lightEdge += holder.width;
           let currentDimension =
             (holder.width > holder.depth
-              ? this.translate("longEdge")
+              ? this.$translate("longEdge")
               : holder.width == holder.depth
-              ? this.translate("longEdge")
-              : this.translate("shortEdge")) +
+              ? this.$translate("longEdge")
+              : this.$translate("shortEdge")) +
             indentation +
             holder.width +
             "/" +
@@ -344,10 +339,10 @@ export default {
           lightEdge += shelf.width;
           let currentDimension =
             (shelf.width > shelf.depth
-              ? this.translate("longEdge")
+              ? this.$translate("longEdge")
               : shelf.width == shelf.depth
-              ? this.translate("longEdge")
-              : this.translate("shortEdge")) +
+              ? this.$translate("longEdge")
+              : this.$translate("shortEdge")) +
             indentation +
             shelf.width +
             "/" +
@@ -363,7 +358,7 @@ export default {
         /* doors */
         for (let door of cabinet.doors) {
           let currentDimension =
-            this.translate("doubleShortLong") +
+            this.$translate("doubleShortLong") +
             indentation +
             door.height +
             "/" +
@@ -394,7 +389,7 @@ export default {
           " x " +
           sidesDictionary[prop] +
           " " +
-          this.translate("sides") +
+          this.$translate("sides") +
           "\r\n";
       }
 
@@ -405,7 +400,7 @@ export default {
           " x " +
           bottomsDictionary[prop] +
           " " +
-          this.translate("bottoms") +
+          this.$translate("bottoms") +
           "\r\n";
       }
 
@@ -416,7 +411,7 @@ export default {
           " x " +
           holdersDictionary[prop] +
           " " +
-          this.translate("apertures") +
+          this.$translate("apertures") +
           "\r\n";
       }
 
@@ -427,7 +422,7 @@ export default {
           " x " +
           shelfsDictionary[prop] +
           " " +
-          this.translate("shelfs") +
+          this.$translate("shelfs") +
           "\r\n";
       }
 
@@ -438,7 +433,7 @@ export default {
           " x " +
           dividersDictionary[prop] +
           " " +
-          this.translate("divider") +
+          this.$translate("divider") +
           "\r\n";
       }
 
@@ -449,7 +444,7 @@ export default {
           " x " +
           doorsDictionary[prop] +
           " " +
-          this.translate("doors") +
+          this.$translate("doors") +
           "\r\n";
       }
 
@@ -460,15 +455,15 @@ export default {
           " x " +
           backsDictionary[prop] +
           " " +
-          this.translate("backs") +
+          this.$translate("backs") +
           "\r\n";
       }
 
       let upperShelf = this.$store.state.upperShelf;
       if (upperShelf.cabinets.length || upperShelf.outerSides.length) {
-        strResult += "\r\n" + this.translate("upperCabinets") + "\r\n";
+        strResult += "\r\n" + this.$translate("upperCabinets") + "\r\n";
         strResult +=
-          this.translate("upperCabinetsCount") +
+          this.$translate("upperCabinetsCount") +
           " " +
           upperShelf.cabinets.length +
           "\r\n\r\n";
@@ -479,7 +474,7 @@ export default {
         lightEdge += outerSide.height;
         lightEdge += outerSide.depth;
         let currentDimension =
-          this.translate("longAndShortEdge") +
+          this.$translate("longAndShortEdge") +
           indentation +
           outerSide.height +
           "/" +
@@ -499,7 +494,7 @@ export default {
           " x " +
           outerSidesDictionary[prop] +
           " " +
-          this.translate("outerSides") +
+          this.$translate("outerSides") +
           "\r\n";
       }
 
@@ -516,10 +511,10 @@ export default {
           lightEdge += divider.height;
           let currentDimension =
             (divider.height > divider.depth
-              ? this.translate("longEdge")
+              ? this.$translate("longEdge")
               : divider.height == divider.depth
-              ? this.translate("longEdge")
-              : this.translate("shortEdge")) +
+              ? this.$translate("longEdge")
+              : this.$translate("shortEdge")) +
             indentation +
             divider.height +
             "/" +
@@ -537,7 +532,7 @@ export default {
           lightEdge += side.height;
           lightEdge += side.depth;
           let currentDimension =
-            this.translate("longAndShortEdge") +
+            this.$translate("longAndShortEdge") +
             indentation +
             side.height +
             "/" +
@@ -554,10 +549,10 @@ export default {
         lightEdge += cabinet.bottom.width;
         let currentBottomDimension =
           (cabinet.bottom.width > cabinet.bottom.depth
-            ? this.translate("longEdge")
+            ? this.$translate("longEdge")
             : cabinet.bottom.width == cabinet.bottom.depth
-            ? this.translate("longEdge")
-            : this.translate("shortEdge")) +
+            ? this.$translate("longEdge")
+            : this.$translate("shortEdge")) +
           indentation +
           cabinet.bottom.width +
           "/" +
@@ -573,10 +568,10 @@ export default {
         lightEdge += cabinet.ceil.width;
         let currentCeilDimension =
           (cabinet.ceil.width > cabinet.ceil.depth
-            ? this.translate("longEdge")
+            ? this.$translate("longEdge")
             : cabinet.ceil.width == cabinet.ceil.depth
-            ? this.translate("longEdge")
-            : this.translate("shortEdge")) +
+            ? this.$translate("longEdge")
+            : this.$translate("shortEdge")) +
           indentation +
           cabinet.ceil.width +
           "/" +
@@ -593,10 +588,10 @@ export default {
           lightEdge += shelf.width;
           let currentDimension =
             (shelf.width > shelf.depth
-              ? this.translate("longEdge")
+              ? this.$translate("longEdge")
               : shelf.width == shelf.depth
-              ? this.translate("longEdge")
-              : this.translate("shortEdge")) +
+              ? this.$translate("longEdge")
+              : this.$translate("shortEdge")) +
             indentation +
             shelf.width +
             "/" +
@@ -612,7 +607,7 @@ export default {
         /* doors */
         for (let door of cabinet.doors) {
           let currentDimension =
-            this.translate("doubleShortLong") +
+            this.$translate("doubleShortLong") +
             indentation +
             door.height +
             "/" +
@@ -644,7 +639,7 @@ export default {
           " x " +
           dividersDictionary[prop] +
           " " +
-          this.translate("divider") +
+          this.$translate("divider") +
           "\r\n";
       }
 
@@ -655,7 +650,7 @@ export default {
           " x " +
           sidesDictionary[prop] +
           " " +
-          this.translate("sides") +
+          this.$translate("sides") +
           "\r\n";
       }
 
@@ -666,7 +661,7 @@ export default {
           " x " +
           bottomsDictionary[prop] +
           " " +
-          this.translate("bottoms") +
+          this.$translate("bottoms") +
           "\r\n";
       }
 
@@ -677,7 +672,7 @@ export default {
           " x " +
           shelfsDictionary[prop] +
           " " +
-          this.translate("shelfs") +
+          this.$translate("shelfs") +
           "\r\n";
       }
 
@@ -688,7 +683,7 @@ export default {
           " x " +
           doorsDictionary[prop] +
           " " +
-          this.translate("doors") +
+          this.$translate("doors") +
           "\r\n";
       }
 
@@ -699,14 +694,14 @@ export default {
           " x " +
           backsDictionary[prop] +
           " " +
-          this.translate("backs") +
+          this.$translate("backs") +
           "\r\n";
       }
 
       if (this.$store.state.otherDetails.length) {
-        strResult += "\r\n" + this.translate("otherDetails") + "\r\n";
+        strResult += "\r\n" + this.$translate("otherDetails") + "\r\n";
         strResult +=
-          this.translate("otherDetailsCount") +
+          this.$translate("otherDetailsCount") +
           " " +
           this.$store.state.otherDetails.length +
           "\r\n\r\n";
@@ -726,26 +721,26 @@ export default {
               : detail.height.value;
             edge =
               detail.length.hasDoubleEdging && detail.height.hasDoubleEdging
-                ? this.translate("doubleLongDoubleShort")
+                ? this.$translate("doubleLongDoubleShort")
                 : detail.length.hasDoubleEdging
-                ? this.translate("longDoubleShort")
+                ? this.$translate("longDoubleShort")
                 : detail.height.hasDoubleEdging
-                ? this.translate("doubleLongShort")
-                : this.translate("longAndShortEdge");
+                ? this.$translate("doubleLongShort")
+                : this.$translate("longAndShortEdge");
           } else if (detail.length.hasEdging && !detail.height.hasEdging) {
             lightEdge += detail.length.hasDoubleEdging
               ? 2 * detail.length.value
               : detail.length.value;
             edge = detail.length.hasDoubleEdging
-              ? this.translate("doubleShortEdge")
-              : this.translate("shortEdge");
+              ? this.$translate("doubleShortEdge")
+              : this.$translate("shortEdge");
           } else if (!detail.length.hasEdging && detail.height.hasEdging) {
             lightEdge += detail.height.hasDoubleEdging
               ? 2 * detail.height.value
               : detail.height.value;
             edge = detail.height.hasDoubleEdging
-              ? this.translate("doubleShortEdge")
-              : this.translate("longEdge");
+              ? this.$translate("doubleShortEdge")
+              : this.$translate("longEdge");
           }
           let currentDimension =
             edge +
@@ -774,30 +769,31 @@ export default {
           " x " +
           otherDetailsDictionary[prop] +
           " " +
-          this.translate("detail") +
+          this.$translate("detail") +
           indentation +
           title +
           "\r\n";
       }
 
       if (boldEdge > 0 || lightEdge > 0) {
-        strResult += "\r\n" + this.translate("edgesLength") + "\r\n";
+        strResult += "\r\n" + this.$translate("edgesLength") + "\r\n";
       }
 
       if (boldEdge > 0) {
         strResult +=
-          indentation + this.translate("thickEdge") + " " + boldEdge + "\r\n";
+          indentation + this.$translate("thickEdge") + " " + boldEdge + "\r\n";
       }
 
       if (lightEdge > 0) {
-        strResult += indentation + this.translate("thinEdge") + " " + lightEdge;
+        strResult +=
+          indentation + this.$translate("thinEdge") + " " + lightEdge;
       }
 
       if (totalDetailsCount > 0) {
         strResult +=
           "\r\n\r\n" +
           indentation +
-          this.translate("totalCountOfDetails") +
+          this.$translate("totalCountOfDetails") +
           " " +
           totalDetailsCount;
       }

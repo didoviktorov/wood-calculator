@@ -12,19 +12,19 @@
           <span>
             {{
               isNaN(getPureWidthLeft)
-                ? translate("enterWidth")
-                : translate("mmLeft") +
+                ? $translate("enterWidth")
+                : $translate("mmLeft") +
                   " " +
                   getPureWidthLeft +
                   " " +
-                  translate(this.$store.state.calculationUnit)
+                  $translate(this.$store.state.calculationUnit)
             }}
           </span>
         </div>
         <v-row>
           <v-col cols="12">
             <v-divider />
-            <h2>{{ translate("upperCabinets") }}</h2>
+            <h2>{{ $translate("upperCabinets") }}</h2>
             <v-divider />
           </v-col>
         </v-row>
@@ -32,7 +32,7 @@
         <v-row align="center" justify="center">
           <v-col cols="12" class="col-no-top-padding">
             <div>
-              <h3>{{ translate("enterCountOfCabinets") }}</h3>
+              <h3>{{ $translate("enterCountOfCabinets") }}</h3>
             </div>
           </v-col>
         </v-row>
@@ -42,11 +42,11 @@
         >
           {{
             this.$store.state.upperShelf.cabinets.length == 1
-              ? translate("cabinetAddedMessage").replace(
+              ? $translate("cabinetAddedMessage").replace(
                   "%count%",
                   this.$store.state.upperShelf.cabinets.length
                 )
-              : translate("cabinetsAddedMessage").replace(
+              : $translate("cabinetsAddedMessage").replace(
                   "%count%",
                   this.$store.state.upperShelf.cabinets.length
                 )
@@ -57,7 +57,7 @@
             <v-col cols="12" class="col-no-top-padding col-no-bottom-padding">
               <v-text-field
                 v-model="numberOfCabinets"
-                :label="translate('countShelfs')"
+                :label="$translate('countShelfs')"
                 :rules="numberRules"
                 outlined
                 dense
@@ -69,7 +69,7 @@
           <v-row align="center" justify="center">
             <v-col cols="12" sm="6" md="3" class="col-no-top-padding">
               <v-btn :disabled="validateAddButton" @click="addCabinets">
-                {{ translate("add") }}
+                {{ $translate("add") }}
               </v-btn>
             </v-col>
             <v-col cols="12" sm="6" md="3" class="col-no-top-padding">
@@ -77,7 +77,7 @@
                 :disabled="cabinets.length == 0"
                 @click="openForEditHandler"
               >
-                {{ openForEdit ? translate("hide") : translate("review") }}
+                {{ openForEdit ? $translate("hide") : $translate("review") }}
               </v-btn>
             </v-col>
             <v-col cols="12" sm="6" md="3" class="col-no-top-padding">
@@ -91,7 +91,7 @@
                 @click="addCabinetsToStore"
                 color="success"
               >
-                {{ translate("save") }}
+                {{ $translate("save") }}
               </v-btn>
             </v-col>
             <v-col cols="12" sm="6" md="3" class="col-no-top-padding">
@@ -100,7 +100,7 @@
                 color="error"
                 @click="removeAllCabinets"
               >
-                {{ translate("deleteAll") }}
+                {{ $translate("deleteAll") }}
               </v-btn>
             </v-col>
           </v-row>
@@ -112,7 +112,7 @@
                 color="success"
                 @click="goToErrorField"
               >
-                {{ translate("verify") }}
+                {{ $translate("verify") }}
               </v-btn>
             </v-col>
           </v-row>
@@ -233,11 +233,6 @@ export default {
         }
       });
     },
-    translate(literal) {
-      return this.$store.state.languages.languages[
-        this.$store.state.selectedLang
-      ][literal];
-    },
     isValidNumber(number) {
       let isValid = true;
       for (let func of this.numberRules) {
@@ -266,9 +261,9 @@ export default {
       if (
         this.cabinets.length != this.$store.state.upperShelf.cabinets.length
       ) {
-        this.$toasted.success(this.translate("successfullyStoredCabinets"), {
+        this.$toasted.success(this.$translate("successfullyStoredCabinets"), {
           action: {
-            text: this.translate("close"),
+            text: this.$translate("close"),
             class: "notification-close",
             onClick: (e, toastObject) => {
               toastObject.goAway(0);
@@ -276,9 +271,9 @@ export default {
           },
         });
       } else if (hasChanged) {
-        this.$toasted.success(this.translate("successfullyChangedValues"), {
+        this.$toasted.success(this.$translate("successfullyChangedValues"), {
           action: {
-            text: this.translate("close"),
+            text: this.$translate("close"),
             class: "notification-close",
             onClick: (e, toastObject) => {
               toastObject.goAway(0);
@@ -298,9 +293,9 @@ export default {
       if (
         this.cabinets.length != this.$store.state.upperShelf.cabinets.length
       ) {
-        this.$toasted.success(this.translate("successfullyStoredCabinets"), {
+        this.$toasted.success(this.$translate("successfullyStoredCabinets"), {
           action: {
-            text: this.translate("close"),
+            text: this.$translate("close"),
             class: "notification-close",
             onClick: (e, toastObject) => {
               toastObject.goAway(0);
@@ -308,9 +303,9 @@ export default {
           },
         });
       } else if (hasChanged) {
-        this.$toasted.success(this.translate("successfullyChangedValues"), {
+        this.$toasted.success(this.$translate("successfullyChangedValues"), {
           action: {
-            text: this.translate("close"),
+            text: this.$translate("close"),
             class: "notification-close",
             onClick: (e, toastObject) => {
               toastObject.goAway(0);
@@ -388,9 +383,9 @@ export default {
         this.openForEdit = false;
       }
       if (this.cabinets.length > 0) {
-        this.$toasted.error(this.translate("successfullyDeletedCabinets"), {
+        this.$toasted.error(this.$translate("successfullyDeletedCabinets"), {
           action: {
-            text: this.translate("close"),
+            text: this.$translate("close"),
             class: "notification-close",
             onClick: (e, toastObject) => {
               toastObject.goAway(0);

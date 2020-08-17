@@ -5,7 +5,7 @@
         ><v-row align="center" justify="center">
           <v-col cols="12">
             <div>
-              <h1>{{ translate("otherDetailsTitle") }}</h1>
+              <h1>{{ $translate("otherDetailsTitle") }}</h1>
             </div>
           </v-col>
         </v-row>
@@ -13,7 +13,7 @@
         <v-row align="center" justify="center">
           <v-col cols="12">
             <v-btn class="left-button" @click="addOtherDetails">
-              {{ translate("addDetail") }}
+              {{ $translate("addDetail") }}
             </v-btn>
 
             <v-btn
@@ -23,8 +23,8 @@
             >
               {{
                 showOtherDetailsForEdit
-                  ? translate("hideDetails")
-                  : translate("editDetails")
+                  ? $translate("hideDetails")
+                  : $translate("editDetails")
               }}
             </v-btn>
 
@@ -35,7 +35,7 @@
               class="mr-4 right-button"
               @click="addElementsToStore"
             >
-              {{ translate("save") }}
+              {{ $translate("save") }}
             </v-btn>
 
             <v-btn
@@ -45,7 +45,7 @@
               class="mr-4 right-button"
               @click="goToErrorField"
             >
-              {{ translate("verify") }}
+              {{ $translate("verify") }}
             </v-btn>
 
             <v-btn
@@ -54,7 +54,7 @@
               color="error"
               @click="removeAllDetails"
             >
-              {{ translate("deleteAll") }}
+              {{ $translate("deleteAll") }}
             </v-btn>
           </v-col>
         </v-row>
@@ -76,7 +76,7 @@
                     <v-text-field
                       v-model="detail.count"
                       :rules="numberRules"
-                      :label="translate('count')"
+                      :label="$translate('count')"
                       outlined
                       dense
                       required
@@ -88,7 +88,7 @@
                     <v-text-field
                       v-model="detail.title"
                       :rules="titleValidationRules"
-                      :label="translate('detailTitle')"
+                      :label="$translate('detailTitle')"
                       outlined
                       dense
                       required
@@ -99,7 +99,7 @@
                     <v-text-field
                       v-model="detail.width"
                       :rules="numberRules"
-                      :label="translate('thickness')"
+                      :label="$translate('thickness')"
                       outlined
                       dense
                       required
@@ -111,7 +111,7 @@
                     <v-text-field
                       v-model="detail.height.value"
                       :rules="numberRules"
-                      :label="translate('length')"
+                      :label="$translate('length')"
                       outlined
                       dense
                       required
@@ -121,13 +121,13 @@
 
                   <v-checkbox
                     v-model="detail.height.hasEdging"
-                    :label="translate('edge')"
+                    :label="$translate('edge')"
                     :onchange="changeEdging(index)"
                   ></v-checkbox>
 
                   <v-checkbox
                     v-model="detail.height.hasDoubleEdging"
-                    :label="translate('doubleSided')"
+                    :label="$translate('doubleSided')"
                     :disabled="!detail.height.hasEdging"
                   ></v-checkbox>
 
@@ -135,7 +135,7 @@
                     <v-text-field
                       v-model="detail.length.value"
                       :rules="numberRules"
-                      :label="translate('width')"
+                      :label="$translate('width')"
                       outlined
                       dense
                       required
@@ -145,13 +145,13 @@
 
                   <v-checkbox
                     v-model="detail.length.hasEdging"
-                    :label="translate('edge')"
+                    :label="$translate('edge')"
                     :onchange="changeEdging(index)"
                   ></v-checkbox>
 
                   <v-checkbox
                     v-model="detail.length.hasDoubleEdging"
-                    :label="translate('doubleSided')"
+                    :label="$translate('doubleSided')"
                     :disabled="!detail.length.hasEdging"
                   ></v-checkbox>
 
@@ -181,7 +181,7 @@
         >
           <v-col cols="12">
             <v-btn @click="addOtherDetails">
-              {{ translate("addDetail") }}
+              {{ $translate("addDetail") }}
             </v-btn>
           </v-col>
         </v-row>
@@ -207,7 +207,7 @@ export default {
       );
     },
     titleValidationRules() {
-      return [(v) => !!v || this.translate("required")];
+      return [(v) => !!v || this.$translate("required")];
     },
   },
   methods: {
@@ -268,11 +268,6 @@ export default {
         this.otherDetails[detailIndex].height.hasDoubleEdging = false;
       }
     },
-    translate(literal) {
-      return this.$store.state.languages.languages[
-        this.$store.state.selectedLang
-      ][literal];
-    },
     addOtherDetails() {
       let detail = {
         title: "",
@@ -295,19 +290,22 @@ export default {
     },
     addElementsToStore() {
       if (this.otherDetails.length != this.$store.state.otherDetails.length) {
-        this.$toasted.success(this.translate("successfullyAddedOtherDetails"), {
-          action: {
-            text: this.translate("close"),
-            class: "notification-close",
-            onClick: (e, toastObject) => {
-              toastObject.goAway(0);
+        this.$toasted.success(
+          this.$translate("successfullyAddedOtherDetails"),
+          {
+            action: {
+              text: this.$translate("close"),
+              class: "notification-close",
+              onClick: (e, toastObject) => {
+                toastObject.goAway(0);
+              },
             },
-          },
-        });
+          }
+        );
       } else if (this.isChanged()) {
-        this.$toasted.success(this.translate("successfullyChangedValues"), {
+        this.$toasted.success(this.$translate("successfullyChangedValues"), {
           action: {
-            text: this.translate("close"),
+            text: this.$translate("close"),
             class: "notification-close",
             onClick: (e, toastObject) => {
               toastObject.goAway(0);
@@ -319,15 +317,18 @@ export default {
     },
     removeDetail(index) {
       if (index >= 0 && index < this.otherDetails.length) {
-        this.$toasted.error(this.translate("successfullyRemovedOtherDetails"), {
-          action: {
-            text: this.translate("close"),
-            class: "notification-close",
-            onClick: (e, toastObject) => {
-              toastObject.goAway(0);
+        this.$toasted.error(
+          this.$translate("successfullyRemovedOtherDetails"),
+          {
+            action: {
+              text: this.$translate("close"),
+              class: "notification-close",
+              onClick: (e, toastObject) => {
+                toastObject.goAway(0);
+              },
             },
-          },
-        });
+          }
+        );
         this.otherDetails.splice(index, 1);
         this.$store.dispatch("removeOtherDetail", index);
       }
@@ -394,10 +395,10 @@ export default {
     removeAllDetails() {
       if (this.otherDetails.length) {
         this.$toasted.error(
-          this.translate("successfullyRemovedAllOtherDetails"),
+          this.$translate("successfullyRemovedAllOtherDetails"),
           {
             action: {
-              text: this.translate("close"),
+              text: this.$translate("close"),
               class: "notification-close",
               onClick: (e, toastObject) => {
                 toastObject.goAway(0);
