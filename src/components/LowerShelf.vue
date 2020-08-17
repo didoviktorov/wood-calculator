@@ -348,10 +348,7 @@ export default {
       return this.$store.state.calculationUnit;
     },
     numberRules() {
-      return this.$getnumberValidationRules(
-        this.$store.state.languages.languages[this.$store.state.selectedLang],
-        this.$store.state.validationRulesLiterals
-      );
+      return this.$getnumberValidationRules();
     },
     isAddingShelfOutherSidesActive() {
       return (

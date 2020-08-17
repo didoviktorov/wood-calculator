@@ -177,10 +177,7 @@ export default {
       return !this.validNumberOfCabinets;
     },
     numberRules() {
-      return this.$getnumberValidationRules(
-        this.$store.state.languages.languages[this.$store.state.selectedLang],
-        this.$store.state.validationRulesLiterals
-      );
+      return this.$getnumberValidationRules();
     },
     isAllCabinetsValid() {
       let index = -1;

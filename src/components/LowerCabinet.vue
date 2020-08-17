@@ -511,10 +511,7 @@ export default {
   },
   computed: {
     numberRules() {
-      return this.$getnumberValidationRules(
-        this.$store.state.languages.languages[this.$store.state.selectedLang],
-        this.$store.state.validationRulesLiterals
-      );
+      return this.$getnumberValidationRules();
     },
     getCabinetProps() {
       return this.$getCabinetProps(this.cabinet);
