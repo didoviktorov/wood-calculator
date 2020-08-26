@@ -157,7 +157,9 @@
               v-for="(cabinet, index) in cabinets"
               :key="index"
             >
-              <v-divider />
+              <v-col cols="12">
+                <v-divider />
+              </v-col>
               <LowerCabinet
                 :cabinet="cabinet"
                 :index="index"
