@@ -32,7 +32,7 @@ export default new Vuex.Store({
     maxNumberOfDoors: 10,
     cabinetBackDiff: 5,
     cabinetDoorDiff: 7,
-    minNumberOfCabinetsForLoading: 70,
+    minNumberOfCabinetsForLoading: 7,
     languages,
     selectedLang: "BG",
     validationRulesLiterals: [
