@@ -16,14 +16,14 @@ export default new Vuex.Store({
       width: "",
       depth: "",
       feetHeightOfCabinet: 0,
-      pureWidth: 0
+      pureWidth: 0,
     },
     upperShelf: {
       height: 0,
       width: 0,
       depth: 0,
       cabinets: [],
-      outerSides: []
+      outerSides: [],
     },
     otherDetails: [],
     calculationUnit: "calculationUnit",
@@ -32,14 +32,15 @@ export default new Vuex.Store({
     maxNumberOfDoors: 10,
     cabinetBackDiff: 5,
     cabinetDoorDiff: 7,
+    minNumberOfCabinetsForLoading: 70,
     languages,
     selectedLang: "BG",
     validationRulesLiterals: [
       "required",
       "mustBeNumber",
       "greaterThan",
-      "mustBeInteger"
-    ]
+      "mustBeInteger",
+    ],
   },
   mutations: {
     CHANGE_LANGUAGE(state, lang) {
@@ -69,7 +70,7 @@ export default new Vuex.Store({
       if (state.lowerShelf.staticCabinets.length > 0) {
         state.lowerShelf.staticCabinets = [];
       }
-      value.forEach(element => {
+      value.forEach((element) => {
         element.width = parseInt(element.width);
         state.lowerShelf.staticCabinets.push({ width: element.width });
       });
@@ -78,7 +79,7 @@ export default new Vuex.Store({
       let sideToAdd = {
         width: parseInt(side.width),
         height: parseInt(side.height),
-        depth: parseInt(side.depth)
+        depth: parseInt(side.depth),
       };
       state.lowerShelf.outerSides.push(sideToAdd);
     },
@@ -86,7 +87,7 @@ export default new Vuex.Store({
       let sideToAdd = {
         width: parseInt(side.width),
         height: parseInt(side.height),
-        depth: parseInt(side.depth)
+        depth: parseInt(side.depth),
       };
       state.upperShelf.outerSides.push(sideToAdd);
     },
@@ -158,14 +159,14 @@ export default new Vuex.Store({
           height: {
             hasEdging: newDetail.height.hasEdging,
             hasDoubleEdging: newDetail.height.hasDoubleEdging,
-            value: parseInt(newDetail.height.value)
+            value: parseInt(newDetail.height.value),
           },
           length: {
             hasEdging: newDetail.length.hasEdging,
             hasDoubleEdging: newDetail.length.hasDoubleEdging,
-            value: parseInt(newDetail.length.value)
+            value: parseInt(newDetail.length.value),
           },
-          isValid: newDetail.isValid
+          isValid: newDetail.isValid,
         };
 
         state.otherDetails.push(detailToAdd);
@@ -182,7 +183,7 @@ export default new Vuex.Store({
     },
     SET_CHILD_RENDERED_COMPONENT(state, component) {
       state.currentChildOfChildRenderedCompnent = component;
-    }
+    },
   },
   actions: {
     setChildRenderedComponent(store, component) {
@@ -275,13 +276,13 @@ export default new Vuex.Store({
     },
     saveCabinetUpperShelfCabinets(store, params) {
       store.commit("SAVE_UPPER_CABINET", params);
-    }
+    },
   },
   getters: {
     translate: (state, literal) => {
       return state.languages.languages[state.selectedLang][literal];
     },
-    getLowerShelfPureWidth: state => {
+    getLowerShelfPureWidth: (state) => {
       let pureWidth = state.lowerShelf.width;
 
       for (let staticCabinet of state.lowerShelf.staticCabinets) {
@@ -298,7 +299,7 @@ export default new Vuex.Store({
 
       return pureWidth;
     },
-    getUpperShelfPureWidth: state => {
+    getUpperShelfPureWidth: (state) => {
       let currentWidth = 0;
       for (let cabinet of state.upperShelf.cabinets) {
         currentWidth += cabinet.outerWidth;
@@ -309,7 +310,7 @@ export default new Vuex.Store({
       }
 
       return state.upperShelf.width - currentWidth;
-    }
+    },
   },
-  modules: {}
+  modules: {},
 });

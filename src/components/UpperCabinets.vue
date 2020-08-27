@@ -140,6 +140,22 @@
         </div>
       </v-container>
     </v-content>
+    <v-overlay :value="isLoading">
+      <div class="lds-spinner">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </v-overlay>
   </v-app>
 </template>
 
@@ -156,6 +172,7 @@ export default {
     cabinets: [],
     openForEdit: false,
     errorRefIndex: null,
+    isLoading: false,
   }),
   computed: {
     getPureWidthLeft() {
@@ -234,7 +251,21 @@ export default {
       });
     },
     openForEditHandler() {
-      this.openForEdit = !this.openForEdit;
+      if (
+        this.numberOfCabinets >= this.$store.state.minNumberOfCabinetsForLoading
+      ) {
+        if (!this.openForEdit) {
+          this.isLoading = true;
+          let that = this;
+          setTimeout(() => {
+            that.openForEdit = !that.openForEdit;
+          }, 0);
+        } else {
+          this.openForEdit = false;
+        }
+      } else {
+        this.openForEdit = !this.openForEdit;
+      }
     },
     addCabinetsToStore() {
       let args = {
@@ -406,6 +437,11 @@ export default {
 
       return cabinetsChanged;
     },
+  },
+  updated() {
+    if (this.openForEdit && this.isLoading) {
+      this.isLoading = false;
+    }
   },
   mounted() {
     for (let cabinet of this.$store.state.upperShelf.cabinets) {
