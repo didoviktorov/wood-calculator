@@ -223,9 +223,14 @@ export default {
       this.errorRefIndex = index;
     },
     goToErrorField() {
-      if (!this.openForEdit) {
+      if (
+        !this.openForEdit &&
+        this.cabinets.length >= this.$store.state.minNumberOfCabinetsForLoading
+      ) {
         this.openForEditHandler(true);
         return;
+      } else if (!this.openForEdit) {
+        this.openForEdit = true;
       }
 
       let that = this;
