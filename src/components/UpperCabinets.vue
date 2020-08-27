@@ -224,7 +224,8 @@ export default {
     },
     goToErrorField() {
       if (!this.openForEdit) {
-        this.openForEdit = true;
+        this.openForEditHandler(true);
+        return;
       }
 
       let that = this;
@@ -250,7 +251,7 @@ export default {
         }
       });
     },
-    openForEditHandler() {
+    openForEditHandler(isForValidation) {
       if (
         this.numberOfCabinets >= this.$store.state.minNumberOfCabinetsForLoading
       ) {
@@ -259,6 +260,9 @@ export default {
           let that = this;
           setTimeout(() => {
             that.openForEdit = !that.openForEdit;
+            if (isForValidation === true) {
+              that.goToErrorField();
+            }
           }, 0);
         } else {
           this.openForEdit = false;
