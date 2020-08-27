@@ -2,13 +2,13 @@
   <div class="my-2 save-project">
     <confirm ref="confirm"></confirm>
     <div>
-      <v-content>
+      <v-main>
         <v-container fluid>
           <v-btn color="primary" @click="showOverlayInfo">
             {{ this.$translate("generateProject") }}
           </v-btn>
         </v-container>
-      </v-content>
+      </v-main>
       <v-row v-if="overlay" align="center" justify="center" id="project-title">
         <!-- Whole width region -->
         <v-col cols="12" sm="8" md="4">

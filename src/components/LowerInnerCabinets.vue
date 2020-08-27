@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-content class="wrapper">
+    <v-main class="wrapper">
       <v-container fluid>
         <div
           id="pure-width-left"
@@ -170,7 +170,7 @@
           </v-form>
         </div>
       </v-container>
-    </v-content>
+    </v-main>
     <v-overlay :value="isLoading">
       <div class="lds-spinner">
         <div></div>

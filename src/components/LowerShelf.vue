@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-content>
+    <v-main>
       <v-container class="wrapper" fluid>
         <v-row align="center" justify="center">
           <v-col cols="12">
@@ -305,7 +305,7 @@
         </v-row>
         <LowerInnerCabinets v-if="showInnerCabinets" />
       </v-container>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 
