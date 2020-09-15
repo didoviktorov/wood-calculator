@@ -18,7 +18,7 @@ export default {
   beforeRouteLeave: function(to, from, next) {
     let currentRenderedComopnent = this.$store.state
       .currentChildRenderedCompnent;
-    console.log("dimension");
+
     if (
       currentRenderedComopnent &&
       currentRenderedComopnent.isChanged() &&
