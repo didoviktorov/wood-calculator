@@ -6,7 +6,9 @@ export default {
         parseInt(cabinet.outerWidth) / numberOfDoors
       );
 
-      const diff = this.$store.state.cabinetDoorDiff;
+      const diff =
+        this.$store.state.cabinetDoorDiff +
+        2 * this.$store.state.standardEdgesWidth;
       for (let door of cabinet.doors) {
         door.width = availableWidth - diff;
       }

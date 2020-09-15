@@ -69,6 +69,37 @@
             </v-col>
           </v-row>
         </v-form>
+        <v-divider />
+        <div class="header-section">
+          <h3>{{ $translate("changeStandartEdgesWidth") }}</h3>
+        </div>
+        <v-form v-model="validEdgeWidth" @submit.prevent>
+          <v-row align="center" justify="center">
+            <v-col cols="12" sm="8" md="6" class="col-no-bottom-padding">
+              <v-text-field
+                v-model="standardEdgeWidth"
+                :label="
+                  $translate('standartWidthOfEdge') +
+                    $translate(calculationUnit)
+                "
+                :rules="numberRules"
+                outlined
+                dense
+                required
+                type="number"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" class="col-no-top-padding">
+              <v-btn
+                :disabled="!validEdgeWidth"
+                color="success"
+                @click="changeEdgeWidth"
+              >
+                {{ $translate("save") }}
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-form>
       </v-container>
     </v-main>
   </v-app>
@@ -82,6 +113,8 @@ export default {
     staticSidewidth: "",
     validStandardFeetHeight: false,
     standardFeetHeight: 0,
+    validEdgeWidth: false,
+    standardEdgeWidth: 0,
   }),
   computed: {
     calculationUnit() {
@@ -92,6 +125,21 @@ export default {
     },
   },
   methods: {
+    changeEdgeWidth() {
+      let newWidth = parseInt(this.standardEdgeWidth);
+      if (newWidth != this.$store.state.standardEdgesWidth) {
+        this.$toasted.success(this.$translate("successfullyChangedValues"), {
+          action: {
+            text: this.$translate("close"),
+            class: "notification-close",
+            onClick: (e, toastObject) => {
+              toastObject.goAway(0);
+            },
+          },
+        });
+      }
+      this.$store.dispatch("changeEdgeWidth", newWidth);
+    },
     changeFeetsHeight() {
       let newHeight = parseInt(this.standardFeetHeight);
       if (newHeight != this.$store.state.standardFeetHeightOfCabinet) {
@@ -112,10 +160,14 @@ export default {
         "changeStaticsidewidth",
         parseInt(this.staticSidewidth)
       );
+
       this.$store.dispatch(
         "changeInnerCabinetsFeetHeight",
         parseInt(this.standardFeetHeight)
       );
+
+      this.$store.dispatch("changeEdgeWidth", this.standardEdgeWidth);
+
       this.$toasted.success(this.$translate("successfullyStoredValues"), {
         action: {
           text: this.$translate("close"),
@@ -127,7 +179,11 @@ export default {
       });
     },
     isAllDetailsValid() {
-      return this.validStaticSideWidth;
+      return (
+        this.validStaticSideWidth &&
+        this.validStandardFeetHeight &&
+        this.validEdgeWidth
+      );
     },
     changeStaticSidewidth() {
       let newWidth = parseInt(this.staticSidewidth);
@@ -146,13 +202,16 @@ export default {
       }
     },
     isChanged() {
+      let staticSideWidthChanged =
+        this.staticSidewidth != this.$store.state.staticOuterSideWidth;
+
       let feetHeightChanged =
         this.standardFeetHeight !=
         this.$store.state.standardFeetHeightOfCabinet;
-      if (
-        this.staticSidewidth != this.$store.state.staticOuterSideWidth ||
-        feetHeightChanged
-      ) {
+
+      let edgeWidthChanged =
+        this.standardEdgeWidth != this.$store.state.standardEdgesWidth;
+      if (staticSideWidthChanged || feetHeightChanged || edgeWidthChanged) {
         return true;
       }
       return false;
@@ -161,6 +220,7 @@ export default {
   mounted() {
     this.staticSidewidth = this.$store.state.staticOuterSideWidth;
     this.standardFeetHeight = this.$store.state.standardFeetHeightOfCabinet;
+    this.standardEdgeWidth = this.$store.state.standardEdgesWidth;
     this.$store.dispatch("setRenderedComponent", this);
   },
 };

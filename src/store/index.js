@@ -31,7 +31,8 @@ export default new Vuex.Store({
     standardFeetHeightOfCabinet: 100,
     maxNumberOfDoors: 10,
     cabinetBackDiff: 5,
-    cabinetDoorDiff: 7,
+    cabinetDoorDiff: 3,
+    standardEdgesWidth: 2,
     minNumberOfCabinetsForLoading: 7,
     languages,
     selectedLang: "BG",
@@ -43,6 +44,9 @@ export default new Vuex.Store({
     ],
   },
   mutations: {
+    CHANGE_EDGE_WIDTH(state, newWidth) {
+      state.standardEdgesWidth = newWidth;
+    },
     CHANGE_LANGUAGE(state, lang) {
       state.selectedLang = lang;
     },
@@ -186,6 +190,9 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    changeEdgeWidth(store, newWidth) {
+      store.commit("CHANGE_EDGE_WIDTH", newWidth);
+    },
     setChildRenderedComponent(store, component) {
       store.commit("SET_CHILD_RENDERED_COMPONENT", component);
     },
