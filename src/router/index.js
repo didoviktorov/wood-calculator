@@ -8,7 +8,7 @@ const routes = [
   {
     path: "/",
     name: "Долни Шкафове",
-    component: Down
+    component: Down,
   },
   {
     path: "/upper",
@@ -17,7 +17,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "upper" */ "../views/Upper.vue")
+      import(/* webpackChunkName: "upper" */ "../views/Upper.vue"),
   },
   {
     path: "/other",
@@ -26,14 +26,23 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "upper" */ "../views/OtherDetails.vue")
-  }
+      import(/* webpackChunkName: "upper" */ "../views/OtherDetails.vue"),
+  },
+  {
+    path: "/dimensions",
+    name: "Статични стойности",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "upper" */ "../views/Dimension.vue"),
+  },
 ];
 
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
-  routes
+  routes,
 });
 
 export default router;

@@ -27,43 +27,10 @@
             <h2>{{ $translate("lowerCabinets") }}</h2>
             <v-divider />
           </v-col>
-          <v-col cols="12" class="col-no-top-padding">
-            <div>
-              <h3>{{ $translate("changeStandartHeightOfLegs") }}</h3>
-            </div>
-          </v-col>
-          <v-form v-model="validStandardFeetHeight" @submit.prevent>
-            <v-row align="center" justify="center">
-              <v-col cols="12" class="col-no-top-padding col-no-bottom-padding">
-                <v-text-field
-                  v-model="standardFeetHeight"
-                  :label="
-                    $translate('standartHeightOfLegs') +
-                      $translate(calculationUnit)
-                  "
-                  :rules="numberRules"
-                  outlined
-                  dense
-                  required
-                  type="number"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12" class="col-no-top-padding">
-                <v-btn
-                  :disabled="!validStandardFeetHeight"
-                  color="success"
-                  @click="changeFeetsHeight"
-                >
-                  {{ $translate("save") }}
-                </v-btn>
-              </v-col>
-            </v-row>
-          </v-form>
         </v-row>
         <!-- inner cabinets region -->
         <v-row align="center" justify="center">
           <v-col cols="12" class="col-no-top-padding">
-            <v-divider />
             <div>
               <h3>{{ $translate("enterCountOfCabinets") }}</h3>
             </div>
@@ -199,8 +166,6 @@ export default {
   },
   name: "LowerInnerCabinets",
   data: () => ({
-    validStandardFeetHeight: false,
-    standardFeetHeight: 0,
     validNumberOfCabinets: false,
     numberOfCabinets: 0,
     cabinets: [],
@@ -295,22 +260,7 @@ export default {
       });
     },
     isAllDetailsValid() {
-      return this.isAllCabinetsValid && this.validStandardFeetHeight;
-    },
-    changeFeetsHeight() {
-      let newHeight = parseInt(this.standardFeetHeight);
-      if (newHeight != this.$store.state.standardFeetHeightOfCabinet) {
-        this.$toasted.success(this.$translate("successfullyChangedValues"), {
-          action: {
-            text: this.$translate("close"),
-            class: "notification-close",
-            onClick: (e, toastObject) => {
-              toastObject.goAway(0);
-            },
-          },
-        });
-      }
-      this.$store.dispatch("changeInnerCabinetsFeetHeight", newHeight);
+      return this.isAllCabinetsValid;
     },
     addInnerCabinets() {
       if (this.openForEdit) {
@@ -500,10 +450,6 @@ export default {
         copyCabinet: this.$getCabinetInstance,
       };
       this.$store.dispatch("addLowerShelfCabinets", args);
-      this.$store.dispatch(
-        "changeInnerCabinetsFeetHeight",
-        parseInt(this.standardFeetHeight)
-      );
     },
     isChanged() {
       let cabinetsChanged = this.$isCabinetsChanged(
@@ -511,11 +457,8 @@ export default {
         this.$store.state.lowerShelf.cabinets,
         false
       );
-      let feetHeightChanged =
-        this.standardFeetHeight !=
-        this.$store.state.standardFeetHeightOfCabinet;
 
-      return cabinetsChanged || feetHeightChanged;
+      return cabinetsChanged;
     },
   },
   updated() {
@@ -524,8 +467,6 @@ export default {
     }
   },
   mounted() {
-    this.standardFeetHeight = this.$store.state.standardFeetHeightOfCabinet;
-
     for (let cabinet of this.$store.state.lowerShelf.cabinets) {
       this.cabinets.push(this.$getCabinetInstance(cabinet));
     }

@@ -11,43 +11,6 @@
         </v-row>
         <v-divider />
         <div class="header-section">
-          <h3>{{ $translate("changeStandartWidthOfSides") }}</h3>
-        </div>
-        <v-form v-model="validStaticSideWidth" @submit.prevent>
-          <v-row align="center" justify="center">
-            <!-- Whole width region -->
-            <v-col
-              cols="12"
-              sm="8"
-              md="6"
-              class="col-no-top-padding col-no-bottom-padding"
-            >
-              <v-text-field
-                v-model="staticSidewidth"
-                :label="
-                  $translate('standartWidthOfSidesIn') +
-                    $translate(calculationUnit)
-                "
-                :rules="numberRules"
-                outlined
-                dense
-                required
-                type="number"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" class="col-no-top-padding">
-              <v-btn
-                :disabled="!validStaticSideWidth"
-                color="success"
-                @click="changeStaticSidewidth"
-              >
-                {{ $translate("save") }}
-              </v-btn>
-            </v-col>
-          </v-row>
-        </v-form>
-        <v-divider />
-        <div class="header-section">
           <h3>{{ $translate("valueOfLowerRowOfCabinets") }}</h3>
         </div>
         <v-form v-model="validWholeShelf" @submit.prevent>
@@ -320,8 +283,6 @@ export default {
   data: () => ({
     validWholeShelf: false,
     validStaticWidth: true,
-    validStaticSideWidth: false,
-    staticSidewidth: "",
     shelfWidth: "",
     shelfHeight: "",
     shelfDepth: "",
@@ -331,11 +292,11 @@ export default {
     showOuterShelfSidesForEdit: false,
   }),
   computed: {
-    shelfObject() {
-      return this.$store.state.lowerShelf;
-    },
     getStaticOuterSideWidth() {
       return this.$store.state.staticOuterSideWidth;
+    },
+    shelfObject() {
+      return this.$store.state.lowerShelf;
     },
     showInnerCabinets() {
       return (
@@ -373,26 +334,9 @@ export default {
       return (
         this.validWholeShelf &&
         this.validStaticWidth &&
-        this.validStaticSideWidth &&
         this.isAllShelfOuterSidesValid() &&
         childComponentValid
       );
-    },
-    changeStaticSidewidth() {
-      let newWidth = parseInt(this.staticSidewidth);
-      if (newWidth != this.$store.state.staticOuterSideWidth) {
-        this.$store.dispatch("changeStaticsidewidth", newWidth);
-
-        this.$toasted.success(this.$translate("successfullSideWidthChange"), {
-          action: {
-            text: this.$translate("close"),
-            class: "notification-close",
-            onClick: (e, toastObject) => {
-              toastObject.goAway(0);
-            },
-          },
-        });
-      }
     },
     changeTheWholeShelfProperties() {
       let formWidth = parseInt(this.shelfWidth, 10);
@@ -615,11 +559,6 @@ export default {
       this.$store.dispatch("addStaticFieldsWidth", this.allStaticWidths);
     },
     addElementsToStore() {
-      this.$store.dispatch(
-        "changeStaticsidewidth",
-        parseInt(this.staticSidewidth)
-      );
-
       this.$store.dispatch("changeShelfWidth", parseInt(this.shelfWidth, 10));
       this.$store.dispatch("changeShelfHeight", parseInt(this.shelfHeight, 10));
       this.$store.dispatch("changeShelfDepth", parseInt(this.shelfDepth, 10));
@@ -647,8 +586,7 @@ export default {
       if (
         this.shelfWidth != this.$store.state.lowerShelf.width ||
         this.shelfHeight != this.$store.state.lowerShelf.height ||
-        this.shelfDepth != this.$store.state.lowerShelf.depth ||
-        this.staticSidewidth != this.$store.state.staticOuterSideWidth
+        this.shelfDepth != this.$store.state.lowerShelf.depth
       ) {
         return true;
       }
@@ -738,7 +676,6 @@ export default {
       this.shelfOuterSides.push(currentSide);
     }
 
-    this.staticSidewidth = this.$store.state.staticOuterSideWidth;
     this.$store.dispatch("setRenderedComponent", this);
   },
 };

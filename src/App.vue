@@ -29,6 +29,15 @@
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item class="menu-item">
+          <v-list-item-content>
+            <v-list-item-title>
+              <router-link class="navigation-link" to="/dimensions">{{
+                $translate("dimensions")
+              }}</router-link>
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
     <v-app-bar dense fixed clipped-left app>

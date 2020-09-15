@@ -1,6 +1,7 @@
 {
   "languages": {
     "BG": {
+      "dimensions": "Статични размери",
       "shelfsData": "Данни за шкафове",
       "menu": "МЕНЮ",
       "lowerShelfs": "Долни Шкафове",
@@ -147,6 +148,7 @@
       "maxNumberOfNiches": "Достигнат е максималния брой на шкафове"
     },
     "EN": {
+      "dimensions": "Static Dimensions",
       "shelfsData": "Shelfs data",
       "menu": "MENU",
       "lowerShelfs": "Lower Cabinets",
