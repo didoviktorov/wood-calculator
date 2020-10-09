@@ -106,7 +106,7 @@ export default {
           depth: cabinet.depth,
           showCabinetElements: cabinet.showCabinetElements,
           bottom: {
-            width: cabinet.outerWidth,
+            width: isLowerCabinet ? cabinet.outerWidth : cabinet.bottom.width,
             height: cabinet.bottom.height,
             depth: cabinet.bottom.depth,
           },
@@ -168,7 +168,7 @@ export default {
           depth: newDepth,
           showCabinetElements: cabinet.showCabinetElements,
           bottom: {
-            width: cabinet.outerWidth,
+            width: isLowerCabinet ? cabinet.outerWidth : cabinet.bottom.width,
             height: cabinet.bottom.height,
             depth: newDepth,
           },
