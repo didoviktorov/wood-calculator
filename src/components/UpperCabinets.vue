@@ -117,7 +117,7 @@
             </v-col>
           </v-row>
         </v-form>
-        <div v-if="openForEdit">
+        <div v-if="openForEdit" class="cabinets-form">
           <v-form ref="cabinetForm" @submit.prevent class="cabinet-wrapper">
             <v-row
               align="center"
@@ -128,13 +128,14 @@
               <v-col cols="12">
                 <v-divider />
               </v-col>
-
-              <UpperCabinet
-                :cabinet="cabinet"
-                :index="index"
-                @changeCabinet="replaceCabinet($event, index)"
-                @edited="editCabinet($event)"
-              />
+              <v-col cols="12">
+                <UpperCabinet
+                  :cabinet="cabinet"
+                  :index="index"
+                  @changeCabinet="replaceCabinet($event, index)"
+                  @edited="editCabinet($event)"
+                />
+              </v-col>
             </v-row>
           </v-form>
         </div>
@@ -173,6 +174,7 @@ export default {
     openForEdit: false,
     errorRefIndex: null,
     isLoading: false,
+    observer: null,
   }),
   computed: {
     getPureWidthLeft() {
@@ -451,6 +453,16 @@ export default {
     if (this.openForEdit && this.isLoading) {
       this.isLoading = false;
     }
+
+    if (this.openForEdit) {
+      let observable = this.$el.getElementsByClassName("cabinets-form")[0];
+      if (observable) {
+        this.observer.observe(observable);
+      }
+    } else {
+      this.observer.disconnect();
+      this.$store.dispatch("setSideMenuCabinets", 0);
+    }
   },
   mounted() {
     for (let cabinet of this.$store.state.upperShelf.cabinets) {
@@ -459,6 +471,29 @@ export default {
 
     this.numberOfCabinets = this.cabinets.length;
     this.$store.dispatch("setChildRenderedComponent", this);
+
+    let options = {
+      root: null,
+      rootMargin: "0px",
+      threshold: [0],
+    };
+
+    this.observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        if (
+          this.$store.state.sideMenuNumberOfCabinetsToShow !=
+          this.cabinets.length
+        ) {
+          this.$store.dispatch("setSideMenuCabinets", this.cabinets.length);
+        }
+      } else {
+        this.$store.dispatch("setSideMenuCabinets", 0);
+      }
+    }, options);
+  },
+  destroyed() {
+    this.observer.disconnect();
+    this.$store.dispatch("setSideMenuCabinets", 0);
   },
 };
 </script>

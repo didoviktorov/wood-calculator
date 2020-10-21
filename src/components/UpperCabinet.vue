@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :id="'cabinet' + index">
     <h4>
       {{ $translate("cabinetIndex").replace("%index%", index + 1) }}
     </h4>

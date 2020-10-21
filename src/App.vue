@@ -84,6 +84,9 @@
     >
       <v-icon>mdi-arrow-up-bold</v-icon>
     </v-btn>
+
+    <CabinetsSideMenu v-if="$store.state.sideMenuNumberOfCabinetsToShow > 0" />
+
     <v-main class="wrapper">
       <v-container fluid>
         <router-view />
@@ -94,11 +97,12 @@
 
 <script>
 import SaveProject from "./components/SaveProject";
+import CabinetsSideMenu from "./components/CabinetsSideMenu";
 
 export default {
   name: "App",
 
-  components: { SaveProject },
+  components: { SaveProject, CabinetsSideMenu },
 
   data: () => ({
     drawer: false,

@@ -1,4 +1,5 @@
 import "core-js/stable";
+import IntersectionObserver from "intersection-observer";
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
@@ -22,6 +23,8 @@ let options = {
 };
 
 Vue.use(Toasted, options);
+
+Vue.use(IntersectionObserver);
 
 Vue.config.productionTip = false;
 

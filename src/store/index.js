@@ -26,6 +26,7 @@ export default new Vuex.Store({
       outerSides: [],
     },
     otherDetails: [],
+    sideMenuNumberOfCabinetsToShow: 0,
     calculationUnit: "calculationUnit",
     staticOuterSideWidth: 18,
     standardFeetHeightOfCabinet: 100,
@@ -44,6 +45,9 @@ export default new Vuex.Store({
     ],
   },
   mutations: {
+    SET_SIDE_MENU_CABINETS(state, numberOfCabinets) {
+      state.sideMenuNumberOfCabinetsToShow = numberOfCabinets;
+    },
     CHANGE_EDGE_WIDTH(state, newWidth) {
       state.standardEdgesWidth = newWidth;
     },
@@ -190,6 +194,9 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    setSideMenuCabinets(store, numberOfCabinets) {
+      store.commit("SET_SIDE_MENU_CABINETS", numberOfCabinets);
+    },
     changeEdgeWidth(store, newWidth) {
       store.commit("CHANGE_EDGE_WIDTH", newWidth);
     },
